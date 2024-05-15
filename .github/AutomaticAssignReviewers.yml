@@ -1,3 +1,0 @@
-    - name: Review Assign Action
-      uses: hkusu/review-assign-action@v1.4.0
-            
