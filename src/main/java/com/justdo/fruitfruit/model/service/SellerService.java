@@ -1,12 +1,10 @@
 package com.justdo.fruitfruit.model.service;
 
 import com.justdo.fruitfruit.NotificationMapper;
-import com.justdo.fruitfruit.model.DTO.NotificationDTO;
+import com.justdo.fruitfruit.model.dto.NotificationDTO;
 import org.apache.ibatis.session.SqlSession;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.justdo.fruitfruit.common.MyBatisTemplate.getSqlSession;
 

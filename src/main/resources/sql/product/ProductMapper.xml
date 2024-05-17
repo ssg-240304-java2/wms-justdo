@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.justdo.fruitfruit.model.dao.ProductMapper">
+
+    <select id="selectAllUser" resultType="productDTO">
+        select
+            P.product_seq,
+            P.product_name,
+            P.product_amount,
+            P.product_price,
+            C.category_name,
+            G.grade_name
+        from
+            product P INNER JOIN category C
+            ON P.category_seq = C.category_seq
+                INNER JOIN grade G
+                ON P.grade_seq = G.grade_seq
+    </select>
+
+    <select id="selectByCategory" resultType="productDTO">
+        select
+        P.product_seq,
+        P.product_name,
+        P.product_amount,
+        P.product_price,
+        C.category_name,
+        G.grade_name
+        from
+        product P INNER JOIN category C
+        ON P.category_seq = C.category_seq
+        INNER JOIN grade G
+        ON P.grade_seq = G.grade_seq
+        where
+            category_name = #{categoryName}
+    </select>
+
+</mapper>
