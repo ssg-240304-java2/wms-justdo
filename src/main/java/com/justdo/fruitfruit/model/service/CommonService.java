@@ -4,6 +4,7 @@ import com.justdo.fruitfruit.controller.InputReader;
 import com.justdo.fruitfruit.controller.InputReaderFactory;
 
 public class CommonService {
+    private String id;
 
     private InputReader inputReader = InputReaderFactory.getInputReader();
 
@@ -16,5 +17,9 @@ public class CommonService {
      * */
     public String Login(String id,String password){
         return null;
+    }
+
+    public String getId() {
+        return this.id;
     }
 }
