@@ -41,7 +41,7 @@ public class ProductController {
             ProductDTO productDTO = new ProductDTO();
 
             productDTO.setCategorySeq(categoryDTO.getCategorySeq());
-//            productDTO.setUserSeq(userSeq); // userSeq 설정
+            productDTO.setUserSeq(8); // userSeq 설정
             productDTO.setProductName(name);
             productDTO.setProductPrice(price);
             productDTO.setProductAmount(amount);
@@ -65,6 +65,7 @@ public class ProductController {
      * */
 
     public void modifyProduct(Map<String, String> parameter){
+        int productSeq = Integer.parseInt(parameter.get("productSeq"));
         String name = parameter.get("productName");
         String category = parameter.get("productCategory");
         int price = Integer.parseInt(parameter.get("productPrice"));
@@ -79,8 +80,9 @@ public class ProductController {
         if (isCategoryModified) {
             ProductDTO productDTO = new ProductDTO();
 
+            productDTO.setProductSeq(productSeq);
             productDTO.setCategorySeq(categoryDTO.getCategorySeq());
-//            productDTO.setUserSeq(userSeq); // userSeq 설정
+            productDTO.setUserSeq(8); // userSeq 설정
             productDTO.setProductName(name);
             productDTO.setProductPrice(price);
             productDTO.setProductAmount(amount);
@@ -103,9 +105,9 @@ public class ProductController {
      * 물품 삭제
      * */
     public void deleteProduct(Map<String, String> parameter){
-        String name = parameter.get("productName");
+        String code = parameter.get("productSeq");
 
-        if (productService.deleteProduct(name)) {
+        if (productService.deleteProduct(code)) {
             resultMessage.productSuccessMessage("delete");
         } else {
             resultMessage.productFailureMessage("delete");
@@ -114,8 +116,10 @@ public class ProductController {
     }
 
     public void selectAllProduct() {
-        List<ProductDTO> productList = productService.selectAllProduct();
-
+        // UserDTO userDTO = getLoggedUser(); // 로그인 유저
+        // int userSeq = userDTO.getUserSeq(); // userSeq 가져와서 담기
+        int userSeq = 8;
+        List<ProductDTO> productList = productService.selectAllProduct(userSeq);
         if (productList != null && !productList.isEmpty()) {
             resultMessage.printAllProduct(productList);
         } else {

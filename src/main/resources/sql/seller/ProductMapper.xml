@@ -6,50 +6,59 @@
 
     <insert id="registerProdCategory" useGeneratedKeys="true" keyColumn="category_seq" keyProperty="categorySeq">
         INSERT INTO CATEGORY (
-                CATEGORY_NAME )
+        CATEGORY_NAME )
         VALUES (
-                #{categoryName} )
+        #{categoryName} )
     </insert>
 
     <insert id="registerProduct" useGeneratedKeys="true" keyColumn="product_seq" keyProperty="productSeq">
         INSERT INTO PRODUCT (
-                  CATEGORY_SEQ
-                , USER_SEQ
-                , PRODUCT_NAME
-                , PRODUCT_PRICE
-                , PRODUCT_STATUS
-                , PRODUCT_AMOUNT
-                , PRODUCT_WEIGHT )
+        CATEGORY_SEQ
+        , USER_SEQ
+        , PRODUCT_NAME
+        , PRODUCT_PRICE
+        , PRODUCT_STATUS
+        , PRODUCT_AMOUNT
+        , PRODUCT_WEIGHT )
         VALUES (
-                  #{userSeq}
-                , #{categorySeq}
-                , #{productName}
-                , #{productPrice}
-                , #{productStatus}
-                , #{productAmount}
-                , #{productWeight} )
+        #{categorySeq}
+        , #{userSeq}
+        , #{productName}
+        , #{productPrice}
+        , #{productStatus}
+        , #{productAmount}
+        , #{productWeight} )
     </insert>
 
-    <select id="selectAllProduct" resultType="com.justdo.fruitfruit.model.dto.ProductDTO">
-        SELECT *
-            FROM PRODUCT
-        WHERE USER_SEQ = { userSeq }
-        ORDER BY PRODUCT_SEQ
+    <select id="selectAllProduct" parameterType="int" resultType="com.justdo.fruitfruit.model.dto.ProductDTO">
+        SELECT
+            *
+        FROM PRODUCT
+        WHERE USER_SEQ = #{ userSeq }
+        ORDER BY REGISTER_DATE
     </select>
 
     <update id="modifyProduct" parameterType="com.justdo.fruitfruit.model.dto.ProductDTO">
         UPDATE PRODUCT
         SET PRODUCT_NAME = #{ productName }
-            , PRODUCT_PRICE = #{ productPrice }
-            , PRODUCT_AMOUNT = #{ productAmount }
-            , PRODUCT_WEIGHT = #{ productWeight }
-        WHERE PRODUCT_NAME = #{ productName }
+        , PRODUCT_PRICE = #{ productPrice }
+        , PRODUCT_AMOUNT = #{ productAmount }
+        , PRODUCT_WEIGHT = #{ productWeight }
+        WHERE PRODUCT_SEQ = #{ productSeq }
+        AND USER_SEQ = #{ userSeq }
     </update>
 
-    <delete id="deleteProduct" parameterType="_String">
+    <update id="modifyProdCategory" parameterType="com.justdo.fruitfruit.model.dto.CategoryDTO">
+        UPDATE CATEGORY
+        SET CATEGORY_NAME = #{ categoryName }
+        WHERE CATEGORY_SEQ = #{ categorySeq }
+    </update>
+
+    <delete id="deleteProduct" parameterType="String">
         DELETE
-            FROM PRODUCT
-        WHERE PRODUCT_NAME = #{ productName }
+        FROM PRODUCT
+        WHERE PRODUCT_SEQ = #{ productSeq }
+        AND USER_SEQ = #{ userSeq }
     </delete>
 
 </mapper>

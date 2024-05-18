@@ -1,6 +1,7 @@
 package com.justdo.fruitfruit.view;
 
 import com.justdo.fruitfruit.controller.InputReader;
+import com.justdo.fruitfruit.controller.InputReaderFactory;
 import com.justdo.fruitfruit.controller.ProductController;
 import com.justdo.fruitfruit.model.service.CommonService;
 import com.justdo.fruitfruit.model.service.SellerService;
@@ -9,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SellerMenu {
-    private static InputReader inputReader = new InputReader();
+    private InputReader inputReader = InputReaderFactory.getInputReader();
     private CommonService commonService;
     private String id;
     private SellerService sellerService = new SellerService();
@@ -90,12 +91,12 @@ public class SellerMenu {
      * */
     private Map<String, String> selectProduct() {
         while (true) {
-            System.out.println("상품명을 입력해주세요");
-            String productName = inputReader.inputString();
+            System.out.println("선택할 상품의 코드 번호를 입력해주세요");
+            String code = inputReader.inputString();
 
             Map<String, String> parameter = new HashMap<>();
 
-            parameter.put("productName", productName);
+            parameter.put("productSeq", code);
 
             return parameter;
 
@@ -112,6 +113,8 @@ public class SellerMenu {
                     등록 물품 수정하겠습니다.
                     ============================
                     """);
+            System.out.println("수정할 상품의 코드 번호를 입력해주세요");
+            String code = inputReader.inputString();
             System.out.println("수정할 상품명을 입력해주세요");
             String productName = inputReader.inputString();
             System.out.println("수정할 상품 카테고리(과일)를 입력해주세요");
@@ -125,6 +128,7 @@ public class SellerMenu {
 
             Map<String, String> parameter = new HashMap<>();
 
+            parameter.put("productSeq", code);
             parameter.put("productName", productName);
             parameter.put("productCategory", productCategory);
             parameter.put("productPrice", productPrice);

@@ -26,5 +26,8 @@
     </environments>
     <mappers>
         <mapper resource="sql/warehouse/WarehouseMapper.xml"/>
+        <mapper resource="sql/seller/ProductMapper.xml"/>
+<!--        <mapper resource="sql/seller/BillingMapper.xml"/>-->
+<!--        <mapper resource="sql/seller/NotificationMapper.xml"/>-->
     </mappers>
 </configuration>

@@ -16,6 +16,7 @@ public class ProductService {
     /***
      * 카테고리 등록
      * @param category 입력 받은 상품 카테고리
+     * @return ture or false
      */
     public boolean registCategory(CategoryDTO category) {
         SqlSession sqlSession = getSqlSession();
@@ -35,6 +36,7 @@ public class ProductService {
     /***
      * 카테고리 수정
      * @param category 입력 받은 상품 카테고리
+     * @return ture or false
      */
     public boolean modifyCategory(CategoryDTO category) {
         SqlSession sqlSession = getSqlSession();
@@ -54,6 +56,7 @@ public class ProductService {
     /***
      * 물품 등록 기능
      * @param product 입력 받은 상품
+     * @return ture or false
      * */
     public boolean registProduct(ProductDTO product) {
         SqlSession sqlSession = getSqlSession();
@@ -73,6 +76,7 @@ public class ProductService {
     /***
      * 물품 수정
      * @param product 입력 받은 상품
+     * @return ture or false
      * */
     public boolean modifyProduct(ProductDTO product) {
         SqlSession sqlSession = getSqlSession();
@@ -91,13 +95,14 @@ public class ProductService {
 
     /***
      * 물품 삭제
-     * @param name 입력 받은 상품
+     * @param code 입력 받은 상품
+     * @return ture or false
      * */
-    public boolean deleteProduct(String name) {
+    public boolean deleteProduct(String code) {
         SqlSession sqlSession = getSqlSession();
         productMapper = sqlSession.getMapper(ProductMapper.class);
 
-        int productResult = productMapper.deleteProduct(name);
+        int productResult = productMapper.deleteProduct(code);
 
         if (productResult > 0) {
             sqlSession.commit();
@@ -108,11 +113,15 @@ public class ProductService {
         return productResult > 0 ? true: false ;
     }
 
-    public List<ProductDTO> selectAllProduct() {
+    /***
+     * 전체 조회 mapper에 userSeq 전달
+     * @return userSeq에 해당하는 List
+     * */
+    public List<ProductDTO> selectAllProduct(int userSeq) {
         SqlSession sqlSession = getSqlSession();
         productMapper = sqlSession.getMapper(ProductMapper.class);
 
-        List<ProductDTO> productList = productMapper.selectAllProduct();
+        List<ProductDTO> productList = productMapper.selectAllProduct(userSeq);
 
         sqlSession.close();
         return productList;

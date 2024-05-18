@@ -1,9 +1,6 @@
 package com.justdo.fruitfruit.model.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.Timestamp;
 /**
@@ -13,6 +10,8 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Setter
 @Getter
+@ToString
+
 public class ProductDTO {
 
     private int productSeq;

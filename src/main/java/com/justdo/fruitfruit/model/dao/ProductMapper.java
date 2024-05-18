@@ -6,7 +6,7 @@ import com.justdo.fruitfruit.model.dto.ProductDTO;
 import java.util.List;
 
 public interface ProductMapper {
-    List<ProductDTO> selectAllProduct();
+    List<ProductDTO> selectAllProduct(int userSeq);
     int registerProdCategory(CategoryDTO category);
 
     int modifyProdCategory(CategoryDTO category);
@@ -14,5 +14,5 @@ public interface ProductMapper {
 
     int modifyProduct(ProductDTO product);
 
-    int deleteProduct(String productName);
+    int deleteProduct(String productSeq);
 }
