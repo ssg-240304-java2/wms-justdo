@@ -16,8 +16,11 @@ public class ProductDTO {
     private int categorySeq;
     private String categoryName;
     private Integer sectorSeq;
+    private String sectorName;
     private Integer gradeSeq;
+    private String gradeName;
     private int userSeq;
+    private String name;
     private String productName;
     private int productPrice;
     private int productStatus;

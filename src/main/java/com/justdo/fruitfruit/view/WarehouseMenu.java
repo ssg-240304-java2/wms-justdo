@@ -41,11 +41,46 @@ public class WarehouseMenu {
                     break;
                 case 2:
                     requestReleeaseSubMenu();
-                    warehouseController.getRequestReleaseList();
                     break;
                 case 3:
+                    printStockSubMenu();
                     break;
                 case 4:
+                    break;
+                case 9:
+                    System.out.println("이전화면으로 이동합니다.");
+                    return;
+                default:
+                    System.out.println("메뉴를 확인하고 다시 입력해주세요.");
+            }
+        }while (true);
+    }
+
+    private void printStockSubMenu() {
+        do {
+            System.out.println("""
+                    ==========================
+                    창고 재고 목록
+                    ==========================
+                    1. 전체 조회
+                    2. 판매자별 조회
+                    3. 상품 별 조회
+                    4. 판매자에게 알림 발송
+                    9. 이전으로
+                    ==========================""");
+            int menu = inputReader.selectMenuNum();
+            switch (menu){
+                case 1:
+                    Map<String,String> params = new HashMap<>();
+                    params.put("id",null);
+                    warehouseController.getStockList(params);
+                    break;
+                case 2:
+                    System.out.print("검색할 판매자 아이디를 입력해주세요.");
+                    String id = inputReader.inputString();
+                    params = new HashMap<>();
+                    params.put("id",id);
+                    warehouseController.getStockList(params);
                     break;
                 case 9:
                     System.out.println("이전화면으로 이동합니다.");
@@ -142,6 +177,6 @@ public class WarehouseMenu {
      * 출고요청의 서브메뉴 표시
      * */
     private void requestReleeaseSubMenu() {
-
+        warehouseController.getRequestReleaseList();
     }
 }

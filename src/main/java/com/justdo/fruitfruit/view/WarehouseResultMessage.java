@@ -4,6 +4,9 @@ import com.justdo.fruitfruit.model.dto.GradeDTO;
 import com.justdo.fruitfruit.model.dto.ProductDTO;
 import com.justdo.fruitfruit.model.dto.SectorDTO;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
 
 public class WarehouseResultMessage {
@@ -105,6 +108,30 @@ public class WarehouseResultMessage {
                         index,
                         sectorDTO.getSectorName(),
                         sectorDTO.getVolume());
+                index++;
+            }
+            System.out.println("-----------------------------------------------");
+        }
+    }
+
+    public void printStockList(List<ProductDTO> stockList) {
+        if(stockList == null || stockList.isEmpty()){
+            System.out.println("> 😅😅😅 조회된 입고요청이 없습니다. 😅😅😅");
+        }else {
+            //(상품카테고리/상품명/ 보관장소/갯수/유통기한/판매자)
+            System.out.println("-----------------------------------------------");
+            System.out.printf("%s\t%s\t%s\t%s\t%s\t%s\n", "상품번호","카테고리명", "상품명","창고 구역", "수량", "유통기한");
+            System.out.println("-----------------------------------------------");
+            int index= 1;
+            for(ProductDTO productDTO : stockList){
+                System.out.printf("%d\t%s\t%s\t%s\t%d\t%s\n",
+                        index,
+                        productDTO.getCategoryName(),
+                        productDTO.getProductName(),
+                        productDTO.getSectorName(),
+                        productDTO.getProductAmount(),
+                        productDTO.getRegisterDate().toLocalDateTime().plusDays(14).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                );
                 index++;
             }
             System.out.println("-----------------------------------------------");

@@ -64,4 +64,9 @@ public class WarehouseController {
         resultMessage.printSectorList(sectorList);
         return sectorList;
     }
+
+    public void getStockList(Map<String,String> params) {
+        List<ProductDTO> stockList = wareHouseService.gettStockList(params);
+        resultMessage.printStockList(stockList);
+    }
 }

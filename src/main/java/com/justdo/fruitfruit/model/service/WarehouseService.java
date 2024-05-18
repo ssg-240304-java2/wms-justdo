@@ -8,6 +8,7 @@ import com.justdo.fruitfruit.model.dto.SectorDTO;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
+import java.util.Map;
 
 import static com.justdo.fruitfruit.common.MyBatisTemplate.getSqlSession;
 
@@ -72,5 +73,25 @@ public class WarehouseService {
         }
         sqlSession.close();
         return (result > 0 && insertResult>0);
+    }
+
+    public List<ProductDTO> gettStockList(Map<String,String> params) {
+
+        SqlSession sqlSession = getSqlSession();
+        warehouseMapper = sqlSession.getMapper(WarehouseMapper.class);
+
+        int status = Status.STOCK.ordinal()+1;
+        int userSeq = 0;
+        if (params.get("id") != null){
+            userSeq= warehouseMapper.getUserSeq(params.get("id"));
+        }
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setProductStatus(status);
+        productDTO.setUserSeq(userSeq);
+        List<ProductDTO> stockList = warehouseMapper.findByStatusAndStock(productDTO);
+        sqlSession.close();
+
+        return stockList;
+
     }
 }

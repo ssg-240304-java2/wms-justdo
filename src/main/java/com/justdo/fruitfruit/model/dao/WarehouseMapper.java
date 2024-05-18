@@ -19,4 +19,8 @@ public interface WarehouseMapper {
     int insertProductDate(List<ProductDTO> productDTOS);
 
     int updateSectorData(List<ProductDTO> productDTOS);
+
+    List<ProductDTO> findByStatusAndStock(ProductDTO productDTO);
+
+    int getUserSeq(String id);
 }
