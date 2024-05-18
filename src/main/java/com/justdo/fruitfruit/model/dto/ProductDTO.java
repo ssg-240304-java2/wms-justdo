@@ -27,5 +27,6 @@ public class ProductDTO {
     private Timestamp registerDate;
     private Timestamp updateDate;
     private int productAmount;
+    private double productWeight;
 
 }

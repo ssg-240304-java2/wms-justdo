@@ -1,9 +1,8 @@
 package com.justdo.fruitfruit;
 
-import com.justdo.fruitfruit.model.DTO.NotificationDTO;
+import com.justdo.fruitfruit.model.dto.NotificationDTO;
 
 import java.util.List;
-import java.util.Map;
 
 public interface NotificationMapper {
 
