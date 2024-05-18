@@ -172,14 +172,14 @@ public class SellerMenu {
      * 청구금액표 조회 메뉴 화면
      */
     public void BillingMenu(){
-        System.out.println("""
-                =====================
-                청 구 금 
-                =====================
-                """);
-
-        return;
-    }
+            System.out.println("""
+                    =====================
+                    청 구 영 수 증
+                    =====================
+                    """);
+            sellerService.selectAllBillingAmount(this.id);
+            return;
+        }
     /***
      * 알림 목록 확인
      */
