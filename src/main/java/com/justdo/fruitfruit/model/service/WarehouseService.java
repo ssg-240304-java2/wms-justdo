@@ -7,7 +7,6 @@ import com.justdo.fruitfruit.model.dto.ProductDTO;
 import com.justdo.fruitfruit.model.dto.SectorDTO;
 import org.apache.ibatis.session.SqlSession;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.justdo.fruitfruit.common.MyBatisTemplate.getSqlSession;

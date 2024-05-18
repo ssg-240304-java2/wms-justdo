@@ -4,7 +4,7 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.justdo.fruitfruit.NotificationMapper">
 
-    <resultMap id="notificationMap" type="com.justdo.fruitfruit.model.DTO.NotificationDTO">
+    <resultMap id="notificationMap" type="com.justdo.fruitfruit.model.dto.NotificationDTO">
         <id property="notificationSeq" column="notification_seq"/>
         <result property="userSeq" column="user_seq"/>
         <result property="notificationType" column="notification_type"/>
@@ -14,13 +14,13 @@
         <result property="id" column="id"/>
     </resultMap>
 
-    <select id="selectAllNotification" parameterType="String" resultMap="com.justdo.fruitfruit.model.DTO.NotificationDTO">
+    <select id="selectAllNotification" parameterType="String" resultMap="com.justdo.fruitfruit.model.dto.NotificationDTO">
         SELECT A.notification_type, A.notification_content
         FROM notification A
         WHERE A.user_sequence = (SELECT user_sequence FROM user WHERE id = #{ id } AND is_read = 'N'
     </select>
     
-    <select id="modifyNotification" parameterType="String" resultMap="com.justdo.fruitfruit.model.DTO.NotificationDTO">
+    <select id="modifyNotification" parameterType="String" resultMap="com.justdo.fruitfruit.model.dto.NotificationDTO">
         UPDATE notification SET is_read = 'Y' WHERE user_sequence = (SELECT user_sequence FROM user WHERE id = #{ id } AND is_read = 'N'
     </select>
 </mapper>
