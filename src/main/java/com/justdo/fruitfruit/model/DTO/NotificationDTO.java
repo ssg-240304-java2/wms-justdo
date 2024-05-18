@@ -1,4 +1,4 @@
-package com.justdo.fruitfruit.model.DTO;
+package com.justdo.fruitfruit.model.dto;
 
 import java.util.Date;
 import lombok.*;

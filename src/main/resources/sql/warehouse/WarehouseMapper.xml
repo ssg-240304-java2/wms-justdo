@@ -25,4 +25,58 @@
             p.product_status = #{status}
     </select>
 
+    <select id="findByCategorySeq" parameterType="int" resultType="gradeDTO">
+        SELECT
+            g.grade_seq,
+            g.category_seq,
+            g.grade_name,
+            g.brix AS birix_value,
+            c.category_name
+        FROM
+            grade g
+            INNER JOIN category c ON g.category_seq = c.category_seq
+        WHERE
+            g.category_seq = #{categorySeq}
+    </select>
+
+    <select id="findByProductAmount" parameterType="int" resultType="sectorDTO">
+        SELECT
+            sector_seq,
+            sector_name,
+            volume
+        FROM
+            sector
+        WHERE
+        <![CDATA[
+            volume >= #{productAmount}
+        ]]>
+    </select>
+
+    <update id="updateProductData">
+        <foreach collection="list" item="item" separator=";">
+            UPDATE
+                product
+            SET
+                sector_seq = #{item.sectorSeq},
+                grade_seq = #{item.gradeSeq},
+                grade_seq = #{item.productStatus},
+                update_date = now()
+            WHERE
+                product_seq = #{item.productSeq}
+        </foreach>
+    </update>
+
+    <insert id="insertProductDate" parameterType="java.util.List">
+        INSERT INTO product_log (
+            product_seq,
+            status,
+            log_amount
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.productSeq},
+            #{item.productStatus},
+            #{item.productAmount})
+        </foreach>
+    </insert>
 </mapper>

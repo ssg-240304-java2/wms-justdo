@@ -4,9 +4,8 @@ import com.justdo.fruitfruit.controller.InputReader;
 import com.justdo.fruitfruit.controller.InputReaderFactory;
 
 public class CommonService {
-    private String id;
 
-    private InputReader inputReader = InputReaderFactory.getInputReader();
+    private String id;
 
     /**
      * 사용자들의 로그인처리하는 함수
