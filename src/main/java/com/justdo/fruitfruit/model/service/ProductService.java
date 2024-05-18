@@ -95,14 +95,14 @@ public class ProductService {
 
     /***
      * 물품 삭제
-     * @param code 입력 받은 상품
+     * @param productSeq 입력 받은 상품
      * @return ture or false
      * */
-    public boolean deleteProduct(String code) {
+    public boolean deleteProduct(int productSeq) {
         SqlSession sqlSession = getSqlSession();
         productMapper = sqlSession.getMapper(ProductMapper.class);
 
-        int productResult = productMapper.deleteProduct(code);
+        int productResult = productMapper.deleteProduct(productSeq);
 
         if (productResult > 0) {
             sqlSession.commit();
@@ -126,4 +126,5 @@ public class ProductService {
         sqlSession.close();
         return productList;
     }
+
 }

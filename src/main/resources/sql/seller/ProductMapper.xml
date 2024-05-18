@@ -32,10 +32,23 @@
 
     <select id="selectAllProduct" parameterType="int" resultType="com.justdo.fruitfruit.model.dto.ProductDTO">
         SELECT
-            *
-        FROM PRODUCT
-        WHERE USER_SEQ = #{ userSeq }
-        ORDER BY REGISTER_DATE
+                p.PRODUCT_SEQ,
+                p.CATEGORY_SEQ,
+                c.CATEGORY_NAME,
+                p.SECTOR_SEQ,
+                p.GRADE_SEQ,
+                p.USER_SEQ,
+                p.PRODUCT_NAME,
+                p.PRODUCT_PRICE,
+                p.PRODUCT_STATUS,
+                p.REGISTER_DATE,
+                p.UPDATE_DATE,
+                p.PRODUCT_AMOUNT,
+                p.PRODUCT_WEIGHT
+        FROM PRODUCT p
+            JOIN CATEGORY c ON p.CATEGORY_SEQ = c.CATEGORY_SEQ
+        WHERE p.USER_SEQ = #{ userSeq }
+        ORDER BY p.REGISTER_DATE
     </select>
 
     <update id="modifyProduct" parameterType="com.justdo.fruitfruit.model.dto.ProductDTO">
@@ -44,9 +57,16 @@
         , PRODUCT_PRICE = #{ productPrice }
         , PRODUCT_AMOUNT = #{ productAmount }
         , PRODUCT_WEIGHT = #{ productWeight }
+        , CATEGORY_SEQ = #{ categorySeq }
         WHERE PRODUCT_SEQ = #{ productSeq }
         AND USER_SEQ = #{ userSeq }
     </update>
+
+    <select id="getCategorySeqByName" resultType="int">
+        SELECT CATEGORY_SEQ
+        FROM CATEGORY
+        WHERE CATEGORY_NAME = #{ categoryName }
+    </select>
 
     <update id="modifyProdCategory" parameterType="com.justdo.fruitfruit.model.dto.CategoryDTO">
         UPDATE CATEGORY
@@ -54,11 +74,10 @@
         WHERE CATEGORY_SEQ = #{ categorySeq }
     </update>
 
-    <delete id="deleteProduct" parameterType="String">
+    <delete id="deleteProduct" parameterType="int">
         DELETE
         FROM PRODUCT
         WHERE PRODUCT_SEQ = #{ productSeq }
-        AND USER_SEQ = #{ userSeq }
     </delete>
 
 </mapper>

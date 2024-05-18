@@ -75,13 +75,15 @@ public class ProductController {
         CategoryDTO categoryDTO = new CategoryDTO();
         categoryDTO.setCategoryName(category);
 
+
         boolean isCategoryModified = productService.modifyCategory(categoryDTO);
 
         if (isCategoryModified) {
+
             ProductDTO productDTO = new ProductDTO();
 
-            productDTO.setProductSeq(productSeq);
             productDTO.setCategorySeq(categoryDTO.getCategorySeq());
+            productDTO.setProductSeq(productSeq);
             productDTO.setUserSeq(8); // userSeq 설정
             productDTO.setProductName(name);
             productDTO.setProductPrice(price);
@@ -105,9 +107,9 @@ public class ProductController {
      * 물품 삭제
      * */
     public void deleteProduct(Map<String, String> parameter){
-        String code = parameter.get("productSeq");
+        int productSeq = Integer.parseInt(parameter.get("productSeq"));
 
-        if (productService.deleteProduct(code)) {
+        if (productService.deleteProduct(productSeq)) {
             resultMessage.productSuccessMessage("delete");
         } else {
             resultMessage.productFailureMessage("delete");

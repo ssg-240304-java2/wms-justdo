@@ -14,5 +14,6 @@ public interface ProductMapper {
 
     int modifyProduct(ProductDTO product);
 
-    int deleteProduct(String productSeq);
+    int deleteProduct(int productSeq);
+
 }

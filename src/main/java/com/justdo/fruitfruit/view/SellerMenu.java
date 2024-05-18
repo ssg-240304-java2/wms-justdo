@@ -92,11 +92,11 @@ public class SellerMenu {
     private Map<String, String> selectProduct() {
         while (true) {
             System.out.println("선택할 상품의 코드 번호를 입력해주세요");
-            String code = inputReader.inputString();
+            String productSeq = inputReader.inputString();
 
             Map<String, String> parameter = new HashMap<>();
 
-            parameter.put("productSeq", code);
+            parameter.put("productSeq", productSeq);
 
             return parameter;
 
@@ -113,7 +113,7 @@ public class SellerMenu {
                     등록 물품 수정하겠습니다.
                     ============================
                     """);
-            System.out.println("수정할 상품의 코드 번호를 입력해주세요");
+            System.out.println("수정할 상품의 물품 번호를 입력해주세요");
             String code = inputReader.inputString();
             System.out.println("수정할 상품명을 입력해주세요");
             String productName = inputReader.inputString();
