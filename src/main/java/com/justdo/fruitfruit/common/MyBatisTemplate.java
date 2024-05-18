@@ -11,7 +11,7 @@ public class MyBatisTemplate {
 
     private static SqlSessionFactory sqlSessionFactory;
     static {
-        String resource = "mybatis-config.xml"; // resources폴더 하위경로
+        String resource = "config/mybatis-config.xml"; // resources폴더 하위경로
         try {
             sqlSessionFactory =  new SqlSessionFactoryBuilder().build(
                     Resources.getResourceAsStream(resource));
