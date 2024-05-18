@@ -59,7 +59,7 @@
             SET
                 sector_seq = #{item.sectorSeq},
                 grade_seq = #{item.gradeSeq},
-                grade_seq = #{item.productStatus},
+                product_status = #{item.productStatus},
                 update_date = now()
             WHERE
                 product_seq = #{item.productSeq}
@@ -79,4 +79,15 @@
             #{item.productAmount})
         </foreach>
     </insert>
+
+    <update id="updateSectorData">
+        <foreach collection="list" item="item" separator=";">
+            UPDATE
+                sector
+            SET
+            volume = volume - #{item.productAmount}
+            WHERE
+            sector_seq = #{item.sectorSeq}
+        </foreach>
+    </update>
 </mapper>

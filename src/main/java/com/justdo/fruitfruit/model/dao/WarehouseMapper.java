@@ -17,4 +17,6 @@ public interface WarehouseMapper {
     int updateProductData(List<ProductDTO> productDTOS);
 
     int insertProductDate(List<ProductDTO> productDTOS);
+
+    int updateSectorData(List<ProductDTO> productDTOS);
 }

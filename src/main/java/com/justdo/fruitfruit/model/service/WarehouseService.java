@@ -64,6 +64,7 @@ public class WarehouseService {
         warehouseMapper = sqlSession.getMapper(WarehouseMapper.class);
         int result = warehouseMapper.updateProductData(productDTOS);
         int insertResult = warehouseMapper.insertProductDate(productDTOS);
+        int updateSectorResult = warehouseMapper.updateSectorData(productDTOS);
         if(result > 0 && insertResult>0){
             sqlSession.commit();;
         }else {
