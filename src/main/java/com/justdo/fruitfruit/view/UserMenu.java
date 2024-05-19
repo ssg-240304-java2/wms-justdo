@@ -14,7 +14,10 @@ public class UserMenu {
     private final CategoryController categoryController = new CategoryController();
     private final CompanyController companyController = new CompanyController();
 
-
+    /***
+     * 구매자 뷰 출력하는 메서드
+     * @param loginResult 로그인된 회원 정보
+     */
     public void consumerMenuView(UserDTO loginResult) {
         while (true) {
             String menu = ("""
@@ -47,6 +50,9 @@ public class UserMenu {
         }
     }
 
+    /***
+     * 상품 조회뷰 출력하는 메서드
+     */
     public void searchProductMenu() {
         while(true) {
             String menu = ("""
@@ -74,9 +80,69 @@ public class UserMenu {
                     System.out.println("잘못된 메뉴를 선택하셨습니다. 다시 입력해주세요.");
             }
         }
-
-
     }
+
+    /***
+     * 아이디 찾기 뷰 출력하는 메서드
+     */
+    public void findMyIdMenu() {
+        UserController userController = new UserController();
+        while(true) {
+            String menu = ("""
+                ================================
+                아 이 디 찾 기 메 뉴
+                ================================
+                1. 구매자 아이디 찾기
+                2. 판매자 아이디 찾기
+                9. 뒤로가기
+                ================================""");
+            System.out.println(menu);
+            int choice = inputReader.selectMenuNum();
+            switch (choice) {
+                case 1:
+                    userController.findConsumerId(inputFindConsumerId());
+                    break;
+                case 2:
+                    userController.findSellerId(inputFindSellerId());
+                    break;
+                case 9:
+                    System.out.println("이전 메뉴로 돌아갑니다.");
+                    return;
+                default:
+                    System.out.println("잘못된 메뉴를 선택하셨습니다. 다시 입력해주세요.");
+            }
+        }
+    }
+
+    /***
+     * 비밀번호 찾기 뷰 출력하는 메서드
+     */
+    public void findMyPassWordMenu() {
+        while (true) {
+            String menu = ("""
+                    ================================
+                    비 밀 번 호 찾 기 메 뉴
+                    ================================
+                    1. 구매자 비밀번호 찾기
+                    2. 판매자 비밀번호 찾기
+                    9. 뒤로가기
+                    ================================""");
+            System.out.println(menu);
+            int choice = inputReader.selectMenuNum();
+            switch (choice) {
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 9:
+                    System.out.println("이전 메뉴로 돌아갑니다.");
+                    return;
+                default:
+                    System.out.println("잘못된 메뉴를 선택하셨습니다. 다시 입력해주세요.");
+            }
+        }
+    }
+
 
     /***
      * 구매자 회원가입 정보를 리턴하는 함수
@@ -119,7 +185,6 @@ public class UserMenu {
         map.put("auth", String.valueOf(auth));
         return map;
     }
-
     /***
      * @param password 입력받은 비밀번호 체크
      * @return boolean 결과값 모두 일치하면 true 반환
@@ -128,7 +193,6 @@ public class UserMenu {
         String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{7,}$";
         return password.matches(regex);
     }
-
     /***
      * 로그인 정보를 리턴하는 함수
      * @return 입력받은 아이디 패스워드 반환
@@ -194,10 +258,28 @@ public class UserMenu {
      * 회원의 이름과 휴대폰번호를 리턴하는 함수
      * @return 입력받은 회원 이름 회원 핸드폰번호 반환
      */
-    public Map<String, String> inputFindUserId() {
+    public Map<String, String> inputFindConsumerId() {
         System.out.print("가입하신 계정의 이름을 입력하세요 : ");
         String name = inputReader.inputString();
         System.out.print("가입하신 계정의 휴대폰번호를 입력하세요 : ");
+        String phone = inputReader.inputString();
+
+        Map<String, String> map = new HashMap<>();
+        map.put("name", name);
+        map.put("phone", phone);
+
+        return map;
+
+    }
+
+    /***
+     * 회사의 이름과 회사전화번호를 리턴하는 함수
+     * @return 입력받은 회사의 이름 회사전화번호 반환
+     */
+    public Map<String, String> inputFindSellerId() {
+        System.out.print("가입하신 계정의 회사명을 입력하세요 : ");
+        String name = inputReader.inputString();
+        System.out.print("가입하신 계정의 회사전화번호를 입력하세요 : ");
         String phone = inputReader.inputString();
 
         Map<String, String> map = new HashMap<>();
