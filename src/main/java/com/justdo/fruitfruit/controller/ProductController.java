@@ -79,17 +79,15 @@ public class ProductController {
     public void modifyProduct(Map<String, String> parameter){
         int productSeq = Integer.parseInt(parameter.get("productSeq"));
         String name = parameter.get("productName");
-        int category = Integer.parseInt(parameter.get("productCategory"));
         int price = Integer.parseInt(parameter.get("productPrice"));
         int amount = Integer.parseInt(parameter.get("productAmount"));
         double weight = Double.parseDouble(parameter.get("productWeight"));
         int userSeq = userDTO.getUserSeq();
 
-        if (category > 0) {
+        if (productSeq > 0) {
 
             ProductDTO productDTO = new ProductDTO();
 
-            productDTO.setCategorySeq(category);
             productDTO.setProductSeq(productSeq);
             productDTO.setUserSeq(userSeq);
             productDTO.setProductName(name);
