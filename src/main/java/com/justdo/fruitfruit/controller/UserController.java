@@ -16,7 +16,7 @@ public class UserController {
     private final UserResultMessage userResultMessage = new UserResultMessage();
     private final UserMenu userMenu = new UserMenu();
     private final WarehouseMenu warehouseMenu = new WarehouseMenu();
-    private final SellerMenu sellerMenu = new SellerMenu();
+    private SellerMenu sellerMenu;
 //    /**
 //     * 사용자들의 로그인처리하는 함수
 //     * @param id 입력한 아이디
@@ -73,6 +73,7 @@ public class UserController {
                     userMenu.consumerMenuView(); // 구매자 메뉴로 이동
                     break;
                 case 4:
+                    sellerMenu = new SellerMenu(loginResult);
                     sellerMenu.SellerMenuView(); // 판매자 메뉴로 이동
                     break;
             }

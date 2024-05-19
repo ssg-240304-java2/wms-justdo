@@ -2,6 +2,7 @@ package com.justdo.fruitfruit.view;
 
 import com.justdo.fruitfruit.common.constant.Auth;
 import com.justdo.fruitfruit.controller.*;
+import com.justdo.fruitfruit.model.dto.UserDTO;
 
 import java.util.HashMap;
 import java.util.Map;
