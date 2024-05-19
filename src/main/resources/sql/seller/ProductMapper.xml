@@ -4,52 +4,67 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.justdo.fruitfruit.model.dao.ProductMapper">
 
-    <insert id="registerProdCategory" useGeneratedKeys="true" keyColumn="category_seq" keyProperty="categorySeq">
-        INSERT INTO CATEGORY (
-                CATEGORY_NAME )
-        VALUES (
-                #{categoryName} )
-    </insert>
-
     <insert id="registerProduct" useGeneratedKeys="true" keyColumn="product_seq" keyProperty="productSeq">
         INSERT INTO PRODUCT (
-                  CATEGORY_SEQ
-                , USER_SEQ
-                , PRODUCT_NAME
-                , PRODUCT_PRICE
-                , PRODUCT_STATUS
-                , PRODUCT_AMOUNT
-                , PRODUCT_WEIGHT )
+        CATEGORY_SEQ
+        , USER_SEQ
+        , PRODUCT_NAME
+        , PRODUCT_PRICE
+        , PRODUCT_STATUS
+        , PRODUCT_AMOUNT
+        , PRODUCT_WEIGHT )
         VALUES (
-                  #{userSeq}
-                , #{categorySeq}
-                , #{productName}
-                , #{productPrice}
-                , #{productStatus}
-                , #{productAmount}
-                , #{productWeight} )
+        #{categorySeq}
+        , #{userSeq}
+        , #{productName}
+        , #{productPrice}
+        , #{productStatus}
+        , #{productAmount}
+        , #{productWeight} )
     </insert>
 
-    <select id="selectAllProduct" resultType="com.justdo.fruitfruit.model.dto.ProductDTO">
-        SELECT *
-            FROM PRODUCT
-        WHERE USER_SEQ = { userSeq }
-        ORDER BY PRODUCT_SEQ
+    <select id="selectAllProduct" parameterType="int" resultType="com.justdo.fruitfruit.model.dto.ProductDTO">
+        SELECT
+        p.PRODUCT_SEQ,
+        p.CATEGORY_SEQ,
+        c.CATEGORY_NAME,
+        p.SECTOR_SEQ,
+        p.GRADE_SEQ,
+        p.USER_SEQ,
+        p.PRODUCT_NAME,
+        p.PRODUCT_PRICE,
+        p.PRODUCT_STATUS,
+        p.REGISTER_DATE,
+        p.UPDATE_DATE,
+        p.PRODUCT_AMOUNT,
+        p.PRODUCT_WEIGHT
+        FROM PRODUCT p
+        JOIN CATEGORY c ON p.CATEGORY_SEQ = c.CATEGORY_SEQ
+        WHERE p.USER_SEQ = #{ userSeq }
+        ORDER BY p.REGISTER_DATE
     </select>
 
     <update id="modifyProduct" parameterType="com.justdo.fruitfruit.model.dto.ProductDTO">
         UPDATE PRODUCT
         SET PRODUCT_NAME = #{ productName }
-            , PRODUCT_PRICE = #{ productPrice }
-            , PRODUCT_AMOUNT = #{ productAmount }
-            , PRODUCT_WEIGHT = #{ productWeight }
-        WHERE PRODUCT_NAME = #{ productName }
+        , PRODUCT_PRICE = #{ productPrice }
+        , PRODUCT_AMOUNT = #{ productAmount }
+        , PRODUCT_WEIGHT = #{ productWeight }
+        , CATEGORY_SEQ = #{ categorySeq }
+        WHERE PRODUCT_SEQ = #{ productSeq }
+        AND USER_SEQ = #{ userSeq }
     </update>
 
-<!--    <delete id="deleteProduct" parameterType="_String">-->
-<!--        DELETE-->
-<!--            FROM PRODUCT-->
-<!--        WHERE PRODUCT_NAME = #{ productName }-->
-<!--    </delete>-->
+<!--    <select id="getCategorySeqByName" resultType="int">-->
+<!--        SELECT CATEGORY_SEQ-->
+<!--        FROM CATEGORY-->
+<!--        WHERE CATEGORY_NAME = #{ categoryName }-->
+<!--    </select>-->
+
+    <delete id="deleteProduct" parameterType="int">
+        DELETE
+        FROM PRODUCT
+        WHERE PRODUCT_SEQ = #{ productSeq }
+    </delete>
 
 </mapper>
