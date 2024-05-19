@@ -6,10 +6,7 @@ import com.justdo.fruitfruit.common.constant.Status;
 import com.justdo.fruitfruit.controller.InputReader;
 import com.justdo.fruitfruit.controller.InputReaderFactory;
 import com.justdo.fruitfruit.controller.WarehouseController;
-import com.justdo.fruitfruit.model.dto.GradeDTO;
-import com.justdo.fruitfruit.model.dto.NotificationDTO;
-import com.justdo.fruitfruit.model.dto.ProductDTO;
-import com.justdo.fruitfruit.model.dto.SectorDTO;
+import com.justdo.fruitfruit.model.dto.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -282,11 +279,67 @@ public class WarehouseMenu {
         return inputStockInfoList;
     }
 
+    private List<RequestReleaseDTO> addInputRequestReleaseInfo() {
+
+        List<RequestReleaseDTO> inputReleaseInfoList = new ArrayList<>();
+        do {
+
+            // 출고요청 목록 표시
+            List<RequestReleaseDTO> requestReleaseList = warehouseController.getRequestReleaseList();;
+            if(requestReleaseList == null || requestReleaseList.isEmpty()){
+                return inputReleaseInfoList;
+            }
+
+            // 상품번호 입력
+            System.out.print("목록에서 출고할 상품번호를 입력해주세요. : ");
+            int productNum = inputReader.inputIntValue()-1;
+            RequestReleaseDTO productDTO = requestReleaseList.get(productNum);
+            productDTO.setProductStatus(Status.RELEASE.ordinal()+1);
+
+            // 리스트 추가
+            inputReleaseInfoList.add(productDTO);
+
+            //계속 등록할건가?
+            System.out.print("출고할 상품을 추가하시겠습니까? (Y/N)");
+            String answer = inputReader.inputString().toUpperCase();
+            if("N".equals(answer)){
+                break;
+            }
+        }while (true);
+
+        return inputReleaseInfoList;
+    }
 
     /**
      * 출고요청의 서브메뉴 표시
      * */
     private void requestReleeaseSubMenu() {
-        warehouseController.getRequestReleaseList();
+
+        do{
+            System.out.println("""
+                    ==========================
+                    출 고 요 청 메 뉴
+                    ==========================
+                    1. 출고요청 목록 보기
+                    2. 출고하기
+                    9. 이전으로
+                    ==========================""");
+            int menu = inputReader.selectMenuNum();
+            switch (menu){
+                case 1:
+                    warehouseController.getRequestReleaseList();
+                    break;
+                case 2:
+                    warehouseController.addRequestReleaseList(addInputRequestReleaseInfo());
+                    break;
+                case 9:
+                    System.out.println("이전화면으로 이동합니다.");
+                    return;
+                default:
+                    System.out.println("메뉴를 확인하고 다시 입력해주세요.");
+            }
+        }while (true);
+
+
     }
 }

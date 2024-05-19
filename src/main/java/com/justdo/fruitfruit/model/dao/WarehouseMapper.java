@@ -28,4 +28,12 @@ public interface WarehouseMapper {
     int insertNotificationProduct(List<NotificationDTO> notificationList);
 
     List<ProductLogDTO> getProductLogList(Map<String, String> param);
+
+    int updateProductAmount(List<RequestReleaseDTO> productDTOS);
+
+    List<RequestReleaseDTO> getRequestReleaseLit(int status);
+
+    int insertReleaseProductDate(List<RequestReleaseDTO> productDTOS);
+
+    int updateMinusSectorData(List<RequestReleaseDTO> productDTOS);
 }

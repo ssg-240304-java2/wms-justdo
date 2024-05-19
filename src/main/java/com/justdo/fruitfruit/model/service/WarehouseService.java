@@ -31,12 +31,12 @@ public class WarehouseService {
 
     }
 
-    public List<ProductDTO> getRequestReleaseList() {
+    public List<RequestReleaseDTO> getRequestReleaseList() {
         SqlSession sqlSession = getSqlSession();
         warehouseMapper = sqlSession.getMapper(WarehouseMapper.class);
 
         int status = Status.REQUEST_RELEASE.ordinal()+1;
-        List<ProductDTO> requestReleaseList = warehouseMapper.findByStatus(status);
+        List<RequestReleaseDTO> requestReleaseList = warehouseMapper.getRequestReleaseLit(status);
         sqlSession.close();
 
         return requestReleaseList;
@@ -136,5 +136,21 @@ public class WarehouseService {
 
         List<ProductLogDTO> logList = warehouseMapper.getProductLogList(param);
         return logList;
+    }
+
+    public boolean addRequestReleaseList(List<RequestReleaseDTO> productDTOS) {
+        SqlSession sqlSession = getSqlSession();
+        warehouseMapper = sqlSession.getMapper(WarehouseMapper.class);
+//        int updateSectorResult = warehouseMapper.updateSectorData(productDTOS);
+        int result = warehouseMapper.updateProductAmount(productDTOS);
+        int insertResult = warehouseMapper.insertReleaseProductDate(productDTOS);
+        int updateSectorResult = warehouseMapper.updateMinusSectorData(productDTOS);
+        if(result > 0 && insertResult>0 && updateSectorResult>0){
+            sqlSession.commit();;
+        }else {
+            sqlSession.rollback();
+        }
+        sqlSession.close();
+        return (result > 0 && insertResult>0 && updateSectorResult>0);
     }
 }

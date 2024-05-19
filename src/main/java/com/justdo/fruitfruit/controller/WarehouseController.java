@@ -41,9 +41,10 @@ public class WarehouseController {
     /**
      * 상품상태가 출고요청인 상품목록 출력
      * */
-    public void getRequestReleaseList() {
-        List<ProductDTO> requestReleaseList = wareHouseService.getRequestReleaseList();
-        resultMessage.printRequestStockList(requestReleaseList);
+    public List<RequestReleaseDTO> getRequestReleaseList() {
+        List<RequestReleaseDTO> requestReleaseList = wareHouseService.getRequestReleaseList();
+        resultMessage.printRequestReleaseList(requestReleaseList);
+        return requestReleaseList;
     }
 
 
@@ -87,5 +88,18 @@ public class WarehouseController {
     public void printStockMoveList(Map<String, String> param) {
         List<ProductLogDTO> logList = wareHouseService.getProductLogList(param);
         resultMessage.printProducLogList(logList);
+    }
+
+    public void addRequestReleaseList(List<RequestReleaseDTO> productDTOS) {
+        if(productDTOS == null || productDTOS.isEmpty()){
+            resultMessage.errorMessage("addRequestRelease");
+        }
+
+        boolean result = wareHouseService.addRequestReleaseList(productDTOS);
+        if(result){
+            resultMessage.susccessMessage("addRequestRelease");
+        }else{
+            resultMessage.errorMessage("addRequestRelease2");
+        }
     }
 }

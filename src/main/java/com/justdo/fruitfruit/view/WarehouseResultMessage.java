@@ -1,10 +1,7 @@
 package com.justdo.fruitfruit.view;
 
 import com.justdo.fruitfruit.common.constant.Status;
-import com.justdo.fruitfruit.model.dto.GradeDTO;
-import com.justdo.fruitfruit.model.dto.ProductDTO;
-import com.justdo.fruitfruit.model.dto.ProductLogDTO;
-import com.justdo.fruitfruit.model.dto.SectorDTO;
+import com.justdo.fruitfruit.model.dto.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -25,6 +22,12 @@ public class WarehouseResultMessage {
             case "addNotificationInfo":
                 errorMsg = "알림 등록에 실패하였습니다.";
                 break;
+            case "addRequestRelease":
+                errorMsg="출고처리할 상품정보가 없습니다.";
+                break;
+            case "addRequestRelease2":
+                errorMsg = "출고처리에 실패하였습니다";
+                break;
 
         }
         System.out.println(errorMsg);
@@ -38,6 +41,9 @@ public class WarehouseResultMessage {
                 break;
             case "addNotificationInfo":
                 successMsg = "알림이 성공적으로 등록되었습니다.";
+                break;
+            case "addRequestRelease":
+                successMsg = "출고처리가 성공적으로 완료되었습니다.";
                 break;
         }
         System.out.println(successMsg);
@@ -63,26 +69,25 @@ public class WarehouseResultMessage {
         }
     }
 
-    public void printRequestReleaseList(List<ProductDTO> requestReleaseList) {
+    public void printRequestReleaseList(List<RequestReleaseDTO> requestReleaseList) {
         if(requestReleaseList == null || requestReleaseList.isEmpty()){
             System.out.println("> 😅😅😅 조회된 출고요청이 없습니다. 😅😅😅");
         }else {
             System.out.println("-----------------------------------------------");
             System.out.printf("%s\t%s\t%s\t%s\n", "상품번호","카테고리명", "상품명", "수량");
             System.out.println("-----------------------------------------------");
-            int index = 1;
-            for(ProductDTO productDTO : requestReleaseList){
-                System.out.printf("%s\t%s\t%s\t%d\n",
+            int index= 1;
+            for(RequestReleaseDTO requestReleaseDTO : requestReleaseList){
+                System.out.printf("%d\t%s\t%s\t%d\n",
                         index,
-                        productDTO.getCategoryName(),
-                        productDTO.getProductName(),
-                        productDTO.getProductAmount());
+                        requestReleaseDTO.getCategoryName(),
+                        requestReleaseDTO.getProductName(),
+                        requestReleaseDTO.getQuantity());
                 index++;
             }
             System.out.println("-----------------------------------------------");
         }
     }
-
 
     public void printGradeList(List<GradeDTO> gradeList) {
         if(gradeList == null || gradeList.isEmpty()){

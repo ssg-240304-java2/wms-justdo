@@ -204,4 +204,56 @@
                 AND  p.product_name like CONCAT('%', #{productNm} ,'%')
             </if>
     </select>
+
+    <select id="getRequestReleaseLit" parameterType="int" resultType="requestReleaseDTO">
+        SELECT
+            p.product_seq,
+            p.sector_seq,
+            p.product_name,
+            cate.category_name,
+            c.quantity
+        FROM
+        cart c
+        INNER JOIN orders o on c.order_seq = o.order_seq
+        INNER JOIN product p ON c.product_seq = p.product_seq
+        INNER JOIN category cate ON cate.category_seq = p.category_seq
+        WHERE
+        o.status = #{status}
+    </select>
+
+    <update id="updateProductAmount">
+        <foreach collection="list" item="item" separator=";">
+            UPDATE
+            product
+            SET
+            product_amount = product_amount - #{item.quantity}
+            WHERE
+            product_seq = #{item.productSeq}
+        </foreach>
+    </update>
+
+    <insert id="insertReleaseProductDate" parameterType="java.util.List">
+        INSERT INTO product_log (
+        product_seq,
+        status,
+        log_amount
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.productSeq},
+            #{item.productStatus},
+            #{item.quantity})
+        </foreach>
+    </insert>
+
+    <update id="updateMinusSectorData">
+        <foreach collection="list" item="item" separator=";">
+            UPDATE
+            sector
+            SET
+            volume = volume + #{item.quantity}
+            WHERE
+            sector_seq = #{item.sectorSeq}
+        </foreach>
+    </update>
 </mapper>
