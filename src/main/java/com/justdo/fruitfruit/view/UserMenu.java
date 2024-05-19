@@ -83,20 +83,32 @@ public class UserMenu {
      * @return 입력받은 회원정보를 반환
      */
     public Map<String, String> inputUser() {
-        System.out.println("""
-                ================================
-                회 원 등 록
-                ================================""");
-        System.out.print("아이디 : ");
-        String id = inputReader.inputString();
-        System.out.print("비밀번호 : ");
-        String password = inputReader.inputString();
-        System.out.print("이름 : ");
-        String name = inputReader.inputString();
-        System.out.print("핸드폰번호(하이픈(-)제외): ");
-        String phone = inputReader.inputString();
-        System.out.print("주소 : ");
-        String address = inputReader.inputString();
+        boolean isValidPassword = false;
+        String id, password, name, phone, address;
+
+        do {
+            System.out.println("""
+                    ================================
+                    회 원 등 록
+                    ================================""");
+            System.out.print("아이디 : ");
+            id = inputReader.inputString();
+            System.out.print("비밀번호 : ");
+            password = inputReader.inputString();
+            System.out.print("이름 : ");
+            name = inputReader.inputString();
+            System.out.print("핸드폰번호(하이픈(-)제외): ");
+            phone = inputReader.inputString();
+            System.out.print("주소 : ");
+            address = inputReader.inputString();
+
+            isValidPassword = isValidPassword(password);
+            if (!isValidPassword) {
+                System.out.println("비밀번호는 최소 8자리 / 1개 이상의 숫자, 영문 대소문자, 특수 기호를 포함해야 합니다.");
+                System.out.println("다시 입력해주세요.\n");
+            }
+        } while (!isValidPassword);
+
         int auth = Auth.CONSUMER.ordinal() + 1;
         Map<String, String> map = new HashMap<>();
         map.put("id", id);
@@ -106,6 +118,15 @@ public class UserMenu {
         map.put("phone", phone);
         map.put("auth", String.valueOf(auth));
         return map;
+    }
+
+    /***
+     * @param password 입력받은 비밀번호 체크
+     * @return boolean 결과값 모두 일치하면 true 반환
+     * */
+    public boolean isValidPassword(String password){
+        String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{7,}$";
+        return password.matches(regex);
     }
 
     /***
