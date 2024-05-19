@@ -38,10 +38,10 @@ public class MainMenu {
                     userMenu.searchProductMenu();
                     break;
                 case 4: // 아이디 찾기
-                    userMenu.findMyIdMenu();
+                    userController.findUserId(userMenu.inputFindId());
                     break;
                 case 5: // 비밀번호 찾기
-//                    userMenu.findUserPassword();
+                    userController.findUserPassword(userMenu.inputFindUserPassword());
                     break;
                 case 9:
                     inputReader.close();

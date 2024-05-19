@@ -54,15 +54,15 @@ public class UserMenu {
      * 상품 조회뷰 출력하는 메서드
      */
     public void searchProductMenu() {
-        while(true) {
+        while (true) {
             String menu = ("""
-                ================================
-                상 품 조 회 메 뉴
-                ================================
-                1. 상품 전체 조회
-                2. 상품 카테고리 조회
-                9. 뒤로가기
-                ================================""");
+                    ================================
+                    상 품 조 회 메 뉴
+                    ================================
+                    1. 상품 전체 조회
+                    2. 상품 카테고리 조회
+                    9. 뒤로가기
+                    ================================""");
             System.out.println(menu);
             int choice = inputReader.selectMenuNum();
             switch (choice) {
@@ -72,67 +72,6 @@ public class UserMenu {
                 case 2:
                     categoryController.selectAllCategory();
                     productController.selectAllProductByCategory(inputCategoryNum());
-                    break;
-                case 9:
-                    System.out.println("이전 메뉴로 돌아갑니다.");
-                    return;
-                default:
-                    System.out.println("잘못된 메뉴를 선택하셨습니다. 다시 입력해주세요.");
-            }
-        }
-    }
-
-    /***
-     * 아이디 찾기 뷰 출력하는 메서드
-     */
-    public void findMyIdMenu() {
-        UserController userController = new UserController();
-        while(true) {
-            String menu = ("""
-                ================================
-                아 이 디 찾 기 메 뉴
-                ================================
-                1. 구매자 아이디 찾기
-                2. 판매자 아이디 찾기
-                9. 뒤로가기
-                ================================""");
-            System.out.println(menu);
-            int choice = inputReader.selectMenuNum();
-            switch (choice) {
-                case 1:
-                    userController.findConsumerId(inputFindConsumerId());
-                    break;
-                case 2:
-                    userController.findSellerId(inputFindSellerId());
-                    break;
-                case 9:
-                    System.out.println("이전 메뉴로 돌아갑니다.");
-                    return;
-                default:
-                    System.out.println("잘못된 메뉴를 선택하셨습니다. 다시 입력해주세요.");
-            }
-        }
-    }
-
-    /***
-     * 비밀번호 찾기 뷰 출력하는 메서드
-     */
-    public void findMyPassWordMenu() {
-        while (true) {
-            String menu = ("""
-                    ================================
-                    비 밀 번 호 찾 기 메 뉴
-                    ================================
-                    1. 구매자 비밀번호 찾기
-                    2. 판매자 비밀번호 찾기
-                    9. 뒤로가기
-                    ================================""");
-            System.out.println(menu);
-            int choice = inputReader.selectMenuNum();
-            switch (choice) {
-                case 1:
-                    break;
-                case 2:
                     break;
                 case 9:
                     System.out.println("이전 메뉴로 돌아갑니다.");
@@ -185,14 +124,16 @@ public class UserMenu {
         map.put("auth", String.valueOf(auth));
         return map;
     }
+
     /***
      * @param password 입력받은 비밀번호 체크
      * @return boolean 결과값 모두 일치하면 true 반환
      * */
-    public boolean isValidPassword(String password){
+    public boolean isValidPassword(String password) {
         String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{7,}$";
         return password.matches(regex);
     }
+
     /***
      * 로그인 정보를 리턴하는 함수
      * @return 입력받은 아이디 패스워드 반환
@@ -253,12 +194,11 @@ public class UserMenu {
     }
 
 
-
     /***
      * 회원의 이름과 휴대폰번호를 리턴하는 함수
      * @return 입력받은 회원 이름 회원 핸드폰번호 반환
      */
-    public Map<String, String> inputFindConsumerId() {
+    public Map<String, String> inputFindId() {
         System.out.print("가입하신 계정의 이름을 입력하세요 : ");
         String name = inputReader.inputString();
         System.out.print("가입하신 계정의 휴대폰번호를 입력하세요 : ");
@@ -272,22 +212,53 @@ public class UserMenu {
 
     }
 
+
     /***
-     * 회사의 이름과 회사전화번호를 리턴하는 함수
-     * @return 입력받은 회사의 이름 회사전화번호 반환
+     * 입력한 아이디와 이름 휴대폰번호를 리턴하는 함수
+     * @return 입력받은 아이디와 이름 휴대폰번호 반환
      */
-    public Map<String, String> inputFindSellerId() {
-        System.out.print("가입하신 계정의 회사명을 입력하세요 : ");
+    public Map<String, String> inputFindUserPassword() {
+        System.out.print("가입하신 계정의 아이디를 입력하세요 : ");
+        String id = inputReader.inputString();
+        System.out.print("가입하신 계정의 이름 입력하세요 : ");
         String name = inputReader.inputString();
-        System.out.print("가입하신 계정의 회사전화번호를 입력하세요 : ");
+        System.out.print("가입하신 계정의 휴대폰번호 입력하세요 : ");
         String phone = inputReader.inputString();
 
         Map<String, String> map = new HashMap<>();
+        map.put("id", id);
         map.put("name", name);
         map.put("phone", phone);
 
         return map;
 
+    }
+
+    /***
+     * 비밀번호 재설정 메서드
+     * @return 재설정한 비밀번호
+     */
+    public Map<String, String> inputNewPassword() {
+        boolean isValidPassword = false;
+        String password;
+
+        do {
+            System.out.println("""
+                    ================================
+                    비 밀 번 호 재 설 정
+                    ================================""");
+            System.out.print("비밀번호 : ");
+            password = inputReader.inputString();
+
+            isValidPassword = isValidPassword(password);
+            if (!isValidPassword) {
+                System.out.println("비밀번호는 최소 8자리 / 1개 이상의 숫자, 영문 대소문자, 특수 기호를 포함해야 합니다.");
+                System.out.println("다시 입력해주세요.\n");
+            }
+        } while (!isValidPassword);
+        Map<String, String> map = new HashMap<>();
+        map.put("password", password);
+        return map;
     }
 
 
