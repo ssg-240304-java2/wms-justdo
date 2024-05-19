@@ -2,10 +2,7 @@ package com.justdo.fruitfruit.model.service;
 
 import com.justdo.fruitfruit.common.constant.Status;
 import com.justdo.fruitfruit.model.dao.WarehouseMapper;
-import com.justdo.fruitfruit.model.dto.GradeDTO;
-import com.justdo.fruitfruit.model.dto.NotificationDTO;
-import com.justdo.fruitfruit.model.dto.ProductDTO;
-import com.justdo.fruitfruit.model.dto.SectorDTO;
+import com.justdo.fruitfruit.model.dto.*;
 import org.apache.ibatis.session.SqlSession;
 
 import java.sql.Timestamp;
@@ -130,5 +127,14 @@ public class WarehouseService {
         sqlSession.close();
         return (result > 0);
 
+    }
+
+    public List<ProductLogDTO> getProductLogList(Map<String, String> param) {
+
+        SqlSession sqlSession = getSqlSession();
+        warehouseMapper = sqlSession.getMapper(WarehouseMapper.class);
+
+        List<ProductLogDTO> logList = warehouseMapper.getProductLogList(param);
+        return logList;
     }
 }

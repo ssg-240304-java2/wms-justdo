@@ -1,7 +1,9 @@
 package com.justdo.fruitfruit.view;
 
+import com.justdo.fruitfruit.common.constant.Status;
 import com.justdo.fruitfruit.model.dto.GradeDTO;
 import com.justdo.fruitfruit.model.dto.ProductDTO;
+import com.justdo.fruitfruit.model.dto.ProductLogDTO;
 import com.justdo.fruitfruit.model.dto.SectorDTO;
 
 import java.time.LocalDateTime;
@@ -169,5 +171,46 @@ public class WarehouseResultMessage {
             System.out.println("-----------------------------------------------");
         }
 
+    }
+
+    public void printProducLogList(List<ProductLogDTO> logList) {
+        if(logList == null || logList.isEmpty()){
+            System.out.println("> 😅😅😅 조회된 로그가 없습니다. 😅😅😅");
+        }else {
+            //(상품카테고리/상품명/ 보관장소/갯수/유통기한/판매자)
+            System.out.println("-----------------------------------------------");
+            System.out.printf("%s\t%s\t%s\t%s\t%s\t%s\n","로그번호","작업구분","카테고리명", "상품명","재고위치", "수량");
+            System.out.println("-----------------------------------------------");
+            int index= 1;
+            for(ProductLogDTO logDTO : logList){
+                String statusName = getStatusName(logDTO.getStatus());
+                System.out.printf("%d\t%s\t%s\t%s\t%s\t%d\n",
+                        index,
+                        statusName,
+                        logDTO.getCategoryName(),
+                        logDTO.getProductName(),
+                        logDTO.getSectorName(),
+                        logDTO.getLogAmount()
+                );
+                index++;
+            }
+            System.out.println("-----------------------------------------------");
+        }
+    }
+
+    private String getStatusName(int status) {
+        switch (status){
+            case 1:
+                return Status.REQUEST_STOCK.getStatus();
+            case 2:
+                return Status.STOCK.getStatus();
+            case 3:
+                return Status.REQUEST_RELEASE.getStatus();
+            case 4:
+                return Status.RELEASE.getStatus();
+            default:
+                System.out.println(status);
+                return "일치하는 카테고리없음";
+        }
     }
 }

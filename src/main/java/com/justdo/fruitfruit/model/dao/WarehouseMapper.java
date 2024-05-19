@@ -1,11 +1,9 @@
 package com.justdo.fruitfruit.model.dao;
 
-import com.justdo.fruitfruit.model.dto.GradeDTO;
-import com.justdo.fruitfruit.model.dto.NotificationDTO;
-import com.justdo.fruitfruit.model.dto.ProductDTO;
-import com.justdo.fruitfruit.model.dto.SectorDTO;
+import com.justdo.fruitfruit.model.dto.*;
 
 import java.util.List;
+import java.util.Map;
 
 public interface WarehouseMapper {
 
@@ -28,4 +26,6 @@ public interface WarehouseMapper {
     List<ProductDTO> getNotificationProductList(ProductDTO productDTO);
 
     int insertNotificationProduct(List<NotificationDTO> notificationList);
+
+    List<ProductLogDTO> getProductLogList(Map<String, String> param);
 }

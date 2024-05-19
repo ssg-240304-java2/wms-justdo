@@ -1,9 +1,6 @@
 package com.justdo.fruitfruit.controller;
 
-import com.justdo.fruitfruit.model.dto.GradeDTO;
-import com.justdo.fruitfruit.model.dto.NotificationDTO;
-import com.justdo.fruitfruit.model.dto.ProductDTO;
-import com.justdo.fruitfruit.model.dto.SectorDTO;
+import com.justdo.fruitfruit.model.dto.*;
 import com.justdo.fruitfruit.model.service.WarehouseService;
 import com.justdo.fruitfruit.view.WarehouseResultMessage;
 
@@ -87,4 +84,8 @@ public class WarehouseController {
         }
     }
 
+    public void printStockMoveList(Map<String, String> param) {
+        List<ProductLogDTO> logList = wareHouseService.getProductLogList(param);
+        resultMessage.printProducLogList(logList);
+    }
 }

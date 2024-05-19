@@ -181,4 +181,27 @@
             )
         </foreach>
     </insert>
+
+    <select id="getProductLogList" parameterType="hashmap" resultType="productLogDTO">
+        SELECT
+            pl.log_seq,
+            pl.status,
+            c.category_name,
+            p.product_name,
+            s.sector_name,
+            pl.log_amount
+        FROM
+            product_log pl
+            LEFT JOIN product p on pl.product_seq = p.product_seq
+            LEFT JOIN sector s ON p.sector_seq = s.sector_seq
+            LEFT JOIN category c ON p.category_seq = c.category_seq
+        where
+            1=1
+            <if test="status != 0">
+                AND pl.status = #{status}
+            </if>
+            <if test="productNm != null">
+                AND  p.product_name like CONCAT('%', #{productNm} ,'%')
+            </if>
+    </select>
 </mapper>

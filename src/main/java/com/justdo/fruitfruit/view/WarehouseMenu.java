@@ -33,7 +33,7 @@ public class WarehouseMenu {
                     1. 입고요청
                     2. 출고요청
                     3. 창고 재고 확인
-                    4. 재고 이동 목록
+                    4. 재고 이동
                     9. 이전으로
                     ==========================""");
             int menu = inputReader.selectMenuNum();
@@ -48,9 +48,58 @@ public class WarehouseMenu {
                     printStockSubMenu();
                     break;
                 case 4:
+                    printStockMoveSubMenu();
                     break;
                 case 9:
                     System.out.println("이전화면으로 이동합니다.");
+                    return;
+                default:
+                    System.out.println("메뉴를 확인하고 다시 입력해주세요.");
+            }
+        }while (true);
+    }
+
+    private void printStockMoveSubMenu() {
+        do {
+            System.out.println("""
+                    ==========================
+                    재 고 이 동
+                    ==========================
+                    1. 전체 조회
+                    2. 입고 조회
+                    3. 출고 조회
+                    4. 상품 조회
+                    9. 이전으로
+                    ==========================""");
+            int menu = inputReader.selectMenuNum();
+            switch (menu){
+                case 1:
+                    Map<String,String> param= new HashMap<>();
+                    param.put("status","0");
+                    param.put("productNm",null);
+                    warehouseController.printStockMoveList(param);
+                    break;
+                case 2:
+                    param= new HashMap<>();
+                    param.put("status","2");
+                    param.put("productNm",null);
+                    warehouseController.printStockMoveList(param);
+                    break;
+                case 3:
+                    param= new HashMap<>();
+                    param.put("status","4");
+                    param.put("productNm",null);
+                    warehouseController.printStockMoveList(param);
+                    break;
+                case 4:
+                    System.out.print("검색하실 상품명을 입력해주세요 : ");
+                    String productNm = inputReader.inputString();
+                    param= new HashMap<>();
+                    param.put("status","0");
+                    param.put("productNm",productNm);
+                    warehouseController.printStockMoveList(param);
+                    break;
+                case 9:
                     return;
                 default:
                     System.out.println("메뉴를 확인하고 다시 입력해주세요.");
@@ -62,7 +111,7 @@ public class WarehouseMenu {
         do {
             System.out.println("""
                     ==========================
-                    창고 재고 목록
+                    창고 재고 확인
                     ==========================
                     1. 전체 조회
                     2. 판매자별 조회
