@@ -116,6 +116,9 @@
             <if test="userSeq != 0">
                 AND p.user_seq = #{userSeq}
             </if>
+            <if test="productName !=null and productName != ''">
+                AND p.product_name LIKE CONCAT('%',#{productName},'%')
+            </if>
     </select>
 
     <select id="getUserSeq" parameterType="String" resultType="int">

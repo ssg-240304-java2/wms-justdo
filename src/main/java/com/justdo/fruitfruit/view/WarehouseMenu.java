@@ -73,6 +73,7 @@ public class WarehouseMenu {
                 case 1:
                     Map<String,String> params = new HashMap<>();
                     params.put("id",null);
+                    params.put("productName",null);
                     warehouseController.getStockList(params);
                     break;
                 case 2:
@@ -80,6 +81,14 @@ public class WarehouseMenu {
                     String id = inputReader.inputString();
                     params = new HashMap<>();
                     params.put("id",id);
+                    warehouseController.getStockList(params);
+                    break;
+                case 3:
+                    System.out.print("검색할 상품명을 입력해주세요.");
+                    String productName = inputReader.inputString();
+                    params = new HashMap<>();
+                    params.put("id",null);
+                    params.put("productName", productName);
                     warehouseController.getStockList(params);
                     break;
                 case 9:

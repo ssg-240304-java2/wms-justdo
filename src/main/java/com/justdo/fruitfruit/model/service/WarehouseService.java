@@ -81,13 +81,16 @@ public class WarehouseService {
         warehouseMapper = sqlSession.getMapper(WarehouseMapper.class);
 
         int status = Status.STOCK.ordinal()+1;
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setProductStatus(status);
+
         int userSeq = 0;
         if (params.get("id") != null){
             userSeq= warehouseMapper.getUserSeq(params.get("id"));
         }
-        ProductDTO productDTO = new ProductDTO();
-        productDTO.setProductStatus(status);
         productDTO.setUserSeq(userSeq);
+        productDTO.setProductName(params.get("productName"));
+
         List<ProductDTO> stockList = warehouseMapper.findByStatusAndStock(productDTO);
         sqlSession.close();
 
