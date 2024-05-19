@@ -39,7 +39,7 @@ public class MainMenu {
                     userMenu.searchProductMenu();
                     break;
                 case 4: // 아이디 찾기
-                    userController.findUserId(userMenu.inputFindUserId());
+                    userMenu.findMyIdMenu();
                     break;
                 case 5: // 비밀번호 찾기
 //                    userMenu.findUserPassword();
