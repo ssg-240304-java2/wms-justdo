@@ -30,7 +30,7 @@ public class ProductDTO {
     private int productAmount;
     private double productWeight;
 
-    public String getProductStatus(){
+    public String getProductStatusDescription(){
         switch (productStatus) {
             case 1:
                 return Status.REQUEST_STOCK.getStatus();
@@ -56,7 +56,7 @@ public class ProductDTO {
                 ", 유저번호 = " + userSeq +
                 ", 상품 이름 = '" + productName + '\'' +
                 ", 가격 = " + productPrice +
-                ", 진행 상황 = " + getProductStatus() +
+                ", 진행 상황 = " + getProductStatusDescription() +
                 ", 등록일 = " + registerDate +
                 ", 수정일 = " + updateDate +
                 ", 수량 = " + productAmount +
