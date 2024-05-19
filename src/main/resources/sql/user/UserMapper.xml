@@ -13,8 +13,6 @@
         id = #{id}
         and
         password = #{password}
-        and
-        auth = 3
     </select>
     
     <insert id="insertUser" useGeneratedKeys="true" keyProperty="userSeq">

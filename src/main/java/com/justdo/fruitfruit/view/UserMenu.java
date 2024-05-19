@@ -1,10 +1,7 @@
 package com.justdo.fruitfruit.view;
 
 import com.justdo.fruitfruit.common.constant.Auth;
-import com.justdo.fruitfruit.controller.CategoryController;
-import com.justdo.fruitfruit.controller.InputReader;
-import com.justdo.fruitfruit.controller.InputReaderFactory;
-import com.justdo.fruitfruit.controller.ProductController;
+import com.justdo.fruitfruit.controller.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +11,8 @@ public class UserMenu {
     private final InputReader inputReader = InputReaderFactory.getInputReader();
     private final ProductController productController = new ProductController();
     private final CategoryController categoryController = new CategoryController();
+    private final CompanyController companyController = new CompanyController();
+
 
     public void consumerMenuView() {
         while (true) {
@@ -36,6 +35,7 @@ public class UserMenu {
                 case 2:
                     break;
                 case 3:
+                    companyController.insertCompany(inputCompany());
                     break;
                 case 9:
                     System.out.println("로그아웃이 완료되었습니다.");
@@ -132,6 +132,28 @@ public class UserMenu {
     }
 
     /***
+     * 판매자 전환 정보를 리턴하는 함수
+     * @return 입력받은 판매자 정보 반환
+     */
+    public Map<String, String> inputCompany() {
+        System.out.print("회사명을 입력하세요 : ");
+        String companyName = inputReader.inputString();
+        System.out.print("회사전화번호를 입력하세요 : ");
+        String companyPhone = inputReader.inputString();
+        System.out.print("사업자번호를 입력하세요 : ");
+        String companyNum = inputReader.inputString();
+        System.out.print("회사주소 입력하세요 : ");
+        String companyAddress = inputReader.inputString();
+
+        Map<String, String> map = new HashMap<>();
+        map.put("companyName", companyName);
+        map.put("companyPhone", companyPhone);
+        map.put("companyNum", companyNum);
+        map.put("companyAddress", companyAddress);
+        return map;
+    }
+
+    /***
      * 상품 번호를 리턴하는 함수
      * @return 입력받은 상품 번호 반환
      */
@@ -139,6 +161,7 @@ public class UserMenu {
         System.out.print("장바구니 담기(상품번호 입력) : ");
         return inputReader.inputString();
     }
+
 
 
 
