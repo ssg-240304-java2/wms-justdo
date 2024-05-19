@@ -21,4 +21,27 @@
         values(#{id}, #{password}, #{name}, #{address}, #{phoneNumber},  #{auth})
     </insert>
 
+    <select id="findConsumerId" resultType="userDTO">
+        select
+        id
+        from
+        user
+        where
+        name = #{name}
+        and
+        phone_number = #{phoneNumber}
+    </select>
+
+    <select id="findSellerId" resultType="userDTO">
+        select
+        U.id
+        from
+        company C INNER JOIN user U
+        ON C.user_seq = U.user_seq
+        where
+        C.company_name = #{companyName}
+        AND
+        C.company_phone = #{companyPhone}
+    </select>
+
 </mapper>

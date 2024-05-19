@@ -5,14 +5,14 @@
 <mapper namespace="com.justdo.fruitfruit.model.dao.ProductMapper">
 
     <insert id="registerProduct" useGeneratedKeys="true" keyColumn="product_seq" keyProperty="productSeq">
-        INSERT INTO PRODUCT (
-        CATEGORY_SEQ
-        , USER_SEQ
-        , PRODUCT_NAME
-        , PRODUCT_PRICE
-        , PRODUCT_STATUS
-        , PRODUCT_AMOUNT
-        , PRODUCT_WEIGHT )
+        INSERT INTO product (
+        category_seq
+        , user_seq
+        , product_name
+        , product_price
+        , product_status
+        , product_amount
+        , product_weight )
         VALUES (
         #{categorySeq}
         , #{userSeq}
@@ -25,46 +25,39 @@
 
     <select id="selectAllProduct" parameterType="int" resultType="com.justdo.fruitfruit.model.dto.ProductDTO">
         SELECT
-        p.PRODUCT_SEQ,
-        p.CATEGORY_SEQ,
-        c.CATEGORY_NAME,
-        p.SECTOR_SEQ,
-        p.GRADE_SEQ,
-        p.USER_SEQ,
-        p.PRODUCT_NAME,
-        p.PRODUCT_PRICE,
-        p.PRODUCT_STATUS,
-        p.REGISTER_DATE,
-        p.UPDATE_DATE,
-        p.PRODUCT_AMOUNT,
-        p.PRODUCT_WEIGHT
-        FROM PRODUCT p
-        JOIN CATEGORY c ON p.CATEGORY_SEQ = c.CATEGORY_SEQ
-        WHERE p.USER_SEQ = #{ userSeq }
-        ORDER BY p.REGISTER_DATE
+        p.product_seq,
+        p.category_seq,
+        c.category_name,
+        p.sector_seq,
+        p.grade_seq,
+        p.user_seq,
+        p.product_name,
+        p.product_price,
+        p.product_status,
+        p.register_date,
+        p.update_date,
+        p.product_amount,
+        p.product_weight
+        FROM product p
+        JOIN category c ON p.category_seq = c.category_seq
+        WHERE p.user_seq = #{ userSeq }
+        ORDER BY p.register_date
     </select>
 
     <update id="modifyProduct" parameterType="com.justdo.fruitfruit.model.dto.ProductDTO">
-        UPDATE PRODUCT
-        SET PRODUCT_NAME = #{ productName }
-        , PRODUCT_PRICE = #{ productPrice }
-        , PRODUCT_AMOUNT = #{ productAmount }
-        , PRODUCT_WEIGHT = #{ productWeight }
-        , CATEGORY_SEQ = #{ categorySeq }
-        WHERE PRODUCT_SEQ = #{ productSeq }
-        AND USER_SEQ = #{ userSeq }
+        UPDATE product
+        SET product_name = #{ productName }
+        , product_price = #{ productPrice }
+        , product_amount = #{ productAmount }
+        , product_weight = #{ productWeight }
+        WHERE product_seq = #{ productSeq }
+        AND user_seq = #{ userSeq }
     </update>
-
-<!--    <select id="getCategorySeqByName" resultType="int">-->
-<!--        SELECT CATEGORY_SEQ-->
-<!--        FROM CATEGORY-->
-<!--        WHERE CATEGORY_NAME = #{ categoryName }-->
-<!--    </select>-->
 
     <delete id="deleteProduct" parameterType="int">
         DELETE
-        FROM PRODUCT
-        WHERE PRODUCT_SEQ = #{ productSeq }
+        FROM product
+        WHERE product_seq = #{ productSeq }
     </delete>
 
 </mapper>
