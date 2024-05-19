@@ -2,6 +2,7 @@ package com.justdo.fruitfruit.model.service;
 
 import com.justdo.fruitfruit.model.dao.SystemMapper;
 import com.justdo.fruitfruit.model.dto.CompanyDTO;
+import com.justdo.fruitfruit.model.dto.ProductDTO;
 import com.justdo.fruitfruit.model.dto.UserDTO;
 import org.apache.ibatis.session.SqlSession;
 
@@ -123,6 +124,47 @@ public class SystemService {
 
         try {
             int result = systemMapper.updateSellerAuth(authInfo);
+            sqlSession.commit();
+
+            return result;
+        } catch (Exception e) {
+            sqlSession.rollback();
+            throw new RuntimeException(e);
+        } finally {
+            sqlSession.close();
+        }
+    }
+
+    /* 상품 관리 메뉴 */
+
+    public List<ProductDTO> getProductAllList() {
+        SqlSession sqlSession = getSqlSession();
+        systemMapper = sqlSession.getMapper(SystemMapper.class);
+        List<ProductDTO> productList = systemMapper.getProductAllList();
+
+        sqlSession.close();
+
+        return productList;
+    }
+
+    public List<ProductDTO> getProductSaleList() {
+        SqlSession sqlSession = getSqlSession();
+        systemMapper = sqlSession.getMapper(SystemMapper.class);
+        List<ProductDTO> productList = systemMapper.getProductSaleList();
+
+        sqlSession.close();
+
+        return productList;
+    }
+
+    public int deleteProductInfo(String productSeq) {
+        SqlSession sqlSession = getSqlSession();
+        systemMapper = sqlSession.getMapper(SystemMapper.class);
+
+        int product = Integer.parseInt(productSeq);
+
+        try {
+            int result = systemMapper.deleteProductInfo(product);
             sqlSession.commit();
 
             return result;

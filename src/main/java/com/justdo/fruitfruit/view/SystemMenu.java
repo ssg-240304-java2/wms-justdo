@@ -36,9 +36,9 @@ public class SystemMenu {
                 case 2:
                     sellerManageSubMenu();
                     break;
-//                case 3:
-//                    productManageSubMenu();
-//                    break;
+                case 3:
+                    productManageSubMenu();
+                    break;
 //                case 4:
 //                    orderManageSubMenu();
 //                    break;
@@ -47,6 +47,44 @@ public class SystemMenu {
 //                    break;
                 case 9:
                     System.out.println("로그아웃 하고, 메인 메뉴로 이동합니다.");
+                    return;
+                default:
+                    System.out.println("메뉴를 확인하고 다시 입력해주세요.");
+            }
+        } while (true);
+    }
+
+    /***
+     * 상품 관리 서브 메뉴 뷰
+     */
+    private void productManageSubMenu() {
+        do {
+            System.out.println("""
+                ==========================
+                상품 관리 메뉴
+                ==========================
+                1. 상품 전체 조회
+                2. 판매 등록된 상품 조회
+                3. 상품 삭제
+                9. 이전으로
+                ==========================""");
+
+            int menu = inputReader.selectMenuNum();
+            switch (menu){
+                case 1:
+                    systemController.getProductAllList();
+                    break;
+                case 2:
+                    systemController.getProductSaleList();
+                    break;
+                case 3:
+                    System.out.print("삭제할 상품의 번호를 입력해 주세요. : ");
+                    String productSeq = inputReader.inputString();
+
+                    systemController.deleteProductInfo(productSeq);
+                    break;
+                case 9:
+                    System.out.println("이전화면으로 이동합니다.");
                     return;
                 default:
                     System.out.println("메뉴를 확인하고 다시 입력해주세요.");
@@ -77,13 +115,13 @@ public class SystemMenu {
                     systemController.getSellerList();
                     break;
                 case 2:
-                    System.out.print("검색할 판매자의 회원 번호를 입력해 주세요. : ");
+                    System.out.print("판매자 정보를 수정할 회원의 번호를 입력해 주세요. : ");
                     String sellerSeq = inputReader.inputString();
 
                     systemController.updateSellerInfo(inputSellerInfo(sellerSeq));
                     break;
                 case 3:
-                    System.out.print("검색할 판매자의 회원 번호를 입력해 주세요. : ");
+                    System.out.print("판매자 정보를 삭제할 회원의 번호를 입력해 주세요. : ");
                     sellerSeq = inputReader.inputString();
 
                     systemController.deleteSellerInfo(sellerSeq);
@@ -92,7 +130,7 @@ public class SystemMenu {
                     systemController.getSellerRequestList();
                     break;
                 case 5:
-                    System.out.print("검색할 판매자의 회원 번호를 입력해 주세요. : ");
+                    System.out.print("판매자 권한을 부여할 회원의 번호를 입력해 주세요. : ");
                     sellerSeq = inputReader.inputString();
 
                     systemController.updateSellerAuth(inputSellerAuth(sellerSeq));
@@ -175,13 +213,13 @@ public class SystemMenu {
                     systemController.getUserList();
                     break;
                 case 2:
-                    System.out.print("검색할 회원의 번호를 입력해 주세요. :");
+                    System.out.print("회원 정보를 수정할 회원의 번호를 입력해 주세요. :");
                     String userSeq = inputReader.inputString();
 
                     systemController.updateUserInfo(inputUserInfo(userSeq));
                     break;
                 case 3:
-                    System.out.print("검색할 회원의 번호를 입력해 주세요. :");
+                    System.out.print("회원 정보를 삭제할 회원의 번호를 입력해 주세요. :");
                     userSeq = inputReader.inputString();
 
                     systemController.deleteUserInfo(userSeq);

@@ -1,6 +1,7 @@
 package com.justdo.fruitfruit.controller;
 
 import com.justdo.fruitfruit.model.dto.CompanyDTO;
+import com.justdo.fruitfruit.model.dto.ProductDTO;
 import com.justdo.fruitfruit.model.dto.UserDTO;
 import com.justdo.fruitfruit.model.service.SystemService;
 import com.justdo.fruitfruit.view.SystemResultMessage;
@@ -142,7 +143,7 @@ public class SystemController {
     }
 
     /***
-     * 판매자 관리 메뉴에서 판매자 권한 업데이트 승인하는 함수
+     * 판매자 관리 메뉴에서 판매자 권한 업데이트를 승인
      * @param userAuthInfo 판매자 정보와 업데이트할 권한 정보
      */
     public void updateSellerAuth(Map<String, String> userAuthInfo) {
@@ -160,6 +161,41 @@ public class SystemController {
             resultMessage.printSuccessMessage("updateSellerAuth");
         } else {
             resultMessage.printErrorMessage("updateSellerAuth");
+        }
+    }
+
+    /* 상품 관리 메뉴 */
+
+    /***
+     * 상품 관리 메뉴에서 모든 상품을 조회
+     */
+    public void getProductAllList() {
+        List<ProductDTO> productList = systemService.getProductAllList();
+
+        if (productList != null) {
+            resultMessage.printProductList(productList);
+        } else {
+            resultMessage.printErrorMessage("getProductALLList");
+        }
+    }
+
+    public void getProductSaleList() {
+        List<ProductDTO> productList = systemService.getProductSaleList();
+
+        if (productList != null) {
+            resultMessage.printProductList(productList);
+        } else {
+            resultMessage.printErrorMessage("getProductALLList");
+        }
+    }
+
+    public void deleteProductInfo(String productSeq) {
+        int result = systemService.deleteProductInfo(productSeq);
+
+        if (result > 0) {
+            resultMessage.printSuccessMessage("deleteDeleteInfo");
+        } else {
+            resultMessage.printErrorMessage("deleteDeleteInfo");
         }
     }
 }

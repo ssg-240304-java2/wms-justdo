@@ -127,4 +127,33 @@
             user_seq = #{ userSeq }
     </update>
 
+    <!-- 상품 관리 메뉴 -->
+
+    <select id="getProductAllList" resultType="ProductDTO">
+        SELECT
+            *
+        FROM
+            product
+        ORDER BY
+            product_seq
+    </select>
+
+    <select id="getProductSaleList" resultType="ProductDTO">
+        SELECT
+            *
+        FROM
+            product
+        WHERE
+            product_status IN (2, 3, 4)
+        ORDER BY
+            product_seq
+    </select>
+
+    <delete id="deleteProductInfo">
+        DELETE FROM
+            product
+        WHERE
+            product_seq = #{ product_seq }
+    </delete>
+
 </mapper>
