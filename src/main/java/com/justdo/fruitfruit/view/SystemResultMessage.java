@@ -26,17 +26,29 @@ public class SystemResultMessage {
         String errorMessage = "";
 
         switch (errorCode) {
-            case "selectUserList" :
+            case "gettUserList" :
                 errorMessage = "회원 정보 조회를 실패하였습니다.";
                 break;
-            case "updateUser" :
+            case "updateUserInfo" :
                 errorMessage = "회원 정보 수정을 실패하였습니다.";
                 break;
-            case "deleteUser" :
+            case "deleteUserInfo" :
                 errorMessage = "회원 정보 삭제를 실패하였습니다.";
                 break;
-            case "selectCompanyList" :
-                errorMessage = "회사 정보 조회를 실패하였습니다.";
+            case "getSellerList" :
+                errorMessage = "판매자 정보 조회를 실패하였습니다.";
+                break;
+            case "updateSellerInfo" :
+                errorMessage = "판매자 정보 수정을 실패하였습니다.";
+                break;
+            case "deleteSellerInfo" :
+                errorMessage = "판매자 정보 삭제를 실패하였습니다.";
+                break;
+            case "getSellerRequestList" :
+                errorMessage = "판매자 권한 요청자 목록 조회를 실패하였습니다.";
+                break;
+            case "updateSellerAuth" :
+                errorMessage = "판매자 권한 부여에 실패하였습니다.";
                 break;
         }
 
@@ -51,11 +63,20 @@ public class SystemResultMessage {
         String successMessage = "";
 
         switch (successCode) {
-            case "updateUser" :
+            case "updateUserInfo" :
                 successMessage = "회원 정보 수정을 성공하였습니다.";
                 break;
-            case "deleteUser" :
+            case "deleteUserInfo" :
                 successMessage = "회원 정보 삭제를 성공하였습니다.";
+                break;
+            case "updateSellerInfo" :
+                successMessage = "판매자 정보 수정을 성공하였습니다.";
+                break;
+            case "deleteSellerInfo" :
+                successMessage = "판매자 정보 삭제를 성공하였습니다.";
+                break;
+            case "updateSellerAuth" :
+                successMessage = "판매자 권한 부여에 성공하였습니다.";
                 break;
         }
 
