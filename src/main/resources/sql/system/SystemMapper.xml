@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.justdo.fruitfruit.model.dao.SystemMapper">
+
+    <!-- 회원 관리 메뉴 -->
+
+    <select id="getUserList" resultType="userDTO">
+        SELECT
+            *
+        FROM
+            user
+        WHERE
+            auth = 3
+              AND
+            delete_yn = 'N'
+        ORDER BY
+            user_seq;
+    </select>
+
+    <update id="updateUserInfo">
+        UPDATE
+            user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">
+                name = #{ name },
+            </if>
+            <if test="address != null and address != ''">
+                address = #{ address },
+            </if>
+            <if test="phoneNumber != null and phoneNumber != ''">
+                phone_number = #{ phoneNumber },
+            </if>
+            <if test="auth != null and auth != ''">
+                auth = #{ auth }
+            </if>
+        </trim>
+        WHERE
+            user_seq = #{ userSeq }
+    </update>
+
+    <update id="deleteUserInfo">
+        UPDATE user
+            SET delete_yn = 'Y'
+        WHERE
+            user_seq = #{ userSeq }
+    </update>
+
+</mapper>

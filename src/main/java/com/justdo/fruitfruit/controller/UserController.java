@@ -17,6 +17,8 @@ public class UserController {
     private final UserMenu userMenu = new UserMenu();
     private final WarehouseMenu warehouseMenu = new WarehouseMenu();
     private SellerMenu sellerMenu;
+
+    private final SystemMenu systemMenu = new SystemMenu();
 //    /**
 //     * 사용자들의 로그인처리하는 함수
 //     * @param id 입력한 아이디
@@ -64,7 +66,7 @@ public class UserController {
             userResultMessage.loginResult("loginSuccess");
             switch (loginResult.getAuth()) {
                 case 1:
-                    // 시스템관리자 메뉴로 이동
+                    systemMenu.systemMainMenu(); // 시스템관리자 메뉴로 이동
                     break;
                 case 2:
                     warehouseMenu.warehouseMainMenu(); // 창고관리자 메뉴로 이동

@@ -27,7 +27,6 @@ public class MainMenu {
             int menu  = inputReader.selectMenuNum();
             switch (menu){
                 case 1: //로그인
-//                    new WarehouseMenu().warehouseMainMenu();
                     userController.loginUser(userMenu.inputLogin());
                     break;
                 case 2: // 회원가입
