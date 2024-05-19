@@ -17,7 +17,8 @@
             p.product_status,
             p.register_date,
             p.update_date,
-            p.product_amount
+            p.product_amount,
+            p.expiration_date
         FROM
             product p
             inner join category c on p.category_seq = c.category_seq
@@ -60,7 +61,8 @@
                 sector_seq = #{item.sectorSeq},
                 grade_seq = #{item.gradeSeq},
                 product_status = #{item.productStatus},
-                update_date = now()
+                update_date = now(),
+                expiration_date=date_add(now(),INTERVAL 14 DAY)
             WHERE
                 product_seq = #{item.productSeq}
         </foreach>
@@ -104,7 +106,8 @@
             p.product_status,
             p.register_date,
             p.update_date,
-            p.product_amount
+            p.product_amount,
+            p.expiration_date
         FROM
             product p
             inner join category c on p.category_seq = c.category_seq
@@ -129,4 +132,53 @@
         where
             id =#{id}
     </select>
+
+    <select id="getNotificationProductList" parameterType="productDTO" resultType="productDTO">
+        SELECT
+             p.user_seq,
+            p.product_seq,
+            p.category_seq,
+            c.category_name,
+            g.grade_name,
+            u.name,
+            p.product_name,
+            p.product_price,
+            p.product_status,
+            p.register_date,
+            p.update_date,
+            p.product_amount,
+            p.expiration_date,
+            <![CDATA[
+            case
+            when p.product_amount <= 5 then 'OUTOFSTOCK'
+            when p.expiration_date < NOW() then 'PASSEXPIRATIONDATE'
+            ]]>
+            END 'notificationType'
+            FROM
+            product p
+        inner join category c on p.category_seq = c.category_seq
+        inner join grade g on p.grade_seq = g.grade_seq
+        inner join user u on p.user_seq = u.user_seq
+        WHERE
+            p.product_status = 2
+            <![CDATA[
+                AND (
+                p.product_amount <= 5
+                OR p.expiration_date < NOW()
+                )
+            ]]>
+    </select>
+
+    <insert id="insertNotificationProduct" parameterType="java.util.List">
+        INSERT INTO notification (user_seq,notification_type,notification_content,is_read)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.userSeq},
+            #{item.notificationType},
+            #{item.notificationContent},
+            false
+            )
+        </foreach>
+    </insert>
 </mapper>

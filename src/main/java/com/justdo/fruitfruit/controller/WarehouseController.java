@@ -1,6 +1,7 @@
 package com.justdo.fruitfruit.controller;
 
 import com.justdo.fruitfruit.model.dto.GradeDTO;
+import com.justdo.fruitfruit.model.dto.NotificationDTO;
 import com.justdo.fruitfruit.model.dto.ProductDTO;
 import com.justdo.fruitfruit.model.dto.SectorDTO;
 import com.justdo.fruitfruit.model.service.WarehouseService;
@@ -69,4 +70,21 @@ public class WarehouseController {
         List<ProductDTO> stockList = wareHouseService.gettStockList(params);
         resultMessage.printStockList(stockList);
     }
+
+    public List<ProductDTO> getNotificationProductList() {
+        List<ProductDTO> notificationProductList = wareHouseService.getNotificationProductList();
+        resultMessage.printNotificationProductList(notificationProductList);
+        return notificationProductList;
+    }
+
+    public void addNotificationInfo(List<NotificationDTO> notificationList) {
+
+        boolean result = wareHouseService.addNotificationProduct(notificationList);
+        if(result){
+            resultMessage.susccessMessage("addNotificationInfo");
+        }else{
+            resultMessage.errorMessage("addNotificationInfo");
+        }
+    }
+
 }

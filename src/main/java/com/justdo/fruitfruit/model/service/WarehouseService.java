@@ -3,10 +3,14 @@ package com.justdo.fruitfruit.model.service;
 import com.justdo.fruitfruit.common.constant.Status;
 import com.justdo.fruitfruit.model.dao.WarehouseMapper;
 import com.justdo.fruitfruit.model.dto.GradeDTO;
+import com.justdo.fruitfruit.model.dto.NotificationDTO;
 import com.justdo.fruitfruit.model.dto.ProductDTO;
 import com.justdo.fruitfruit.model.dto.SectorDTO;
 import org.apache.ibatis.session.SqlSession;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -66,13 +70,13 @@ public class WarehouseService {
         int result = warehouseMapper.updateProductData(productDTOS);
         int insertResult = warehouseMapper.insertProductDate(productDTOS);
         int updateSectorResult = warehouseMapper.updateSectorData(productDTOS);
-        if(result > 0 && insertResult>0){
+        if(result > 0 && insertResult>0 && updateSectorResult>0){
             sqlSession.commit();;
         }else {
             sqlSession.rollback();
         }
         sqlSession.close();
-        return (result > 0 && insertResult>0);
+        return (result > 0 && insertResult>0 && updateSectorResult>0);
     }
 
     public List<ProductDTO> gettStockList(Map<String,String> params) {
@@ -95,6 +99,36 @@ public class WarehouseService {
         sqlSession.close();
 
         return stockList;
+
+    }
+
+    public List<ProductDTO> getNotificationProductList() {
+        SqlSession sqlSession = getSqlSession();
+        warehouseMapper = sqlSession.getMapper(WarehouseMapper.class);
+
+        //오늘 날짜
+        Timestamp today = Timestamp.valueOf(LocalDateTime.now());
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setExpirationDate(today);
+        List<ProductDTO> notificationProductList = warehouseMapper.getNotificationProductList(productDTO);
+
+        sqlSession.close();
+        return notificationProductList;
+    }
+
+    public boolean addNotificationProduct(List<NotificationDTO> notificationList) {
+
+        SqlSession sqlSession = getSqlSession();
+        warehouseMapper = sqlSession.getMapper(WarehouseMapper.class);
+
+        int result  = warehouseMapper.insertNotificationProduct(notificationList);
+        if(result > 0){
+            sqlSession.commit();;
+        }else {
+            sqlSession.rollback();
+        }
+        sqlSession.close();
+        return (result > 0);
 
     }
 }

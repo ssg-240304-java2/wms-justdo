@@ -1,11 +1,13 @@
 package com.justdo.fruitfruit.view;
 
 import com.justdo.fruitfruit.common.constant.Auth;
+import com.justdo.fruitfruit.common.constant.NotificationType;
 import com.justdo.fruitfruit.common.constant.Status;
 import com.justdo.fruitfruit.controller.InputReader;
 import com.justdo.fruitfruit.controller.InputReaderFactory;
 import com.justdo.fruitfruit.controller.WarehouseController;
 import com.justdo.fruitfruit.model.dto.GradeDTO;
+import com.justdo.fruitfruit.model.dto.NotificationDTO;
 import com.justdo.fruitfruit.model.dto.ProductDTO;
 import com.justdo.fruitfruit.model.dto.SectorDTO;
 
@@ -91,6 +93,10 @@ public class WarehouseMenu {
                     params.put("productName", productName);
                     warehouseController.getStockList(params);
                     break;
+                case 4:
+                    List<NotificationDTO> notificationList = addNotificationProduct();
+                    warehouseController.addNotificationInfo(notificationList);
+                    break;
                 case 9:
                     System.out.println("이전화면으로 이동합니다.");
                     return;
@@ -100,6 +106,52 @@ public class WarehouseMenu {
         }while (true);
     }
 
+    private List<NotificationDTO> addNotificationProduct() {
+        List<NotificationDTO> notificationList = new ArrayList<>();
+        while (true){
+            // 알림발송이 필요한 상품목록 표시
+            List<ProductDTO> notificationProductList =  warehouseController.getNotificationProductList();
+
+            // 알림을 발송할 상품 선택
+            System.out.print("목록에서 입고할 상품번호를 입력해주세요. : ");
+            int productNum = inputReader.inputIntValue()-1;
+            ProductDTO productDTO = notificationProductList.get(productNum);
+
+            // 알림내용작성
+            String content = inputNotificationContent();
+
+            NotificationDTO notificationDTO = new NotificationDTO();
+            notificationDTO.setUserSeq(productDTO.getUserSeq());
+            notificationDTO.setNotificationType(NotificationType.valueOf(productDTO.getNotificationType()).name());
+            notificationDTO.setNotificationContent(content);
+
+            // notificationList에 등록
+            notificationList.add(notificationDTO);
+
+            System.out.println("알림을 보낼 상품을 추가하시겠습니까?(Y/N) : ");
+            String answer = inputReader.inputString().toUpperCase();
+            if("N".equals(answer)){
+                break;
+            }
+        }
+        return notificationList;
+    }
+
+    private String inputNotificationContent() {
+
+        String content = "";
+        System.out.println("알림내용을 작성해주세요.\n입력을 종료하시려면 n을 입력해주세요: ");
+        while (true){
+            String str = inputReader.inputString();
+
+            if("n".equals(str.toLowerCase())){
+                break;
+            }else{
+                content += str+"\n";
+            }
+        }
+        return content;
+    }
 
     /**
      * 입고요청 서브메뉴 표시

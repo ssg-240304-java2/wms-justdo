@@ -1,6 +1,7 @@
 package com.justdo.fruitfruit.model.dao;
 
 import com.justdo.fruitfruit.model.dto.GradeDTO;
+import com.justdo.fruitfruit.model.dto.NotificationDTO;
 import com.justdo.fruitfruit.model.dto.ProductDTO;
 import com.justdo.fruitfruit.model.dto.SectorDTO;
 
@@ -23,4 +24,8 @@ public interface WarehouseMapper {
     List<ProductDTO> findByStatusAndStock(ProductDTO productDTO);
 
     int getUserSeq(String id);
+
+    List<ProductDTO> getNotificationProductList(ProductDTO productDTO);
+
+    int insertNotificationProduct(List<NotificationDTO> notificationList);
 }

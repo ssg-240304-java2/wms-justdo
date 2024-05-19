@@ -25,9 +25,11 @@ public class ProductDTO {
     private int productPrice;
     private int productStatus;
     private Timestamp registerDate;
+    private Timestamp expirationDate;
     private Timestamp updateDate;
     private int productAmount;
     private double productWeight;
+    private String notificationType;
 
     @Override
     public String toString() {
