@@ -1,5 +1,6 @@
 package com.justdo.fruitfruit.model.dto;
 
+import com.justdo.fruitfruit.common.constant.Status;
 import lombok.*;
 
 import java.sql.Timestamp;
@@ -29,6 +30,21 @@ public class ProductDTO {
     private int productAmount;
     private double productWeight;
 
+    public String getProductStatus(){
+        switch (productStatus) {
+            case 1:
+                return Status.REQUEST_STOCK.getStatus();
+            case 2:
+                return Status.STOCK.getStatus();
+            case 3:
+                return Status.REQUEST_RELEASE.getStatus();
+            case 4:
+                return Status.RELEASE.getStatus();
+            default:
+                return "알 수 없음";
+        }
+    }
+
     @Override
     public String toString() {
         return "조회 -> [" +
@@ -40,7 +56,7 @@ public class ProductDTO {
                 ", 유저번호 = " + userSeq +
                 ", 상품 이름 = '" + productName + '\'' +
                 ", 가격 = " + productPrice +
-                ", 진행 상황 = " + productStatus +
+                ", 진행 상황 = " + getProductStatus() +
                 ", 등록일 = " + registerDate +
                 ", 수정일 = " + updateDate +
                 ", 수량 = " + productAmount +
