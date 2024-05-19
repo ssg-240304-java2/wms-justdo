@@ -226,7 +226,8 @@
             UPDATE
             product
             SET
-            product_amount = product_amount - #{item.quantity}
+            product_amount = product_amount - #{item.quantity},
+            product_status = #{item.productStatus}
             WHERE
             product_seq = #{item.productSeq}
         </foreach>

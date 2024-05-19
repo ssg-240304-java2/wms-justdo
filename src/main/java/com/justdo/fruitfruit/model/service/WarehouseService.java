@@ -141,7 +141,6 @@ public class WarehouseService {
     public boolean addRequestReleaseList(List<RequestReleaseDTO> productDTOS) {
         SqlSession sqlSession = getSqlSession();
         warehouseMapper = sqlSession.getMapper(WarehouseMapper.class);
-//        int updateSectorResult = warehouseMapper.updateSectorData(productDTOS);
         int result = warehouseMapper.updateProductAmount(productDTOS);
         int insertResult = warehouseMapper.insertReleaseProductDate(productDTOS);
         int updateSectorResult = warehouseMapper.updateMinusSectorData(productDTOS);
