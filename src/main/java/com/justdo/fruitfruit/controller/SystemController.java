@@ -221,4 +221,19 @@ public class SystemController {
             resultMessage.printErrorMessage("getOrderALLList");
         }
     }
+
+    /* 배송 관리 메뉴 */
+
+    /***
+     * 배송 관리 메뉴에서 배송중인 주문 조회
+     */
+    public void getOrderOnShipping() {
+        List<OrderDTO> orderOnShippingList = systemService.getOrderOnShipping();
+
+        if (orderOnShippingList != null) {
+            resultMessage.printOrderList(orderOnShippingList);
+        } else {
+            resultMessage.printErrorMessage("getOrderOnShipping");
+        }
+    }
 }

@@ -31,4 +31,6 @@ public interface SystemMapper {
     int deleteProductInfo(int product);
 
     List<OrderDTO> getOrderAllList();
+
+    List<OrderDTO> getOrderOnShipping();
 }

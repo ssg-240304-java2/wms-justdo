@@ -186,4 +186,14 @@ public class SystemService {
 
         return orderList;
     }
+
+    public List<OrderDTO> getOrderOnShipping() {
+        SqlSession sqlSession = getSqlSession();
+        systemMapper = sqlSession.getMapper(SystemMapper.class);
+        List<OrderDTO> orderList = systemMapper.getOrderOnShipping();
+
+        sqlSession.close();
+
+        return orderList;
+    }
 }

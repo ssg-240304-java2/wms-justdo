@@ -167,4 +167,17 @@
             order_seq
     </select>
 
+    <!-- 배송 관리 메뉴 -->
+
+    <select id="getOrderOnShipping" resultType="OrderDTO">
+        SELECT
+            *
+        FROM
+            orders
+        WHERE
+            status = '4'
+        ORDER BY
+            order_seq
+    </select>
+
 </mapper>

@@ -59,7 +59,10 @@ public class SystemResultMessage {
                 errorMessage = "상품 정보 삭제를 실패하였습니다.";
                 break;
             case "getOrderALLList" :
-                errorMessage = "주문 조회를 실패하였습니다.";
+                errorMessage = "결제 완료된 주문 조회를 실패하였습니다.";
+                break;
+            case "getOrderOnShipping" :
+                errorMessage = "배송중인 주문 조회를 실패하였습니다.";
                 break;
         }
 

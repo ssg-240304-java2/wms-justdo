@@ -42,11 +42,38 @@ public class SystemMenu {
                 case 4:
                     orderManageSubMenu();
                     break;
-//                case 5:
-//                    deliveryManageSubMenu();
-//                    break;
+                case 5:
+                    deliveryManageSubMenu();
+                    break;
                 case 9:
                     System.out.println("로그아웃 하고, 메인 메뉴로 이동합니다.");
+                    return;
+                default:
+                    System.out.println("메뉴를 확인하고 다시 입력해주세요.");
+            }
+        } while (true);
+    }
+
+    /***
+     * 배송 관리 서브 메뉴 뷰
+     */
+    private void deliveryManageSubMenu() {
+        do {
+            System.out.println("""
+                ==========================
+                배송 관리 메뉴
+                ==========================
+                1. 배송중인 주문 조회
+                9. 이전으로
+                ==========================""");
+
+            int menu = inputReader.selectMenuNum();
+            switch (menu){
+                case 1:
+                    systemController.getOrderOnShipping();
+                    break;
+                case 9:
+                    System.out.println("이전화면으로 이동합니다.");
                     return;
                 default:
                     System.out.println("메뉴를 확인하고 다시 입력해주세요.");
