@@ -30,5 +30,25 @@ public class UserService {
         }
     }
 
+    /***
+     * 아이디 찾기를 처리하는 함수
+     * @param userDTO 입력한 회원의 이름, 핸드폰번호
+     * @return 일치하는 회원의 아이디
+     */
+    public UserDTO findUserId(UserDTO userDTO) {
+
+        SqlSession sqlSession = getSqlSession();
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+
+        try {
+            UserDTO result = userMapper.findUserId(userDTO);
+            return result;
+        } catch(Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            sqlSession.close();
+        }
+
+    }
 
 }

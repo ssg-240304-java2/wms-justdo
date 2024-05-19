@@ -21,4 +21,15 @@
         values(#{id}, #{password}, #{name}, #{address}, #{phoneNumber},  #{auth})
     </insert>
 
+    <select id="findUserId" resultType="userDTO">
+        select
+        id
+        from
+        user
+        where
+        name = #{name}
+        and
+        phone_number = #{phoneNumber}
+    </select>
+
 </mapper>
