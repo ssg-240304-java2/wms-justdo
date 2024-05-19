@@ -22,6 +22,8 @@ public class MainMenu {
                 1. 로그인
                 2. 회원가입
                 3. 상품목록 표시
+                4. 아이디 찾기
+                5. 비밀번호 찾기
                 9. 종료
                 =====================""");
             int menu  = inputReader.selectMenuNum();
@@ -36,6 +38,12 @@ public class MainMenu {
                 case 3: // 상품목록 표시
                     userMenu.searchProductMenu();
                     break;
+                case 4: // 아이디 찾기
+                    userController.findUserId(userMenu.inputFindUserId());
+                    break;
+                case 5: // 비밀번호 찾기
+//                    userMenu.findUserPassword();
+                    break;
                 case 9:
                     inputReader.close();
                     System.out.println("시스템이 종료되었습니다.");
@@ -45,5 +53,6 @@ public class MainMenu {
             }
         }while(true);
     }
+
 
 }

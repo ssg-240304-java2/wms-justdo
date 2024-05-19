@@ -81,7 +81,25 @@ public class UserController {
         }
     }
 
+    /***
+     * 회원 아이디찾기 메서드
+     * @param param 회원 이름, 핸드폰번호
+     */
 
+    public void findUserId(Map<String, String> param) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setName(param.get("name"));
+        userDTO.setPhoneNumber(param.get("phone"));
+
+
+        UserDTO findResult = userService.findUserId(userDTO);
+
+        if (findResult != null) {
+            System.out.println("아이디 : " + findResult.getId());
+        } else {
+            System.out.println("일치하는 사용자를 찾을 수 없습니다.");
+        }
+    }
 
 
 }

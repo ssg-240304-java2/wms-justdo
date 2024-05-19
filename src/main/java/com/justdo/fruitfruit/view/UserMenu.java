@@ -169,5 +169,23 @@ public class UserMenu {
 
 
 
+    /***
+     * 회원의 이름과 휴대폰번호를 리턴하는 함수
+     * @return 입력받은 회원 이름 회원 핸드폰번호 반환
+     */
+    public Map<String, String> inputFindUserId() {
+        System.out.print("가입하신 계정의 이름을 입력하세요 : ");
+        String name = inputReader.inputString();
+        System.out.print("가입하신 계정의 휴대폰번호를 입력하세요 : ");
+        String phone = inputReader.inputString();
+
+        Map<String, String> map = new HashMap<>();
+        map.put("name", name);
+        map.put("phone", phone);
+
+        return map;
+
+    }
+
 
 }
