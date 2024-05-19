@@ -5,7 +5,6 @@ import com.justdo.fruitfruit.model.dto.UserDTO;
 import com.justdo.fruitfruit.model.service.ProductService;
 import com.justdo.fruitfruit.view.ProductResultMessage;
 import com.justdo.fruitfruit.view.UserResultMessage;
-import lombok.Setter;
 
 import java.util.List;
 import java.util.Map;
