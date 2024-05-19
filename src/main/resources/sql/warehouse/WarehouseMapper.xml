@@ -25,4 +25,105 @@
             p.product_status = #{status}
     </select>
 
+    <select id="findByCategorySeq" parameterType="int" resultType="gradeDTO">
+        SELECT
+            g.grade_seq,
+            g.category_seq,
+            g.grade_name,
+            g.brix AS birix_value,
+            c.category_name
+        FROM
+            grade g
+            INNER JOIN category c ON g.category_seq = c.category_seq
+        WHERE
+            g.category_seq = #{categorySeq}
+    </select>
+
+    <select id="findByProductAmount" parameterType="int" resultType="sectorDTO">
+        SELECT
+            sector_seq,
+            sector_name,
+            volume
+        FROM
+            sector
+        WHERE
+        <![CDATA[
+            volume >= #{productAmount}
+        ]]>
+    </select>
+
+    <update id="updateProductData">
+        <foreach collection="list" item="item" separator=";">
+            UPDATE
+                product
+            SET
+                sector_seq = #{item.sectorSeq},
+                grade_seq = #{item.gradeSeq},
+                product_status = #{item.productStatus},
+                update_date = now()
+            WHERE
+                product_seq = #{item.productSeq}
+        </foreach>
+    </update>
+
+    <insert id="insertProductDate" parameterType="java.util.List">
+        INSERT INTO product_log (
+            product_seq,
+            status,
+            log_amount
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.productSeq},
+            #{item.productStatus},
+            #{item.productAmount})
+        </foreach>
+    </insert>
+
+    <update id="updateSectorData">
+        <foreach collection="list" item="item" separator=";">
+            UPDATE
+                sector
+            SET
+            volume = volume - #{item.productAmount}
+            WHERE
+            sector_seq = #{item.sectorSeq}
+        </foreach>
+    </update>
+
+    <select id="findByStatusAndStock" parameterType="productDTO" resultType="productDTO">
+        SELECT
+            p.product_seq,
+            p.category_seq,
+            c.category_name,
+            s.sector_name,
+            g.grade_name,
+            u.name,
+            p.product_name,
+            p.product_price,
+            p.product_status,
+            p.register_date,
+            p.update_date,
+            p.product_amount
+        FROM
+            product p
+            inner join category c on p.category_seq = c.category_seq
+            inner join sector s on p.sector_seq = s.sector_seq
+            inner join grade g on p.grade_seq = g.grade_seq
+            inner join user u on p.user_seq = u.user_seq
+        WHERE
+            p.product_status = #{productStatus}
+            <if test="userSeq != 0">
+                AND p.user_seq = #{userSeq}
+            </if>
+    </select>
+
+    <select id="getUserSeq" parameterType="String" resultType="int">
+        select
+            user_seq
+        from
+            user
+        where
+            id =#{id}
+    </select>
 </mapper>
