@@ -29,4 +29,15 @@ public class ProductDTO {
     private int productAmount;
     private double productWeight;
 
+    @Override
+    public String toString() {
+        return  "productSeq=" + productSeq + '\n' +
+                ", categoryName='" + categoryName + '\n' +
+                ", productName='" + productName + '\n' +
+                ", grade_name ='" + gradeName +'\n' +
+                ", productPrice=" + productPrice + '\n' +
+                ", productAmount=" + productAmount + '\n' +
+                ", productWeight=" + productWeight;
+    }
+
 }

@@ -4,12 +4,15 @@ import com.justdo.fruitfruit.model.dto.CategoryDTO;
 import com.justdo.fruitfruit.model.dto.ProductDTO;
 import com.justdo.fruitfruit.model.service.ProductService;
 import com.justdo.fruitfruit.view.ProductResultMessage;
+import com.justdo.fruitfruit.view.UserResultMessage;
 
 import java.util.List;
 import java.util.Map;
 
 public class ProductController {
     private final ProductResultMessage resultMessage;
+
+    private final UserResultMessage userResultMessage;
     private final ProductService productService;
 
 //    UserDTO userDTO = new UserDTO();
@@ -18,6 +21,7 @@ public class ProductController {
 
     public ProductController(){
         resultMessage = new ProductResultMessage();
+        userResultMessage = new UserResultMessage();
         productService = new ProductService();
     }
 
@@ -120,6 +124,37 @@ public class ProductController {
             resultMessage.printAllProduct(productList);
         } else {
             resultMessage.productFailureMessage("viewAll");
+        }
+    }
+
+
+    /***
+     * 물품 전체 출력
+     * */
+    public void selectAllProductByConsumer() {
+
+        List<ProductDTO> productList = productService.selectAllProductByConsumer();
+
+        if (productList == null && productList.isEmpty()) {
+            userResultMessage.printAllProductResult("printError");
+        } else {
+            userResultMessage.printAllProductResult("printSuccess");
+            userResultMessage.printAllProductByUser(productList);
+        }
+    }
+
+    /***
+     * 물품 카테고리별 출력
+     * @param categoryNum 카테고리 번호
+     */
+    public void selectAllProductByCategory(int categoryNum) {
+        List<ProductDTO> productList = productService.selectAllProductByCategory(categoryNum);
+
+        if (productList == null && productList.isEmpty()) {
+            userResultMessage.printAllByCategoryResult("printError");
+        } else {
+            userResultMessage.printAllByCategoryResult("printSuccess");
+            userResultMessage.printAllProductByUser(productList);
         }
     }
 }

@@ -46,10 +46,10 @@
         WHERE PRODUCT_NAME = #{ productName }
     </update>
 
-    <delete id="deleteProduct" parameterType="_String">
-        DELETE
-            FROM PRODUCT
-        WHERE PRODUCT_NAME = #{ productName }
-    </delete>
+<!--    <delete id="deleteProduct" parameterType="_String">-->
+<!--        DELETE-->
+<!--            FROM PRODUCT-->
+<!--        WHERE PRODUCT_NAME = #{ productName }-->
+<!--    </delete>-->
 
 </mapper>

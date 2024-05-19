@@ -15,4 +15,8 @@ public interface ProductMapper {
     int modifyProduct(ProductDTO product);
 
     int deleteProduct(String productName);
+
+    List<ProductDTO> selectAllProductByCategory(int categoryNum);
+
+    List<ProductDTO> selectAllProductByConsumer();
 }
