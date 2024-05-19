@@ -1,19 +1,22 @@
 package com.justdo.fruitfruit.controller;
 
+import com.justdo.fruitfruit.model.dto.CompanyDTO;
 import com.justdo.fruitfruit.model.dto.UserDTO;
 import com.justdo.fruitfruit.model.service.CommonService;
+import com.justdo.fruitfruit.model.service.CompanyService;
 import com.justdo.fruitfruit.model.service.UserService;
-import com.justdo.fruitfruit.view.UserMenu;
-import com.justdo.fruitfruit.view.UserResultMessage;
+import com.justdo.fruitfruit.view.*;
 
 import java.util.Map;
 
 public class UserController {
 
-    private UserService userService = new UserService();
-    private CommonService commonService = new CommonService();
-    private UserResultMessage userResultMessage = new UserResultMessage();
-    private UserMenu userMenu = new UserMenu();
+    private final UserService userService = new UserService();
+    private final CommonService commonService = new CommonService();
+    private final UserResultMessage userResultMessage = new UserResultMessage();
+    private final UserMenu userMenu = new UserMenu();
+    private final WarehouseMenu warehouseMenu = new WarehouseMenu();
+    private final SellerMenu sellerMenu = new SellerMenu();
 //    /**
 //     * 사용자들의 로그인처리하는 함수
 //     * @param id 입력한 아이디
@@ -59,8 +62,25 @@ public class UserController {
             userResultMessage.loginResult("loginError");
         } else {
             userResultMessage.loginResult("loginSuccess");
-            userMenu.consumerMenuView();
-        }
+            switch (loginResult.getAuth()) {
+                case 1:
+                    // 시스템관리자 메뉴로 이동
+                    break;
+                case 2:
+                    warehouseMenu.warehouseMainMenu(); // 창고관리자 메뉴로 이동
+                    break;
+                case 3:
+                    userMenu.consumerMenuView(); // 구매자 메뉴로 이동
+                    break;
+                case 4:
+                    sellerMenu.SellerMenuView(); // 판매자 메뉴로 이동
+                    break;
+            }
 
+        }
     }
+
+
+
+
 }
