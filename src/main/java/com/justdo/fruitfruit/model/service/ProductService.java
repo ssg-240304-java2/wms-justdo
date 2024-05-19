@@ -117,4 +117,32 @@ public class ProductService {
         sqlSession.close();
         return productList;
     }
+
+    /***
+     * 사용자가 모든 상품목록을 조회하는 메서드
+     * @return 모든 상품 목록
+     */
+    public List<ProductDTO> selectAllProductByConsumer() {
+        SqlSession sqlSession = getSqlSession();
+        ProductMapper productMapper = sqlSession.getMapper(ProductMapper.class);
+
+        List<ProductDTO> productList = productMapper.selectAllProductByConsumer();
+
+        sqlSession.close();
+        return productList;
+    }
+
+    /***
+     * 사용자가 입력한 카테고리별로 상품목록을 조회하는 메서드
+     * @Param 카테고리 번호
+     * @return 입력한 카테고리번호와 같은 모든 상품 목록
+     */
+    public List<ProductDTO> selectAllProductByCategory(int categoryNum) {
+        SqlSession sqlSession = getSqlSession();
+        ProductMapper productMapper = sqlSession.getMapper(ProductMapper.class);
+        List<ProductDTO> productList = productMapper.selectAllProductByCategory(categoryNum);
+
+        sqlSession.close();
+        return productList;
+    }
 }
