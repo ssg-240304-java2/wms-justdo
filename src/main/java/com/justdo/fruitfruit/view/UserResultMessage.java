@@ -14,7 +14,15 @@ public class UserResultMessage {
      */
     public void printAllProductByUser (List<ProductDTO> productList) {
         for (ProductDTO product : productList) {
-            System.out.println(product);
+            System.out.println("조회 -> [" +
+                    "물품 번호 = " + product.getProductSeq() +
+                    ", 상품 이름 = '" + product.getProductName() + '\'' +
+                    ", 수량 = " + product.getProductAmount() +
+                    ", 무게 = " + product.getProductWeight() +
+                    ", 가격 = " + product.getProductPrice() +
+                    ", 카테고리 = '" + product.getCategoryName() + '\'' +
+                    ", 등급 = '" + product.getGradeName() +
+                    ']');
         }
     }
 
@@ -73,6 +81,23 @@ public class UserResultMessage {
             case "printError" :
                 status = "카테고리별 물품 실패하였습니다.";
                 break;
+        }
+        System.out.println(status);
+    }
+
+
+    public void findUserPassword(String msg) {
+
+        String status = "";
+        switch(msg){
+            case "findSuccess" :
+                status = "\n비밀번호가 성공적으로 변경되었습니다.";
+                break;
+            case "findError" :
+                status = "\n비밀번호 변경에 실패했습니다. 다시 시도해 주세요.";
+                break;
+            case "userNotFound" :
+                status = "\n입력한 아이디, 이름, 휴대폰 번호와 일치하는 계정이 없습니다.";
         }
         System.out.println(status);
     }

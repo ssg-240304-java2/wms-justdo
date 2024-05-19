@@ -21,4 +21,30 @@
         values(#{id}, #{password}, #{name}, #{address}, #{phoneNumber},  #{auth})
     </insert>
 
+    <select id="findUserId" resultType="userDTO">
+        select
+        id
+        from
+        user
+        where
+        name = #{name}
+        and
+        phone_number = #{phoneNumber}
+        and
+        auth in (3, 4)
+    </select>
+
+    <select id="existUserByInfo" resultType="UserDTO">
+        SELECT id, name, phone_number AS phoneNumber
+        FROM user
+        WHERE id = #{id}
+        AND name = #{name}
+        AND phone_number = #{phoneNumber}
+    </select>
+
+    <update id="findUserPassword">
+        UPDATE user
+        SET password = #{password}
+        WHERE id = #{id}
+    </update>
 </mapper>

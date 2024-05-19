@@ -14,7 +14,10 @@ public class UserMenu {
     private final CategoryController categoryController = new CategoryController();
     private final CompanyController companyController = new CompanyController();
 
-
+    /***
+     * 구매자 뷰 출력하는 메서드
+     * @param loginResult 로그인된 회원 정보
+     */
     public void consumerMenuView(UserDTO loginResult) {
         while (true) {
             String menu = ("""
@@ -47,16 +50,19 @@ public class UserMenu {
         }
     }
 
+    /***
+     * 상품 조회뷰 출력하는 메서드
+     */
     public void searchProductMenu() {
-        while(true) {
+        while (true) {
             String menu = ("""
-                ================================
-                상 품 조 회 메 뉴
-                ================================
-                1. 상품 전체 조회
-                2. 상품 카테고리 조회
-                9. 뒤로가기
-                ================================""");
+                    ================================
+                    상 품 조 회 메 뉴
+                    ================================
+                    1. 상품 전체 조회
+                    2. 상품 카테고리 조회
+                    9. 뒤로가기
+                    ================================""");
             System.out.println(menu);
             int choice = inputReader.selectMenuNum();
             switch (choice) {
@@ -74,29 +80,40 @@ public class UserMenu {
                     System.out.println("잘못된 메뉴를 선택하셨습니다. 다시 입력해주세요.");
             }
         }
-
-
     }
+
 
     /***
      * 구매자 회원가입 정보를 리턴하는 함수
      * @return 입력받은 회원정보를 반환
      */
     public Map<String, String> inputUser() {
-        System.out.println("""
-                ================================
-                회 원 등 록
-                ================================""");
-        System.out.print("아이디 : ");
-        String id = inputReader.inputString();
-        System.out.print("비밀번호 : ");
-        String password = inputReader.inputString();
-        System.out.print("이름 : ");
-        String name = inputReader.inputString();
-        System.out.print("핸드폰번호(하이픈(-)제외): ");
-        String phone = inputReader.inputString();
-        System.out.print("주소 : ");
-        String address = inputReader.inputString();
+        boolean isValidPassword = false;
+        String id, password, name, phone, address;
+
+        do {
+            System.out.println("""
+                    ================================
+                    회 원 등 록
+                    ================================""");
+            System.out.print("아이디 : ");
+            id = inputReader.inputString();
+            System.out.print("비밀번호 : ");
+            password = inputReader.inputString();
+            System.out.print("이름 : ");
+            name = inputReader.inputString();
+            System.out.print("핸드폰번호(하이픈(-)제외): ");
+            phone = inputReader.inputString();
+            System.out.print("주소 : ");
+            address = inputReader.inputString();
+
+            isValidPassword = isValidPassword(password);
+            if (!isValidPassword) {
+                System.out.println("비밀번호는 최소 8자리 / 1개 이상의 숫자, 영문 대소문자, 특수 기호를 포함해야 합니다.");
+                System.out.println("다시 입력해주세요.\n");
+            }
+        } while (!isValidPassword);
+
         int auth = Auth.CONSUMER.ordinal() + 1;
         Map<String, String> map = new HashMap<>();
         map.put("id", id);
@@ -106,6 +123,15 @@ public class UserMenu {
         map.put("phone", phone);
         map.put("auth", String.valueOf(auth));
         return map;
+    }
+
+    /***
+     * @param password 입력받은 비밀번호 체크
+     * @return boolean 결과값 모두 일치하면 true 반환
+     * */
+    public boolean isValidPassword(String password) {
+        String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{7,}$";
+        return password.matches(regex);
     }
 
     /***
@@ -168,6 +194,72 @@ public class UserMenu {
     }
 
 
+    /***
+     * 회원의 이름과 휴대폰번호를 리턴하는 함수
+     * @return 입력받은 회원 이름 회원 핸드폰번호 반환
+     */
+    public Map<String, String> inputFindId() {
+        System.out.print("가입하신 계정의 이름을 입력하세요 : ");
+        String name = inputReader.inputString();
+        System.out.print("가입하신 계정의 휴대폰번호를 입력하세요 : ");
+        String phone = inputReader.inputString();
+
+        Map<String, String> map = new HashMap<>();
+        map.put("name", name);
+        map.put("phone", phone);
+
+        return map;
+
+    }
+
+
+    /***
+     * 입력한 아이디와 이름 휴대폰번호를 리턴하는 함수
+     * @return 입력받은 아이디와 이름 휴대폰번호 반환
+     */
+    public Map<String, String> inputFindUserPassword() {
+        System.out.print("가입하신 계정의 아이디를 입력하세요 : ");
+        String id = inputReader.inputString();
+        System.out.print("가입하신 계정의 이름 입력하세요 : ");
+        String name = inputReader.inputString();
+        System.out.print("가입하신 계정의 휴대폰번호 입력하세요 : ");
+        String phone = inputReader.inputString();
+
+        Map<String, String> map = new HashMap<>();
+        map.put("id", id);
+        map.put("name", name);
+        map.put("phone", phone);
+
+        return map;
+
+    }
+
+    /***
+     * 비밀번호 재설정 메서드
+     * @return 재설정한 비밀번호
+     */
+    public Map<String, String> inputNewPassword() {
+        boolean isValidPassword = false;
+        String password;
+
+        do {
+            System.out.println("""
+                    ================================
+                    비 밀 번 호 재 설 정
+                    ================================""");
+            System.out.print("비밀번호 : ");
+            password = inputReader.inputString();
+
+            isValidPassword = isValidPassword(password);
+            if (!isValidPassword) {
+                System.out.println("비밀번호는 최소 8자리 / 1개 이상의 숫자, 영문 대소문자, 특수 기호를 포함해야 합니다.");
+                System.out.println("다시 입력해주세요.\n");
+            }
+        } while (!isValidPassword);
+        Map<String, String> map = new HashMap<>();
+        map.put("password", password);
+        return map;
+    }
 
 
 }
