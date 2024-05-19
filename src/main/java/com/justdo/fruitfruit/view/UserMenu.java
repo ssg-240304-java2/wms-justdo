@@ -2,6 +2,7 @@ package com.justdo.fruitfruit.view;
 
 import com.justdo.fruitfruit.common.constant.Auth;
 import com.justdo.fruitfruit.controller.*;
+import com.justdo.fruitfruit.model.dto.UserDTO;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +15,7 @@ public class UserMenu {
     private final CompanyController companyController = new CompanyController();
 
 
-    public void consumerMenuView() {
+    public void consumerMenuView(UserDTO loginResult) {
         while (true) {
             String menu = ("""
                     ================================
@@ -30,12 +31,12 @@ public class UserMenu {
 
             switch (choice) {
                 case 1:
-                    searchProductMenu();
+                    searchProductMenu(); // 물품 조회
                     break;
                 case 2:
                     break;
                 case 3:
-                    companyController.insertCompany(inputCompany());
+                    companyController.insertCompany(inputCompany(loginResult)); // 판매자 전환
                     break;
                 case 9:
                     System.out.println("로그아웃이 완료되었습니다.");
@@ -135,7 +136,8 @@ public class UserMenu {
      * 판매자 전환 정보를 리턴하는 함수
      * @return 입력받은 판매자 정보 반환
      */
-    public Map<String, String> inputCompany() {
+    public Map<String, String> inputCompany(UserDTO loginResult) {
+        UserDTO loginUserInfo = new UserDTO();
         System.out.print("회사명을 입력하세요 : ");
         String companyName = inputReader.inputString();
         System.out.print("회사전화번호를 입력하세요 : ");
@@ -145,7 +147,10 @@ public class UserMenu {
         System.out.print("회사주소 입력하세요 : ");
         String companyAddress = inputReader.inputString();
 
+        loginUserInfo = loginResult;
+
         Map<String, String> map = new HashMap<>();
+        map.put("userSeq", String.valueOf(loginUserInfo.getUserSeq()));
         map.put("companyName", companyName);
         map.put("companyPhone", companyPhone);
         map.put("companyNum", companyNum);

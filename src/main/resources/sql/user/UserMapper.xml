@@ -20,4 +20,5 @@
           user (id, password, name, address, phone_number, auth)
         values(#{id}, #{password}, #{name}, #{address}, #{phoneNumber},  #{auth})
     </insert>
+
 </mapper>

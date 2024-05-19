@@ -70,7 +70,7 @@ public class UserController {
                     warehouseMenu.warehouseMainMenu(); // 창고관리자 메뉴로 이동
                     break;
                 case 3:
-                    userMenu.consumerMenuView(); // 구매자 메뉴로 이동
+                    userMenu.consumerMenuView(loginResult); // 로그인한 회원정보를 담아서 구매자 메뉴로 이동
                     break;
                 case 4:
                     sellerMenu.SellerMenuView(); // 판매자 메뉴로 이동
