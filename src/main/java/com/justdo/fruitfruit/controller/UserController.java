@@ -1,14 +1,10 @@
 package com.justdo.fruitfruit.controller;
 
-import com.justdo.fruitfruit.model.dto.CompanyDTO;
 import com.justdo.fruitfruit.model.dto.UserDTO;
 import com.justdo.fruitfruit.model.service.CommonService;
 import com.justdo.fruitfruit.model.service.UserService;
-import com.justdo.fruitfruit.view.SellerMenu;
-import com.justdo.fruitfruit.view.UserMenu;
-import com.justdo.fruitfruit.view.UserResultMessage;
-import com.justdo.fruitfruit.view.WarehouseMenu;
-import com.justdo.fruitfruit.view.SystemMenu;
+
+import com.justdo.fruitfruit.view.*;
 
 import java.util.Map;
 
@@ -87,17 +83,16 @@ public class UserController {
     }
 
     /***
-     * 구매자 회원 아이디찾기 메서드
+     * 회원 아이디찾기 메서드
      * @param param 회원 이름, 핸드폰번호
      */
-
-    public void findConsumerId(Map<String, String> param) {
+    public void findUserId(Map<String, String> param) {
         UserDTO userDTO = new UserDTO();
         userDTO.setName(param.get("name"));
         userDTO.setPhoneNumber(param.get("phone"));
 
 
-        UserDTO findResult = userService.findConsumerId(userDTO);
+        UserDTO findResult = userService.findUserId(userDTO);
 
         if (findResult != null) {
             System.out.println("아이디 : " + findResult.getId());
@@ -105,26 +100,37 @@ public class UserController {
             System.out.println("일치하는 사용자를 찾을 수 없습니다.");
         }
     }
+
 
     /***
-     * 판매자 회원 아이디찾기 메서드
-     * @param param 회사 이름, 회사전화번호
+     * 회원 비밀번호찾기 메서드
+     * @param param 회원 아이디, 회원 이름, 핸드폰번호
      */
+    public void findUserPassword(Map<String, String> param) {
 
-    public void findSellerId(Map<String, String> param) {
-        CompanyDTO companyDTO = new CompanyDTO();
-        companyDTO.setCompanyName(param.get("name"));
-        companyDTO.setCompanyPhone(param.get("phone"));
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(param.get("id"));
+        userDTO.setName(param.get("name"));
+        userDTO.setPhoneNumber(param.get("phone"));
 
+        UserDTO existUser = userService.existUserByInfo(userDTO);
 
-        UserDTO findResult = userService.findSellerId(companyDTO);
+        if(existUser != null) {
+            Map<String, String> passwordMap = userMenu.inputNewPassword();
+            String newPassword = passwordMap.get("password");
+            userDTO.setPassword(newPassword);
+            int result = userService.findUserPassword(userDTO);
 
-        if (findResult != null) {
-            System.out.println("아이디 : " + findResult.getId());
+            if(result > 0) {
+                userResultMessage.findUserPassword("findSuccess");
+            } else {
+                userResultMessage.findUserPassword("findError");
+            }
         } else {
-            System.out.println("일치하는 사용자를 찾을 수 없습니다.");
+            userResultMessage.findUserPassword("userNotFound");
         }
     }
+
 
 
 }

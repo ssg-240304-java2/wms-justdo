@@ -31,18 +31,19 @@ public class UserService {
         }
     }
 
+
     /***
      * 구매자 아이디 찾기를 처리하는 함수
      * @param userDTO 입력한 회원의 이름, 핸드폰번호
      * @return 일치하는 회원의 아이디
      */
-    public UserDTO findConsumerId(UserDTO userDTO) {
+    public UserDTO findUserId(UserDTO userDTO) {
 
         SqlSession sqlSession = getSqlSession();
         UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
 
         try {
-            UserDTO result = userMapper.findConsumerId(userDTO);
+            UserDTO result = userMapper.findUserId(userDTO);
             return result;
         } catch(Exception e) {
             throw new RuntimeException(e);
@@ -53,24 +54,41 @@ public class UserService {
     }
 
     /***
-     * 판매자 아이디 찾기를 처리하는 함수
-     * @param companyDTO 입력한 회사의 이름, 회사전화번호
-     * @return 일치하는 판매자 아이디
+     * 비밀번호 수정을 처리하는 함수
+     * @param userDTO 입력한 아이디, 이름, 휴대폰번호가 일치하는 회원
+     * @return 비밀번호 변경 성공시 1 반환
+     *         실패시 0 반환
      */
-    public UserDTO findSellerId(CompanyDTO companyDTO) {
+    public int findUserPassword(UserDTO userDTO) {
 
         SqlSession sqlSession = getSqlSession();
         UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-
         try {
-            UserDTO result = userMapper.findSellerId(companyDTO);
+            int result =userMapper.findUserPassword(userDTO);
+            sqlSession.commit();
             return result;
         } catch(Exception e) {
+            sqlSession.rollback();
             throw new RuntimeException(e);
         } finally {
             sqlSession.close();
-        }
 
+        }
+    }
+
+    /***
+     * 입력한 아이디, 이름, 휴대폰번호를 갖고있는 유저를 찾는 함수
+     * @param userDTO 입력한 아이디, 이름, 휴대폰번호
+     * @return 일치하는 회원의 정보
+     */
+    public UserDTO existUserByInfo(UserDTO userDTO) {
+        SqlSession sqlSession = getSqlSession();
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        try {
+            return userMapper.existUserByInfo(userDTO);
+        } finally {
+            sqlSession.close();
+        }
     }
 
 }
