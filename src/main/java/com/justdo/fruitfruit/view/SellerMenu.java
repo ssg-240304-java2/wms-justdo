@@ -116,8 +116,6 @@ public class SellerMenu {
      * */
     private Map<String, String> modifyProduct() {
         while (true) {
-            chooseCategory(); // 물품 카테고리 view 및 선택 먼저
-
             System.out.print("""
                     ============================
                     등록 물품 수정하겠습니다.
