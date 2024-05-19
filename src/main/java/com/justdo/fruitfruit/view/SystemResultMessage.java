@@ -1,6 +1,7 @@
 package com.justdo.fruitfruit.view;
 
 import com.justdo.fruitfruit.model.dto.CompanyDTO;
+import com.justdo.fruitfruit.model.dto.OrderDTO;
 import com.justdo.fruitfruit.model.dto.ProductDTO;
 import com.justdo.fruitfruit.model.dto.UserDTO;
 
@@ -57,6 +58,9 @@ public class SystemResultMessage {
             case "deleteDeleteInfo" :
                 errorMessage = "상품 정보 삭제를 실패하였습니다.";
                 break;
+            case "getOrderALLList" :
+                errorMessage = "주문 조회를 실패하였습니다.";
+                break;
         }
 
         System.out.println(errorMessage);
@@ -110,6 +114,12 @@ public class SystemResultMessage {
     public void printProductList(List<ProductDTO> productList) {
         for (ProductDTO product : productList) {
             System.out.println(product);
+        }
+    }
+
+    public void printOrderList(List<OrderDTO> orderList) {
+        for (OrderDTO order : orderList) {
+            System.out.println(order);
         }
     }
 }

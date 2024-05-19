@@ -156,4 +156,15 @@
             product_seq = #{ product_seq }
     </delete>
 
+    <!-- 주문 관리 메뉴 -->
+
+    <select id="getOrderAllList" resultType="OrderDTO">
+        SELECT
+            *
+        FROM
+            orders
+        ORDER BY
+            order_seq
+    </select>
+
 </mapper>

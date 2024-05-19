@@ -1,6 +1,7 @@
 package com.justdo.fruitfruit.model.dao;
 
 import com.justdo.fruitfruit.model.dto.CompanyDTO;
+import com.justdo.fruitfruit.model.dto.OrderDTO;
 import com.justdo.fruitfruit.model.dto.ProductDTO;
 import com.justdo.fruitfruit.model.dto.UserDTO;
 
@@ -28,4 +29,6 @@ public interface SystemMapper {
     List<ProductDTO> getProductSaleList();
 
     int deleteProductInfo(int product);
+
+    List<OrderDTO> getOrderAllList();
 }

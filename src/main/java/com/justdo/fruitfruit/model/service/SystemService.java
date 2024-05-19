@@ -2,6 +2,7 @@ package com.justdo.fruitfruit.model.service;
 
 import com.justdo.fruitfruit.model.dao.SystemMapper;
 import com.justdo.fruitfruit.model.dto.CompanyDTO;
+import com.justdo.fruitfruit.model.dto.OrderDTO;
 import com.justdo.fruitfruit.model.dto.ProductDTO;
 import com.justdo.fruitfruit.model.dto.UserDTO;
 import org.apache.ibatis.session.SqlSession;
@@ -174,5 +175,15 @@ public class SystemService {
         } finally {
             sqlSession.close();
         }
+    }
+
+    public List<OrderDTO> getOrderAllList() {
+        SqlSession sqlSession = getSqlSession();
+        systemMapper = sqlSession.getMapper(SystemMapper.class);
+        List<OrderDTO> orderList = systemMapper.getOrderAllList();
+
+        sqlSession.close();
+
+        return orderList;
     }
 }

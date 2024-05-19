@@ -1,6 +1,7 @@
 package com.justdo.fruitfruit.controller;
 
 import com.justdo.fruitfruit.model.dto.CompanyDTO;
+import com.justdo.fruitfruit.model.dto.OrderDTO;
 import com.justdo.fruitfruit.model.dto.ProductDTO;
 import com.justdo.fruitfruit.model.dto.UserDTO;
 import com.justdo.fruitfruit.model.service.SystemService;
@@ -179,6 +180,9 @@ public class SystemController {
         }
     }
 
+    /***
+     * 상품 관리 메뉴에서 판매중인 상품 조회
+     */
     public void getProductSaleList() {
         List<ProductDTO> productList = systemService.getProductSaleList();
 
@@ -189,6 +193,10 @@ public class SystemController {
         }
     }
 
+    /***
+     * 상품 관리 메뉴에서 상품 삭제
+     * @param productSeq 삭제할 상품 번호
+     */
     public void deleteProductInfo(String productSeq) {
         int result = systemService.deleteProductInfo(productSeq);
 
@@ -196,6 +204,21 @@ public class SystemController {
             resultMessage.printSuccessMessage("deleteDeleteInfo");
         } else {
             resultMessage.printErrorMessage("deleteDeleteInfo");
+        }
+    }
+
+    /* 주문 관리 메뉴 */
+
+    /***
+     * 주문 관리 메뉴에서 결제 완료된 주문 전체 조회
+     */
+    public void getOrderAllList() {
+        List<OrderDTO> orderList = systemService.getOrderAllList();
+
+        if (orderList != null) {
+            resultMessage.printOrderList(orderList);
+        } else {
+            resultMessage.printErrorMessage("getOrderALLList");
         }
     }
 }
