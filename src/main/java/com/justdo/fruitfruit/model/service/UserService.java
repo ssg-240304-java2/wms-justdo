@@ -117,6 +117,8 @@ public class UserService {
         map.put("companySeq", comSeq);
         map.put("quantity", count);
         CartMapper cartMapper = sqlSession.getMapper(CartMapper.class);
+
+
         int result = cartMapper.addCart(map);
         if(result > 0) {
             System.out.println("장바구니 등록 성공!");

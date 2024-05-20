@@ -15,7 +15,7 @@ public class UserMenu {
     private final CategoryController categoryController = new CategoryController();
     private final CompanyController companyController = new CompanyController();
 
-    private String id;
+    private String id = null;
     private UserService userService = new UserService();
     /***
      * 구매자 뷰 출력하는 메서드
@@ -48,6 +48,7 @@ public class UserMenu {
                     break;
                 case 9:
                     System.out.println("로그아웃이 완료되었습니다.");
+                    id = null;
                     return;
                 default:
                     System.out.println("잘못된 메뉴를 선택하셨습니다. 다시 입력해주세요.");
@@ -159,12 +160,16 @@ public class UserMenu {
             switch (choice) {
                 case 1:
                     productController.selectAllProductByConsumer();
-                    cartMenu();
+                    if(id != null) {
+                        cartMenu();
+                    }
                     break;
                 case 2:
                     categoryController.selectAllCategory();
                     productController.selectAllProductByCategory(inputCategoryNum());
-                    cartMenu();
+                    if(id != null) {
+                        cartMenu();
+                    }
                     break;
                 case 9:
                     System.out.println("이전 메뉴로 돌아갑니다.");
