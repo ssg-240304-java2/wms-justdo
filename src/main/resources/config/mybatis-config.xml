@@ -33,5 +33,6 @@
         <mapper resource="sql/seller/ProductMapper.xml"/>
         <mapper resource="sql/system/SystemMapper.xml"/>
         <mapper resource="sql/user/CartMapper.xml"/>
+        <mapper resource="sql/user/OrderMapper.xml"/>
     </mappers>
 </configuration>

@@ -21,7 +21,7 @@
     <select id="viewCart" resultMap="cartMapper">
         select *
         from cart
-        where user_seq = #{ userSeq }
+        where user_seq = #{ userSeq } and delete_yn = 0
         order by product_seq
     </select>
 
@@ -36,4 +36,15 @@
     <delete id="deleteQuantity" parameterType="int">
         delete from cart where user_seq = #{ userSeq } and product_seq = #{ productNum }
     </delete>
+
+    <update id="modifyYN" parameterType="int">
+        update cart set delete_yn = 1 where user_seq = #{ userSeq }
+<!--        <selectKey resultType="int" order="BEFORE" keyProperty="orderSeq">-->
+<!--            select last_insert_id()-->
+<!--        </selectKey>-->
+    </update>
+
+    <update id="updateOrderSeq" parameterType="hashmap">
+        update cart set order_seq = #{ orderSeq } where cart_seq = #{ cartSeq }
+    </update>
 </mapper>

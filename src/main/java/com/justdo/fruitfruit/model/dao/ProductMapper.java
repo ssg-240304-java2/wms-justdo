@@ -4,6 +4,7 @@ import com.justdo.fruitfruit.model.dto.CategoryDTO;
 import com.justdo.fruitfruit.model.dto.ProductDTO;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ProductMapper {
 List<ProductDTO> selectAllProduct(int userSeq);
@@ -17,4 +18,8 @@ List<ProductDTO> selectAllProduct(int userSeq);
 
     List<ProductDTO> selectAllProductByConsumer();
     String productName(Integer productSeq);
+
+    int productPrice(Map<String, Integer> productMap);
+
+    Integer getUserSeq(Map<String, Integer> map);
 }
