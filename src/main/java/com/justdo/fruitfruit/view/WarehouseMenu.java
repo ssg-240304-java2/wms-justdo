@@ -1,13 +1,12 @@
 package com.justdo.fruitfruit.view;
 
 import com.justdo.fruitfruit.common.constant.Auth;
+import com.justdo.fruitfruit.common.constant.NotificationType;
 import com.justdo.fruitfruit.common.constant.Status;
 import com.justdo.fruitfruit.controller.InputReader;
 import com.justdo.fruitfruit.controller.InputReaderFactory;
 import com.justdo.fruitfruit.controller.WarehouseController;
-import com.justdo.fruitfruit.model.dto.GradeDTO;
-import com.justdo.fruitfruit.model.dto.ProductDTO;
-import com.justdo.fruitfruit.model.dto.SectorDTO;
+import com.justdo.fruitfruit.model.dto.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +30,7 @@ public class WarehouseMenu {
                     1. 입고요청
                     2. 출고요청
                     3. 창고 재고 확인
-                    4. 재고 이동 목록
+                    4. 재고 이동
                     9. 이전으로
                     ==========================""");
             int menu = inputReader.selectMenuNum();
@@ -46,9 +45,58 @@ public class WarehouseMenu {
                     printStockSubMenu();
                     break;
                 case 4:
+                    printStockMoveSubMenu();
                     break;
                 case 9:
                     System.out.println("이전화면으로 이동합니다.");
+                    return;
+                default:
+                    System.out.println("메뉴를 확인하고 다시 입력해주세요.");
+            }
+        }while (true);
+    }
+
+    private void printStockMoveSubMenu() {
+        do {
+            System.out.println("""
+                    ==========================
+                    재 고 이 동
+                    ==========================
+                    1. 전체 조회
+                    2. 입고 조회
+                    3. 출고 조회
+                    4. 상품 조회
+                    9. 이전으로
+                    ==========================""");
+            int menu = inputReader.selectMenuNum();
+            switch (menu){
+                case 1:
+                    Map<String,String> param= new HashMap<>();
+                    param.put("status","0");
+                    param.put("productNm",null);
+                    warehouseController.printStockMoveList(param);
+                    break;
+                case 2:
+                    param= new HashMap<>();
+                    param.put("status","2");
+                    param.put("productNm",null);
+                    warehouseController.printStockMoveList(param);
+                    break;
+                case 3:
+                    param= new HashMap<>();
+                    param.put("status","4");
+                    param.put("productNm",null);
+                    warehouseController.printStockMoveList(param);
+                    break;
+                case 4:
+                    System.out.print("검색하실 상품명을 입력해주세요 : ");
+                    String productNm = inputReader.inputString();
+                    param= new HashMap<>();
+                    param.put("status","0");
+                    param.put("productNm",productNm);
+                    warehouseController.printStockMoveList(param);
+                    break;
+                case 9:
                     return;
                 default:
                     System.out.println("메뉴를 확인하고 다시 입력해주세요.");
@@ -60,7 +108,7 @@ public class WarehouseMenu {
         do {
             System.out.println("""
                     ==========================
-                    창고 재고 목록
+                    창고 재고 확인
                     ==========================
                     1. 전체 조회
                     2. 판매자별 조회
@@ -91,6 +139,10 @@ public class WarehouseMenu {
                     params.put("productName", productName);
                     warehouseController.getStockList(params);
                     break;
+                case 4:
+                    List<NotificationDTO> notificationList = addNotificationProduct();
+                    warehouseController.addNotificationInfo(notificationList);
+                    break;
                 case 9:
                     System.out.println("이전화면으로 이동합니다.");
                     return;
@@ -100,6 +152,52 @@ public class WarehouseMenu {
         }while (true);
     }
 
+    private List<NotificationDTO> addNotificationProduct() {
+        List<NotificationDTO> notificationList = new ArrayList<>();
+        while (true){
+            // 알림발송이 필요한 상품목록 표시
+            List<ProductDTO> notificationProductList =  warehouseController.getNotificationProductList();
+
+            // 알림을 발송할 상품 선택
+            System.out.print("목록에서 입고할 상품번호를 입력해주세요. : ");
+            int productNum = inputReader.inputIntValue()-1;
+            ProductDTO productDTO = notificationProductList.get(productNum);
+
+            // 알림내용작성
+            String content = inputNotificationContent();
+
+            NotificationDTO notificationDTO = new NotificationDTO();
+            notificationDTO.setUserSeq(productDTO.getUserSeq());
+            notificationDTO.setNotificationType(NotificationType.valueOf(productDTO.getNotificationType()).name());
+            notificationDTO.setNotificationContent(content);
+
+            // notificationList에 등록
+            notificationList.add(notificationDTO);
+
+            System.out.println("알림을 보낼 상품을 추가하시겠습니까?(Y/N) : ");
+            String answer = inputReader.inputString().toUpperCase();
+            if("N".equals(answer)){
+                break;
+            }
+        }
+        return notificationList;
+    }
+
+    private String inputNotificationContent() {
+
+        String content = "";
+        System.out.println("알림내용을 작성해주세요.\n입력을 종료하시려면 n을 입력해주세요: ");
+        while (true){
+            String str = inputReader.inputString();
+
+            if("n".equals(str.toLowerCase())){
+                break;
+            }else{
+                content += str+"\n";
+            }
+        }
+        return content;
+    }
 
     /**
      * 입고요청 서브메뉴 표시
@@ -181,11 +279,67 @@ public class WarehouseMenu {
         return inputStockInfoList;
     }
 
+    private List<RequestReleaseDTO> addInputRequestReleaseInfo() {
+
+        List<RequestReleaseDTO> inputReleaseInfoList = new ArrayList<>();
+        do {
+
+            // 출고요청 목록 표시
+            List<RequestReleaseDTO> requestReleaseList = warehouseController.getRequestReleaseList();;
+            if(requestReleaseList == null || requestReleaseList.isEmpty()){
+                return inputReleaseInfoList;
+            }
+
+            // 상품번호 입력
+            System.out.print("목록에서 출고할 상품번호를 입력해주세요. : ");
+            int productNum = inputReader.inputIntValue()-1;
+            RequestReleaseDTO productDTO = requestReleaseList.get(productNum);
+            productDTO.setProductStatus(Status.RELEASE.ordinal()+1);
+
+            // 리스트 추가
+            inputReleaseInfoList.add(productDTO);
+
+            //계속 등록할건가?
+            System.out.print("출고할 상품을 추가하시겠습니까? (Y/N)");
+            String answer = inputReader.inputString().toUpperCase();
+            if("N".equals(answer)){
+                break;
+            }
+        }while (true);
+
+        return inputReleaseInfoList;
+    }
 
     /**
      * 출고요청의 서브메뉴 표시
      * */
     private void requestReleeaseSubMenu() {
-        warehouseController.getRequestReleaseList();
+
+        do{
+            System.out.println("""
+                    ==========================
+                    출 고 요 청 메 뉴
+                    ==========================
+                    1. 출고요청 목록 보기
+                    2. 출고하기
+                    9. 이전으로
+                    ==========================""");
+            int menu = inputReader.selectMenuNum();
+            switch (menu){
+                case 1:
+                    warehouseController.getRequestReleaseList();
+                    break;
+                case 2:
+                    warehouseController.addRequestReleaseList(addInputRequestReleaseInfo());
+                    break;
+                case 9:
+                    System.out.println("이전화면으로 이동합니다.");
+                    return;
+                default:
+                    System.out.println("메뉴를 확인하고 다시 입력해주세요.");
+            }
+        }while (true);
+
+
     }
 }

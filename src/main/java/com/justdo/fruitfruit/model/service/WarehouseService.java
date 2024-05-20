@@ -2,11 +2,12 @@ package com.justdo.fruitfruit.model.service;
 
 import com.justdo.fruitfruit.common.constant.Status;
 import com.justdo.fruitfruit.model.dao.WarehouseMapper;
-import com.justdo.fruitfruit.model.dto.GradeDTO;
-import com.justdo.fruitfruit.model.dto.ProductDTO;
-import com.justdo.fruitfruit.model.dto.SectorDTO;
+import com.justdo.fruitfruit.model.dto.*;
 import org.apache.ibatis.session.SqlSession;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -30,12 +31,12 @@ public class WarehouseService {
 
     }
 
-    public List<ProductDTO> getRequestReleaseList() {
+    public List<RequestReleaseDTO> getRequestReleaseList() {
         SqlSession sqlSession = getSqlSession();
         warehouseMapper = sqlSession.getMapper(WarehouseMapper.class);
 
         int status = Status.REQUEST_RELEASE.ordinal()+1;
-        List<ProductDTO> requestReleaseList = warehouseMapper.findByStatus(status);
+        List<RequestReleaseDTO> requestReleaseList = warehouseMapper.getRequestReleaseLit(status);
         sqlSession.close();
 
         return requestReleaseList;
@@ -66,13 +67,13 @@ public class WarehouseService {
         int result = warehouseMapper.updateProductData(productDTOS);
         int insertResult = warehouseMapper.insertProductDate(productDTOS);
         int updateSectorResult = warehouseMapper.updateSectorData(productDTOS);
-        if(result > 0 && insertResult>0){
+        if(result > 0 && insertResult>0 && updateSectorResult>0){
             sqlSession.commit();;
         }else {
             sqlSession.rollback();
         }
         sqlSession.close();
-        return (result > 0 && insertResult>0);
+        return (result > 0 && insertResult>0 && updateSectorResult>0);
     }
 
     public List<ProductDTO> gettStockList(Map<String,String> params) {
@@ -96,5 +97,59 @@ public class WarehouseService {
 
         return stockList;
 
+    }
+
+    public List<ProductDTO> getNotificationProductList() {
+        SqlSession sqlSession = getSqlSession();
+        warehouseMapper = sqlSession.getMapper(WarehouseMapper.class);
+
+        //오늘 날짜
+        Timestamp today = Timestamp.valueOf(LocalDateTime.now());
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setExpirationDate(today);
+        List<ProductDTO> notificationProductList = warehouseMapper.getNotificationProductList(productDTO);
+
+        sqlSession.close();
+        return notificationProductList;
+    }
+
+    public boolean addNotificationProduct(List<NotificationDTO> notificationList) {
+
+        SqlSession sqlSession = getSqlSession();
+        warehouseMapper = sqlSession.getMapper(WarehouseMapper.class);
+
+        int result  = warehouseMapper.insertNotificationProduct(notificationList);
+        if(result > 0){
+            sqlSession.commit();;
+        }else {
+            sqlSession.rollback();
+        }
+        sqlSession.close();
+        return (result > 0);
+
+    }
+
+    public List<ProductLogDTO> getProductLogList(Map<String, String> param) {
+
+        SqlSession sqlSession = getSqlSession();
+        warehouseMapper = sqlSession.getMapper(WarehouseMapper.class);
+
+        List<ProductLogDTO> logList = warehouseMapper.getProductLogList(param);
+        return logList;
+    }
+
+    public boolean addRequestReleaseList(List<RequestReleaseDTO> productDTOS) {
+        SqlSession sqlSession = getSqlSession();
+        warehouseMapper = sqlSession.getMapper(WarehouseMapper.class);
+        int result = warehouseMapper.updateProductAmount(productDTOS);
+        int insertResult = warehouseMapper.insertReleaseProductDate(productDTOS);
+        int updateSectorResult = warehouseMapper.updateMinusSectorData(productDTOS);
+        if(result > 0 && insertResult>0 && updateSectorResult>0){
+            sqlSession.commit();;
+        }else {
+            sqlSession.rollback();
+        }
+        sqlSession.close();
+        return (result > 0 && insertResult>0 && updateSectorResult>0);
     }
 }
