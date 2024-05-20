@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.justdo.fruitfruit.model.dao.ProductMapper">
+
+    <insert id="registerProduct" useGeneratedKeys="true" keyColumn="product_seq" keyProperty="productSeq">
+        INSERT INTO product (
+        category_seq
+        , user_seq
+        , product_name
+        , product_price
+        , product_status
+        , product_amount
+        , product_weight )
+        VALUES (
+        #{categorySeq}
+        , #{userSeq}
+        , #{productName}
+        , #{productPrice}
+        , #{productStatus}
+        , #{productAmount}
+        , #{productWeight} )
+    </insert>
+
+    <select id="selectAllProduct" parameterType="int" resultType="com.justdo.fruitfruit.model.dto.ProductDTO">
+        SELECT
+        p.product_seq,
+        p.category_seq,
+        c.category_name,
+        p.sector_seq,
+        p.grade_seq,
+        p.user_seq,
+        p.product_name,
+        p.product_price,
+        p.product_status,
+        p.register_date,
+        p.update_date,
+        p.product_amount,
+        p.product_weight
+        FROM product p
+        JOIN category c ON p.category_seq = c.category_seq
+        WHERE p.user_seq = #{ userSeq }
+        ORDER BY p.register_date
+    </select>
+
+    <update id="modifyProduct" parameterType="com.justdo.fruitfruit.model.dto.ProductDTO">
+        UPDATE product
+        SET product_name = #{ productName }
+        , product_price = #{ productPrice }
+        , product_amount = #{ productAmount }
+        , product_weight = #{ productWeight }
+        WHERE product_seq = #{ productSeq }
+        AND user_seq = #{ userSeq }
+    </update>
+
+    <delete id="deleteProduct" parameterType="int">
+        DELETE
+        FROM product
+        WHERE product_seq = #{ productSeq }
+    </delete>
+
+</mapper>

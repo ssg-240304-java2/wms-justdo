@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.justdo.fruitfruit.model.dao.CartMapper">
+    <resultMap id="cartMapper" type="com.justdo.fruitfruit.model.dto.CartDTO">
+        <id property="cartSeq" column="cart_seq"/>
+        <result property="productSeq" column="product_seq"/>
+        <result property="userSeq" column="user_seq"/>
+        <result property="orderSeq" column="order_seq"/>
+        <result property="companySeq" column="company_seq"/>
+        <result property="quantity" column="quantity"/>
+        <result property="registerDate" column="register_date"/>
+        <result property="deleteYN" column="delete_yn"/>
+    </resultMap>
+    <insert id="addCart" useGeneratedKeys="true" keyProperty="cart_seq">
+        insert into
+        cart ( product_seq, user_seq, company_seq, quantity)
+        values ( #{productSeq}, #{userSeq}, #{companySeq}, #{quantity})
+    </insert>
+    <select id="viewCart" resultMap="cartMapper">
+        select *
+        from cart
+        where user_seq = #{ userSeq }
+    </select>
+
+    <delete id="deleteAllCart" parameterType="int">
+        delete from cart where user_seq = #{ id }
+    </delete>
+
+    <update id="modifyQuantity" parameterType="int">
+        update cart set quantity = #{ quantity } where user_seq = #{ userSeq } and product_seq = #{ productNum }
+    </update>
+
+    <delete id="deleteQuantity" parameterType="int">
+        delete from cart where user_seq = #{ userSeq } and product_seq = #{ productNum }
+    </delete>
+</mapper>
