@@ -3,6 +3,8 @@ package com.justdo.fruitfruit.view;
 import com.justdo.fruitfruit.common.constant.Auth;
 import com.justdo.fruitfruit.controller.*;
 import com.justdo.fruitfruit.model.dto.UserDTO;
+import com.justdo.fruitfruit.model.service.CommonService;
+import com.justdo.fruitfruit.model.service.UserService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,32 +15,37 @@ public class UserMenu {
     private final ProductController productController = new ProductController();
     private final CategoryController categoryController = new CategoryController();
     private final CompanyController companyController = new CompanyController();
+    private String id;
+    private UserService userService = new UserService();
 
     /***
      * 구매자 뷰 출력하는 메서드
      * @param loginResult 로그인된 회원 정보
      */
     public void consumerMenuView(UserDTO loginResult) {
+        id = loginResult.getId();
         while (true) {
             String menu = ("""
                     ================================
                     구 매 자 메 뉴
                     ================================
                     1. 물품 조회
-                    2. 주문 내역 조회
-                    3. 판매자 전환
+                    2. 장바구니 조회
+                    3. 주문 내역 조회
+                    4. 판매자 전환
                     9. 로그아웃
                     ================================""");
             System.out.println(menu);
             int choice = inputReader.selectMenuNum();
-
             switch (choice) {
                 case 1:
                     searchProductMenu(); // 물품 조회
                     break;
-                case 2:
-                    break;
+                case 2: userService.viewCart(id); break;
                 case 3:
+                    companyController.insertCompany(inputCompany(loginResult)); // 판매자 전환
+                    break;
+                case 4:
                     companyController.insertCompany(inputCompany(loginResult)); // 판매자 전환
                     break;
                 case 9:
@@ -46,6 +53,84 @@ public class UserMenu {
                     return;
                 default:
                     System.out.println("잘못된 메뉴를 선택하셨습니다. 다시 입력해주세요.");
+            }
+        }
+    }
+    public void cartMenu(){
+        while(true) {
+            System.out.println("""
+                    ================================
+                    쇼 핑 선 택
+                    ================================
+                    1. 장바구니 담기
+                    2. 장바구니 조회
+                    3. 장바구니 수정
+                    3. 결제하기
+                    9. 뒤로가기
+                    ================================
+                    """);
+            int number = inputReader.selectMenuNum();
+            switch (number) {
+                case 1: addCartMenu(); break;
+                case 2: userService.viewCart(id); break;
+                case 3: modifyMenu(); break;
+//                case 4: payingMenu(); break;
+                case 9: return;
+                default: break;
+            }
+        }
+    }
+
+    private void modifyMenu() {
+        while (true) {
+            userService.viewCart(id);
+            System.out.println("""
+                    ================================
+                    장 바 구 니 수 정
+                    ================================
+                    1. 수량 수정
+                    2. 전체 삭제
+                    9. 뒤로가기
+                    ================================
+                    """);
+            int number = inputReader.selectMenuNum();
+            switch (number) {
+                case 1: modifyQuantityMenu(); break;
+                case 2: userService.deleteAllCart(id); break;
+                case 9: return;
+                default: break;
+            }
+        }
+    }
+
+    private void modifyQuantityMenu() {
+        System.out.print("수량 변경 할 제품 번호를 적어주세요 : ");
+        int productNum = inputReader.inputIntValue();
+        System.out.print("변경할 값을 적어주세요 : ");
+        int quantity = inputReader.inputAmout();
+        userService.modifyQuantity(id, productNum, quantity);
+    }
+
+    public void addCartMenu(){
+        String menu = ("""
+            ================================
+            목 록 선 택
+            ================================
+            """);
+        System.out.println(menu);
+        while(true){
+            System.out.print("담을 상품번호를 입력해 주세요 : ");
+            int choice = inputReader.inputIntValue();
+            System.out.print("상품 수량을 입력해 주세요 : ");
+            int count = inputReader.inputIntValue();
+            userService.addCart(id, choice, count);
+            System.out.print("계속 쇼핑하시겠습니까? (예 : 1 / 아니오 : 2) : ");
+            int number = inputReader.inputIntValue();
+            switch (number) {
+                case 1: break;
+                case 2: return;
+                default:
+                    System.out.println("숫자를 잘못 입력했습니다.");break;
             }
         }
     }
@@ -68,10 +153,12 @@ public class UserMenu {
             switch (choice) {
                 case 1:
                     productController.selectAllProductByConsumer();
+                    cartMenu();
                     break;
                 case 2:
                     categoryController.selectAllCategory();
                     productController.selectAllProductByCategory(inputCategoryNum());
+                    cartMenu();
                     break;
                 case 9:
                     System.out.println("이전 메뉴로 돌아갑니다.");

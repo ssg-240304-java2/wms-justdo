@@ -1,7 +1,8 @@
 package com.justdo.fruitfruit.model.dao;
 
-import com.justdo.fruitfruit.model.dto.CompanyDTO;
 import com.justdo.fruitfruit.model.dto.UserDTO;
+
+import java.util.Map;
 
 public interface UserMapper {
     int insertUser(UserDTO userDTO);
@@ -9,5 +10,6 @@ public interface UserMapper {
     UserDTO findUserId(UserDTO userDTO);
     int findUserPassword(UserDTO userDTO);
 
+    Integer searchUser(String id);
     UserDTO existUserByInfo(UserDTO userDTO);
 }

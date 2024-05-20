@@ -1,6 +1,5 @@
 package com.justdo.fruitfruit.model.dto;
 
-import com.justdo.fruitfruit.common.constant.Status;
 import lombok.*;
 
 import java.sql.Timestamp;

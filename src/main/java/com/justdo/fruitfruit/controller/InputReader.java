@@ -78,6 +78,26 @@ public class InputReader {
         return intVal;
     }
 
+    public int inputAmout(){
+        int intVal = 0;
+        while (true) {
+            try {
+                String menuStr = reader.readLine();
+                intVal = Integer.parseInt(menuStr);
+                if (intVal >= 0) {
+                    break;
+                } else {
+                    System.out.println("0 이상을 입력해주세요.");
+                }
+            } catch (IOException e) {
+                System.out.println("입력 오류가 발생했습니다.");
+            } catch (NumberFormatException e) {
+                System.out.println("정수를 입력해주세요.");
+            }
+        }
+        return intVal;
+    }
+
     /**
      * BufferedReader를 close 하도록 작성
      * */
