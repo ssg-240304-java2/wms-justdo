@@ -22,6 +22,7 @@
         select *
         from cart
         where user_seq = #{ userSeq }
+        order by product_seq
     </select>
 
     <delete id="deleteAllCart" parameterType="int">
