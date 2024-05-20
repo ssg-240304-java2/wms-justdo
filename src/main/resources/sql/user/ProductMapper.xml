@@ -49,5 +49,8 @@
     <select id="productName" resultType="String" parameterType="int">
             select product_name from product where product_seq = #{ productSeq }
     </select>
+    <select id="productPrice" parameterType="_int" resultType="_int">
+        select A.product_price from product A where A.product_seq = (select B.product_seq from cart B where B.product_seq = #{ productSeq } and B.user_seq = #{ userSeq } and delete_yn = 0 )
+    </select>
 
 </mapper>

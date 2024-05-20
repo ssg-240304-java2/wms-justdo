@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.justdo.fruitfruit.model.dao.OrderMapper">
+    <insert id="insertOrder" useGeneratedKeys="true" keyProperty="orderSeq">
+        insert into orders (user_seq, company_seq, total_price, status)
+        values ( #{ userSeq }, #{ companySeq }, #{ totalPrice } , 1)
+    </insert>
+    <select id="allOrder" parameterType="hashmap" resultType="orderDTO">
+        select *
+        from orders
+        where user_seq = #{ userSeq }
+    </select>
+
+    <select id="maxSeq" resultType="int">
+        select max(order_seq) from orders
+    </select>
+</mapper>
