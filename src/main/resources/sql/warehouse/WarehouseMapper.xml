@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.justdo.fruitfruit.model.dao.WarehouseMapper">
+
+    <select id="findByStatus" parameterType="int" resultType="productDTO">
+        SELECT
+            p.product_seq,
+            p.category_seq,
+            c.category_name,
+            p.sector_seq,
+            p.grade_seq,
+            p.user_seq,
+            p.product_name,
+            p.product_price,
+            p.product_status,
+            p.register_date,
+            p.update_date,
+            p.product_amount,
+            p.expiration_date
+        FROM
+            product p
+            inner join category c on p.category_seq = c.category_seq
+        WHERE
+            p.product_status = #{status}
+    </select>
+
+    <select id="findByCategorySeq" parameterType="int" resultType="gradeDTO">
+        SELECT
+            g.grade_seq,
+            g.category_seq,
+            g.grade_name,
+            g.brix AS birix_value,
+            c.category_name
+        FROM
+            grade g
+            INNER JOIN category c ON g.category_seq = c.category_seq
+        WHERE
+            g.category_seq = #{categorySeq}
+    </select>
+
+    <select id="findByProductAmount" parameterType="int" resultType="sectorDTO">
+        SELECT
+            sector_seq,
+            sector_name,
+            volume
+        FROM
+            sector
+        WHERE
+        <![CDATA[
+            volume >= #{productAmount}
+        ]]>
+    </select>
+
+    <update id="updateProductData">
+        <foreach collection="list" item="item" separator=";">
+            UPDATE
+                product
+            SET
+                sector_seq = #{item.sectorSeq},
+                grade_seq = #{item.gradeSeq},
+                product_status = #{item.productStatus},
+                update_date = now(),
+                expiration_date=date_add(now(),INTERVAL 14 DAY)
+            WHERE
+                product_seq = #{item.productSeq}
+        </foreach>
+    </update>
+
+    <insert id="insertProductDate" parameterType="java.util.List">
+        INSERT INTO product_log (
+            product_seq,
+            status,
+            log_amount
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.productSeq},
+            #{item.productStatus},
+            #{item.productAmount})
+        </foreach>
+    </insert>
+
+    <update id="updateSectorData">
+        <foreach collection="list" item="item" separator=";">
+            UPDATE
+                sector
+            SET
+            volume = volume - #{item.productAmount}
+            WHERE
+            sector_seq = #{item.sectorSeq}
+        </foreach>
+    </update>
+
+    <select id="findByStatusAndStock" parameterType="productDTO" resultType="productDTO">
+        SELECT
+            p.product_seq,
+            p.category_seq,
+            c.category_name,
+            s.sector_name,
+            g.grade_name,
+            u.name,
+            p.product_name,
+            p.product_price,
+            p.product_status,
+            p.register_date,
+            p.update_date,
+            p.product_amount,
+            p.expiration_date
+        FROM
+            product p
+            inner join category c on p.category_seq = c.category_seq
+            inner join sector s on p.sector_seq = s.sector_seq
+            inner join grade g on p.grade_seq = g.grade_seq
+            inner join user u on p.user_seq = u.user_seq
+        WHERE
+            p.product_status = #{productStatus}
+            <if test="userSeq != 0">
+                AND p.user_seq = #{userSeq}
+            </if>
+            <if test="productName !=null and productName != ''">
+                AND p.product_name LIKE CONCAT('%',#{productName},'%')
+            </if>
+    </select>
+
+    <select id="getUserSeq" parameterType="String" resultType="int">
+        select
+            user_seq
+        from
+            user
+        where
+            id =#{id}
+    </select>
+
+    <select id="getNotificationProductList" parameterType="productDTO" resultType="productDTO">
+        SELECT
+             p.user_seq,
+            p.product_seq,
+            p.category_seq,
+            c.category_name,
+            g.grade_name,
+            u.name,
+            p.product_name,
+            p.product_price,
+            p.product_status,
+            p.register_date,
+            p.update_date,
+            p.product_amount,
+            p.expiration_date,
+            <![CDATA[
+            case
+            when p.product_amount <= 5 then 'OUTOFSTOCK'
+            when p.expiration_date < NOW() then 'PASSEXPIRATIONDATE'
+            ]]>
+            END 'notificationType'
+            FROM
+            product p
+        inner join category c on p.category_seq = c.category_seq
+        inner join grade g on p.grade_seq = g.grade_seq
+        inner join user u on p.user_seq = u.user_seq
+        WHERE
+            p.product_status = 2
+            <![CDATA[
+                AND (
+                p.product_amount <= 5
+                OR p.expiration_date < NOW()
+                )
+            ]]>
+    </select>
+
+    <insert id="insertNotificationProduct" parameterType="java.util.List">
+        INSERT INTO notification (user_seq,notification_type,notification_content,is_read)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.userSeq},
+            #{item.notificationType},
+            #{item.notificationContent},
+            false
+            )
+        </foreach>
+    </insert>
+
+    <select id="getProductLogList" parameterType="hashmap" resultType="productLogDTO">
+        SELECT
+            pl.log_seq,
+            pl.status,
+            c.category_name,
+            p.product_name,
+            s.sector_name,
+            pl.log_amount
+        FROM
+            product_log pl
+            LEFT JOIN product p on pl.product_seq = p.product_seq
+            LEFT JOIN sector s ON p.sector_seq = s.sector_seq
+            LEFT JOIN category c ON p.category_seq = c.category_seq
+        where
+            1=1
+            <if test="status != 0">
+                AND pl.status = #{status}
+            </if>
+            <if test="productNm != null">
+                AND  p.product_name like CONCAT('%', #{productNm} ,'%')
+            </if>
+    </select>
+
+    <select id="getRequestReleaseLit" parameterType="int" resultType="requestReleaseDTO">
+        SELECT
+            p.product_seq,
+            p.sector_seq,
+            p.product_name,
+            cate.category_name,
+            c.quantity
+        FROM
+        cart c
+        INNER JOIN orders o on c.order_seq = o.order_seq
+        INNER JOIN product p ON c.product_seq = p.product_seq
+        INNER JOIN category cate ON cate.category_seq = p.category_seq
+        WHERE
+        o.status = #{status}
+    </select>
+
+    <update id="updateProductAmount">
+        <foreach collection="list" item="item" separator=";">
+            UPDATE
+            product
+            SET
+            product_amount = product_amount - #{item.quantity},
+            product_status = #{item.productStatus}
+            WHERE
+            product_seq = #{item.productSeq}
+        </foreach>
+    </update>
+
+    <insert id="insertReleaseProductDate" parameterType="java.util.List">
+        INSERT INTO product_log (
+        product_seq,
+        status,
+        log_amount
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.productSeq},
+            #{item.productStatus},
+            #{item.quantity})
+        </foreach>
+    </insert>
+
+    <update id="updateMinusSectorData">
+        <foreach collection="list" item="item" separator=";">
+            UPDATE
+            sector
+            SET
+            volume = volume + #{item.quantity}
+            WHERE
+            sector_seq = #{item.sectorSeq}
+        </foreach>
+    </update>
+</mapper>

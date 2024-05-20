@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.justdo.fruitfruit.model.dao.CompanyMapper">
+
+    <insert id="insertCompany" useGeneratedKeys="true" keyProperty="companySeq">
+        insert into
+        company (user_seq, company_name, company_phone, company_num, company_address)
+        values (#{userSeq}, #{companyName}, #{companyPhone}, #{companyNum}, #{companyAddress})
+    </insert>
+
+    <select id="checkUserSeqExists" resultType="int" parameterType="int">
+        SELECT COUNT(*)
+        FROM company
+        WHERE user_seq = #{userSeq}
+    </select>
+
+    <select id="searchCom" parameterType="int" resultType="_int">
+                select A.company_seq from company A where A.user_seq = (select B.user_seq from product B where B.product_seq = #{ choice })
+    </select>
+</mapper>
