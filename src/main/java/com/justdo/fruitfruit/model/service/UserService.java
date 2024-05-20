@@ -1,11 +1,9 @@
 package com.justdo.fruitfruit.model.service;
 
-import com.justdo.fruitfruit.model.dao.CartMapper;
-import com.justdo.fruitfruit.model.dao.CompanyMapper;
-import com.justdo.fruitfruit.model.dao.ProductMapper;
-import com.justdo.fruitfruit.model.dao.UserMapper;
+import com.justdo.fruitfruit.model.dao.*;
 import com.justdo.fruitfruit.model.dto.CartDTO;
 import com.justdo.fruitfruit.model.dto.CompanyDTO;
+import com.justdo.fruitfruit.model.dto.OrderDTO;
 import com.justdo.fruitfruit.model.dto.UserDTO;
 import org.apache.ibatis.session.SqlSession;
 
@@ -208,4 +206,90 @@ public class UserService {
         sqlSession.close();
     }
 
+    public void addOrder(String id){
+        SqlSession sqlSession = getSqlSession();
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        int userSeq = userMapper.searchUser(id);
+
+        CartMapper cartMapper = sqlSession.getMapper(CartMapper.class);
+        ProductMapper productMapper = sqlSession.getMapper(ProductMapper.class);
+        List<CartDTO> cartList = new ArrayList<>();
+        cartList = cartMapper.viewCart(userSeq);
+        Map<String, Integer> params = new HashMap<>();
+        if(cartList != null && cartList.size() > 0) {
+            for (CartDTO cartDTO : cartList) {
+                OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+                params.put("userSeq", userSeq);
+                params.put("companySeq", cartDTO.getCompanySeq());
+
+                Map<String, Integer> map = new HashMap<>();
+                map.put("productSeq", cartDTO.getProductSeq());
+                map.put("userSeq", userSeq);
+                int price = productMapper.productPrice(map);
+
+                params.put("totalPrice", price * cartDTO.getQuantity());
+                int result = orderMapper.insertOrder(params);
+                if(result > 0) {
+                    sqlSession.commit();
+                }
+                else{
+                    sqlSession.rollback();
+                }
+                int result1 = orderMapper.maxSeq();
+
+                Map<String, Integer> map2 = new HashMap<>();
+                map2.put("cartSeq", cartDTO.getCartSeq());
+                map2.put("orderSeq", result1);
+                int rresult = cartMapper.updateOrderSeq(map2);
+
+                if(rresult > 0) {
+                    sqlSession.commit();
+                }else{
+                    sqlSession.rollback();
+                }
+            }
+        }else{
+            System.out.println("결재할 상품이 없습니다.");
+        }
+
+
+        sqlSession.close();
+    }
+
+    public void paymentCart(String id) {
+        SqlSession sqlSession = getSqlSession();
+        CartMapper cartMapper = sqlSession.getMapper(CartMapper.class);
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        int userSeq = userMapper.searchUser(id);
+        Map<String, Integer> params = new HashMap<>();
+        params.put("userSeq", userSeq);
+
+        int result = cartMapper.modifyYN(params);
+
+        if(result > 0) {
+            sqlSession.commit();
+        }else{
+            sqlSession.rollback();
+        }
+        sqlSession.close();
+
+    }
+
+    public void viewOrder(String id) {
+        SqlSession sqlSession = getSqlSession();
+        OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+        List<OrderDTO> orderList = new ArrayList<>();
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        int userSeq = userMapper.searchUser(id);
+
+        orderList = orderMapper.allOrder(userSeq);
+        if(orderList != null && orderList.size() > 0) {
+            for (OrderDTO orderDTO : orderList) {
+                System.out.println(orderDTO.toString());
+            }
+        }else{
+            System.out.println("결재 내역이 없습니다.");
+        }
+        sqlSession.close();
+    }
 }

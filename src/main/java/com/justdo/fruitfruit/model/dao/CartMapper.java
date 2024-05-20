@@ -15,4 +15,8 @@ public interface CartMapper {
     int modifyQuantity(Map<String, Integer> params);
 
     int deleteQuantity(Map<String, Integer> params);
+
+    int modifyYN(Map<String, Integer> params);
+
+    int updateOrderSeq(Map<String, Integer> map2);
 }

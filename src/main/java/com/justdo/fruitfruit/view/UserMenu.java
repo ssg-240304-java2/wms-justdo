@@ -30,8 +30,8 @@ public class UserMenu {
                     ================================
                     1. 물품 조회
                     2. 장바구니 조회
-                    2. 주문 내역 조회
-                    3. 판매자 전환
+                    3. 주문 내역 조회
+                    4. 판매자 전환
                     9. 로그아웃
                     ================================""");
             System.out.println(menu);
@@ -42,8 +42,12 @@ public class UserMenu {
                     searchProductMenu(); // 물품 조회
                     break;
                 case 2: userService.viewCart(id);
+                        paymentMenu();
                     break;
                 case 3:
+                    userService.viewOrder(id);
+                    break;
+                case 4:
                     companyController.insertCompany(inputCompany(loginResult)); // 판매자 전환
                     break;
                 case 9:
@@ -52,6 +56,31 @@ public class UserMenu {
                     return;
                 default:
                     System.out.println("잘못된 메뉴를 선택하셨습니다. 다시 입력해주세요.");
+            }
+        }
+    }
+
+    private void paymentMenu() {
+        while (true) {
+            System.out.println("""
+                    ================================
+                    결 제 창
+                    ================================
+                    1. 결제 하기
+                    9. 뒤로 가기
+                    ================================
+                    """);
+            int choice = inputReader.selectMenuNum();
+            switch (choice) {
+                case 1:
+                    userService.addOrder(id);
+                    userService.paymentCart(id);
+                    break;
+                case 9:
+                    return;
+                default:
+                    System.out.println("잠롯된 메뉴를 선택했습니다. 다시 입력해 주세요.");
+                    break;
             }
         }
     }
@@ -74,7 +103,7 @@ public class UserMenu {
                 case 1: addCartMenu(); break;
                 case 2: userService.viewCart(id); break;
                 case 3: modifyMenu(); break;
-//                case 4: payingMenu(); break;
+                case 4: paymentMenu(); break;
                 case 9: return;
                 default: break;
             }
