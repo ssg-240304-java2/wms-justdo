@@ -1,13 +1,12 @@
 package com.justdo.fruitfruit.model.service;
 
 import com.justdo.fruitfruit.model.dao.SystemMapper;
-import com.justdo.fruitfruit.model.dto.CompanyDTO;
-import com.justdo.fruitfruit.model.dto.OrderDTO;
-import com.justdo.fruitfruit.model.dto.ProductDTO;
-import com.justdo.fruitfruit.model.dto.UserDTO;
+import com.justdo.fruitfruit.model.dto.*;
 import org.apache.ibatis.session.SqlSession;
 
+import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Map;
 
 import static com.justdo.fruitfruit.common.MyBatisTemplate.getSqlSession;
 
@@ -195,5 +194,48 @@ public class SystemService {
         sqlSession.close();
 
         return orderList;
+    }
+
+    /***
+     * 판매자별 월별 매출 조회
+     * @param month 조회할 월
+     */
+    public void getSalesMonthBySeller(String month) {
+        SqlSession sqlSession = getSqlSession();
+        systemMapper = sqlSession.getMapper(SystemMapper.class);
+
+        List<SalesDTO> salesList = systemMapper.getSalesMonthBySeller(month);
+
+        if (salesList != null && !salesList.isEmpty()) {
+            System.out.println();
+            System.out.println(String.format("******* %s월 판매자별 매출 *******", month));
+            for (SalesDTO sales : salesList) {
+                System.out.println(sales);
+                System.out.println();
+            }
+        } else {
+            System.out.println(String.format("%s월 매출 내역은 없습니다.", month));
+        }
+    }
+
+    /***
+     * 판매자별 년도별 매출 조회
+     * @param year 조회할 년도
+     */
+    public void getSalesYearBySeller(String year) {
+        SqlSession sqlSession = getSqlSession();
+        systemMapper = sqlSession.getMapper(SystemMapper.class);
+
+        List<SalesDTO> salesList = systemMapper.getSalesYearBySeller(year);
+        if (salesList != null && !salesList.isEmpty()) {
+            System.out.println();
+            System.out.println(String.format("******* %s년도 판매자별 매출 *******", year));
+            for (SalesDTO sales : salesList) {
+                System.out.println(sales);
+                System.out.println();
+            }
+        } else {
+            System.out.println(String.format("%s년도 매출 내역은 없습니다.", year));
+        }
     }
 }

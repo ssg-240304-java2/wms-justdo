@@ -180,4 +180,44 @@
             order_seq
     </select>
 
+    <!-- 매출 관리 메뉴 -->
+
+    <select id="getSalesMonthBySeller" resultType="SalesDTO">
+        SELECT
+            C.company_seq,
+            C.company_name,
+            SUM(O.total_price) AS totalSales
+        FROM
+            orders AS O
+                LEFT JOIN company AS C
+                    USING(company_seq)
+        WHERE
+            O.status = '4'
+        AND
+            EXTRACT(MONTH FROM O.register_date) = #{ month }
+        GROUP BY
+            C.company_seq, C.company_name
+        ORDER BY
+            C.company_seq
+    </select>
+
+    <select id="getSalesYearBySeller" resultType="SalesDTO">
+        SELECT
+            C.company_seq,
+            C.company_name,
+            SUM(O.total_price) AS totalSales
+        FROM
+            orders AS O
+                LEFT JOIN company AS C
+                    USING(company_seq)
+        WHERE
+            O.status = '4'
+              AND
+            EXTRACT(YEAR FROM O.register_date) = #{ year }
+        GROUP BY
+            C.company_seq, C.company_name
+        ORDER BY
+            C.company_seq;
+    </select>
+
 </mapper>

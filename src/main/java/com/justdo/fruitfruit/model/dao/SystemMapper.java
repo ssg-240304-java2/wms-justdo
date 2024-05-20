@@ -1,11 +1,9 @@
 package com.justdo.fruitfruit.model.dao;
 
-import com.justdo.fruitfruit.model.dto.CompanyDTO;
-import com.justdo.fruitfruit.model.dto.OrderDTO;
-import com.justdo.fruitfruit.model.dto.ProductDTO;
-import com.justdo.fruitfruit.model.dto.UserDTO;
+import com.justdo.fruitfruit.model.dto.*;
 
 import java.util.List;
+import java.util.Map;
 
 public interface SystemMapper {
     List<UserDTO> getUserList();
@@ -33,4 +31,8 @@ public interface SystemMapper {
     List<OrderDTO> getOrderAllList();
 
     List<OrderDTO> getOrderOnShipping();
+
+    List<SalesDTO> getSalesMonthBySeller(String month);
+
+    List<SalesDTO> getSalesYearBySeller(String year);
 }
