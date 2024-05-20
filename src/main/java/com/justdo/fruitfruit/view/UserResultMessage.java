@@ -17,9 +17,6 @@ public class UserResultMessage {
             System.out.println("조회 -> [" +
                     "물품 번호 = " + product.getProductSeq() +
                     ", 상품 이름 = '" + product.getProductName() + '\'' +
-                    ", 수량 = " + product.getProductAmount() +
-                    ", 무게 = " + product.getProductWeight() +
-                    ", 가격 = " + product.getProductPrice() +
                     ", 카테고리 = '" + product.getCategoryName() + '\'' +
                     ", 등급 = '" + product.getGradeName() +
                     ']');
