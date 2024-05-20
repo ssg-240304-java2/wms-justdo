@@ -108,25 +108,43 @@ public class UserService {
         CompanyMapper companyMapper = sqlSession.getMapper(CompanyMapper.class);
         Map<String, Integer> params = new HashMap<>();
         params.put("choice",choice);
-
-        Integer comSeq = companyMapper.searchCom(params);
-        Map<String, Object> map = new HashMap<>();
-
-        map.put("productSeq", choice);
-        map.put("userSeq", userSeq);
-        map.put("companySeq", comSeq);
-        map.put("quantity", count);
         CartMapper cartMapper = sqlSession.getMapper(CartMapper.class);
+        Integer comSeq = companyMapper.searchCom(params);
 
+        List<CartDTO> cartList = new ArrayList<>();
+        cartList = cartMapper.viewCart(userSeq);
 
-        int result = cartMapper.addCart(map);
-        if(result > 0) {
-            System.out.println("장바구니 등록 성공!");
-            sqlSession.commit();
-        } else {
-            System.out.println("장바구니 등록 실패!");
-            sqlSession.rollback();
+        int num = 1;
+        if (cartList != null && cartList.size() > 0) {
+            for(CartDTO cartDTO : cartList) {
+                if(cartDTO.getProductSeq() == choice){
+                    num = 2;
+                    count += cartDTO.getQuantity();
+                    break;
+                }
+            }
         }
+
+        if(num==1){
+            Map<String, Object> map = new HashMap<>();
+
+            map.put("productSeq", choice);
+            map.put("userSeq", userSeq);
+            map.put("companySeq", comSeq);
+            map.put("quantity", count);
+            int result = cartMapper.addCart(map);
+            if(result > 0) {
+                System.out.println("장바구니 등록 성공!");
+                sqlSession.commit();
+            } else {
+                System.out.println("장바구니 등록 실패!");
+                sqlSession.rollback();
+            }
+        }else{
+            modifyQuantity(id,choice,count);
+        }
+
+
         sqlSession.close();
     }
 
