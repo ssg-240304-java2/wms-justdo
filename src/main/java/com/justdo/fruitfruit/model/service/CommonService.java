@@ -19,7 +19,7 @@ public class CommonService {
     public UserDTO login(UserDTO userDTO) {
         SqlSession sqlSession = getSqlSession();
         UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-
+        id = userDTO.getId();
         UserDTO result = userMapper.login(userDTO);
         sqlSession.close();
         return result;

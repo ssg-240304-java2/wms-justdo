@@ -8,6 +8,9 @@
         SELECT
         P.product_seq,
         P.product_name,
+        P.product_amount,
+        P.product_weight,
+        P.product_price,
         C.category_name,
         G.grade_name
         FROM
@@ -15,13 +18,15 @@
         ON P.category_seq = C.category_seq
         LEFT JOIN grade G
         ON P.grade_seq = G.grade_seq
-        WHERE P.product_status = 2;
     </select>
 
     <select id="selectAllProductByCategory" resultType="productDTO">
         SELECT
         P.product_seq,
         P.product_name,
+        P.product_amount,
+        P.product_weight,
+        P.product_price,
         C.category_name,
         G.grade_name
         FROM
@@ -31,7 +36,6 @@
         ON P.grade_seq = G.grade_seq
         WHERE
             P.category_seq = #{categorySeq}
-        AND P.product_status = 2;
     </select>
 
     <select id="selectAllCategory" resultType="categoryDTO">
@@ -40,6 +44,10 @@
         C.category_name
         FROM
         category C
+    </select>
+
+    <select id="productName" resultType="String" parameterType="int">
+        select product_name from product where product_seq = #{ productSeq }
     </select>
 
 </mapper>
