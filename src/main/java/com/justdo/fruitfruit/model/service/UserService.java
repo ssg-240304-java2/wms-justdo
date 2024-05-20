@@ -3,6 +3,7 @@ package com.justdo.fruitfruit.model.service;
 import com.justdo.fruitfruit.model.dao.CartMapper;
 import com.justdo.fruitfruit.model.dao.CompanyMapper;
 import com.justdo.fruitfruit.model.dao.ProductMapper;
+import com.justdo.fruitfruit.model.dao.CompanyMapper;
 import com.justdo.fruitfruit.model.dao.UserMapper;
 import com.justdo.fruitfruit.model.dto.CartDTO;
 import com.justdo.fruitfruit.model.dto.CompanyDTO;
@@ -10,6 +11,8 @@ import com.justdo.fruitfruit.model.dto.UserDTO;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.*;
+
+import java.util.ArrayList;
 
 import static com.justdo.fruitfruit.common.MyBatisTemplate.getSqlSession;
 

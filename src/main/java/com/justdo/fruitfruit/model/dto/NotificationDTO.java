@@ -13,7 +13,7 @@ public class NotificationDTO {
 
     private int notificationSeq;
     private int userSeq;
-    private String notificationType;
+    private int notificationType;
     private String notificationContent;
     private boolean isRead;
     private Date registerDate;

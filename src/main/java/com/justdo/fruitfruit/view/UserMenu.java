@@ -139,15 +139,15 @@ public class UserMenu {
      * 상품 조회뷰 출력하는 메서드
      */
     public void searchProductMenu() {
-        while (true) {
+        while(true) {
             String menu = ("""
-                    ================================
-                    상 품 조 회 메 뉴
-                    ================================
-                    1. 상품 전체 조회
-                    2. 상품 카테고리 조회
-                    9. 뒤로가기
-                    ================================""");
+                ================================
+                상 품 조 회 메 뉴
+                ================================
+                1. 상품 전체 조회
+                2. 상품 카테고리 조회
+                9. 뒤로가기
+                ================================""");
             System.out.println(menu);
             int choice = inputReader.selectMenuNum();
             switch (choice) {
@@ -175,32 +175,20 @@ public class UserMenu {
      * @return 입력받은 회원정보를 반환
      */
     public Map<String, String> inputUser() {
-        boolean isValidPassword = false;
-        String id, password, name, phone, address;
-
-        do {
-            System.out.println("""
-                    ================================
-                    회 원 등 록
-                    ================================""");
-            System.out.print("아이디 : ");
-            id = inputReader.inputString();
-            System.out.print("비밀번호 : ");
-            password = inputReader.inputString();
-            System.out.print("이름 : ");
-            name = inputReader.inputString();
-            System.out.print("핸드폰번호(하이픈(-)제외): ");
-            phone = inputReader.inputString();
-            System.out.print("주소 : ");
-            address = inputReader.inputString();
-
-            isValidPassword = isValidPassword(password);
-            if (!isValidPassword) {
-                System.out.println("비밀번호는 최소 8자리 / 1개 이상의 숫자, 영문 대소문자, 특수 기호를 포함해야 합니다.");
-                System.out.println("다시 입력해주세요.\n");
-            }
-        } while (!isValidPassword);
-
+        System.out.println("""
+                ================================
+                회 원 등 록
+                ================================""");
+        System.out.print("아이디 : ");
+        String id = inputReader.inputString();
+        System.out.print("비밀번호 : ");
+        String password = inputReader.inputString();
+        System.out.print("이름 : ");
+        String name = inputReader.inputString();
+        System.out.print("핸드폰번호(하이픈(-)제외): ");
+        String phone = inputReader.inputString();
+        System.out.print("주소 : ");
+        String address = inputReader.inputString();
         int auth = Auth.CONSUMER.ordinal() + 1;
         Map<String, String> map = new HashMap<>();
         map.put("id", id);
