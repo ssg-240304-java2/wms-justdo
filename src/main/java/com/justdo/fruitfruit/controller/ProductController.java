@@ -1,5 +1,6 @@
 package com.justdo.fruitfruit.controller;
 
+import com.justdo.fruitfruit.model.dto.CategoryDTO;
 import com.justdo.fruitfruit.model.dto.ProductDTO;
 import com.justdo.fruitfruit.model.dto.UserDTO;
 import com.justdo.fruitfruit.model.service.ProductService;
@@ -14,7 +15,9 @@ public class ProductController {
 
     private final UserResultMessage userResultMessage;
     private final ProductService productService;
-    private UserDTO userDTO;
+
+private UserDTO userDTO;
+
     public ProductController(){
         resultMessage = new ProductResultMessage();
         userResultMessage = new UserResultMessage();
@@ -22,20 +25,13 @@ public class ProductController {
     }
 
     public void setUserDTO(UserDTO userDTO) {
-        this.userDTO = userDTO;
-    }
-
-    /***
-     * 로그인된 userSeq 가져오기
-     * */
-    private int getUserSeq() {
-        return userDTO.getUserSeq();
-    }
+            this.userDTO = userDTO;
+        }
 
     /***
      * 상품 등록 parameter 받아오기
      * */
-    public void registerProduct(Map<String, String> parameter){
+    public void registProduct(Map<String, String> parameter){
         if (userDTO == null) {
             resultMessage.productFailureMessage("register");
             return;
@@ -48,18 +44,19 @@ public class ProductController {
         double weight = Double.parseDouble(parameter.get("productWeight"));
         int userSeq = userDTO.getUserSeq();
 
+
         if (category > 0) {
             ProductDTO productDTO = new ProductDTO();
 
             productDTO.setCategorySeq(category);
-            productDTO.setUserSeq(userSeq);
+            productDTO.setUserSeq(userSeq); // userSeq 설정
             productDTO.setProductName(name);
             productDTO.setProductPrice(price);
             productDTO.setProductAmount(amount);
             productDTO.setProductWeight(weight);
             productDTO.setProductStatus(1); // 입고요청 1
 
-            boolean isRegistered = productService.registerProduct(productDTO);
+            boolean isRegistered = productService.registProduct(productDTO);
 
             if (isRegistered) {
                 resultMessage.productSuccessMessage("register");
@@ -110,18 +107,16 @@ public class ProductController {
      * 물품 삭제
      * */
     public void deleteProduct(Map<String, String> parameter){
-        int productSeq = Integer.parseInt(parameter.get("productSeq"));
+        String name = parameter.get("productName");
 
-        if (productService.deleteProduct(productSeq)) {
+        if (productService.deleteProduct(name)) {
             resultMessage.productSuccessMessage("delete");
         } else {
             resultMessage.productFailureMessage("delete");
         }
+
     }
 
-    /***
-     * 판매자 내 모든 물품 조회
-     * */
     public void selectAllProduct() {
         int userSeq = userDTO.getUserSeq();
 
@@ -135,7 +130,7 @@ public class ProductController {
 
 
     /***
-     * 구매자 물품 전체 출력
+     * 물품 전체 출력
      * */
     public void selectAllProductByConsumer() {
 

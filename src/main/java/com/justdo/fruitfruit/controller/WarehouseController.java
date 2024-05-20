@@ -1,6 +1,8 @@
 package com.justdo.fruitfruit.controller;
 
-import com.justdo.fruitfruit.model.dto.*;
+import com.justdo.fruitfruit.model.dto.GradeDTO;
+import com.justdo.fruitfruit.model.dto.ProductDTO;
+import com.justdo.fruitfruit.model.dto.SectorDTO;
 import com.justdo.fruitfruit.model.service.WarehouseService;
 import com.justdo.fruitfruit.view.WarehouseResultMessage;
 
@@ -41,10 +43,9 @@ public class WarehouseController {
     /**
      * 상품상태가 출고요청인 상품목록 출력
      * */
-    public List<RequestReleaseDTO> getRequestReleaseList() {
-        List<RequestReleaseDTO> requestReleaseList = wareHouseService.getRequestReleaseList();
-        resultMessage.printRequestReleaseList(requestReleaseList);
-        return requestReleaseList;
+    public void getRequestReleaseList() {
+        List<ProductDTO> requestReleaseList = wareHouseService.getRequestReleaseList();
+        resultMessage.printRequestStockList(requestReleaseList);
     }
 
 
@@ -67,39 +68,5 @@ public class WarehouseController {
     public void getStockList(Map<String,String> params) {
         List<ProductDTO> stockList = wareHouseService.gettStockList(params);
         resultMessage.printStockList(stockList);
-    }
-
-    public List<ProductDTO> getNotificationProductList() {
-        List<ProductDTO> notificationProductList = wareHouseService.getNotificationProductList();
-        resultMessage.printNotificationProductList(notificationProductList);
-        return notificationProductList;
-    }
-
-    public void addNotificationInfo(List<NotificationDTO> notificationList) {
-
-        boolean result = wareHouseService.addNotificationProduct(notificationList);
-        if(result){
-            resultMessage.susccessMessage("addNotificationInfo");
-        }else{
-            resultMessage.errorMessage("addNotificationInfo");
-        }
-    }
-
-    public void printStockMoveList(Map<String, String> param) {
-        List<ProductLogDTO> logList = wareHouseService.getProductLogList(param);
-        resultMessage.printProducLogList(logList);
-    }
-
-    public void addRequestReleaseList(List<RequestReleaseDTO> productDTOS) {
-        if(productDTOS == null || productDTOS.isEmpty()){
-            resultMessage.errorMessage("addRequestRelease");
-        }
-
-        boolean result = wareHouseService.addRequestReleaseList(productDTOS);
-        if(result){
-            resultMessage.susccessMessage("addRequestRelease");
-        }else{
-            resultMessage.errorMessage("addRequestRelease2");
-        }
     }
 }
