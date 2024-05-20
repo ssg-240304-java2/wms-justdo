@@ -93,7 +93,6 @@ public class ProductController {
             productDTO.setProductPrice(price);
             productDTO.setProductAmount(amount);
             productDTO.setProductWeight(weight);
-            productDTO.setProductStatus(productDTO.getProductStatus());
 
             boolean isModified = productService.modifyProduct(productDTO);
 
