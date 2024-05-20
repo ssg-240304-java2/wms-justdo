@@ -1,9 +1,9 @@
 package com.justdo.fruitfruit.controller;
 
-import com.justdo.fruitfruit.model.dto.CompanyDTO;
 import com.justdo.fruitfruit.model.dto.UserDTO;
 import com.justdo.fruitfruit.model.service.CommonService;
 import com.justdo.fruitfruit.model.service.UserService;
+
 import com.justdo.fruitfruit.view.*;
 
 import java.util.Map;

@@ -1,6 +1,8 @@
 package com.justdo.fruitfruit.view;
 
 import com.justdo.fruitfruit.model.dto.CompanyDTO;
+import com.justdo.fruitfruit.model.dto.OrderDTO;
+import com.justdo.fruitfruit.model.dto.ProductDTO;
 import com.justdo.fruitfruit.model.dto.UserDTO;
 
 import java.util.List;
@@ -26,17 +28,41 @@ public class SystemResultMessage {
         String errorMessage = "";
 
         switch (errorCode) {
-            case "selectUserList" :
+            case "gettUserList" :
                 errorMessage = "회원 정보 조회를 실패하였습니다.";
                 break;
-            case "updateUser" :
+            case "updateUserInfo" :
                 errorMessage = "회원 정보 수정을 실패하였습니다.";
                 break;
-            case "deleteUser" :
+            case "deleteUserInfo" :
                 errorMessage = "회원 정보 삭제를 실패하였습니다.";
                 break;
-            case "selectCompanyList" :
-                errorMessage = "회사 정보 조회를 실패하였습니다.";
+            case "getSellerList" :
+                errorMessage = "판매자 정보 조회를 실패하였습니다.";
+                break;
+            case "updateSellerInfo" :
+                errorMessage = "판매자 정보 수정을 실패하였습니다.";
+                break;
+            case "deleteSellerInfo" :
+                errorMessage = "판매자 정보 삭제를 실패하였습니다.";
+                break;
+            case "getSellerRequestList" :
+                errorMessage = "판매자 권한 요청자 목록 조회를 실패하였습니다.";
+                break;
+            case "updateSellerAuth" :
+                errorMessage = "판매자 권한 부여에 실패하였습니다.";
+                break;
+            case "getProductALLList" :
+                errorMessage = "상품 조회를 실패하였습니다.";
+                break;
+            case "deleteDeleteInfo" :
+                errorMessage = "상품 정보 삭제를 실패하였습니다.";
+                break;
+            case "getOrderALLList" :
+                errorMessage = "결제 완료된 주문 조회를 실패하였습니다.";
+                break;
+            case "getOrderOnShipping" :
+                errorMessage = "배송중인 주문 조회를 실패하였습니다.";
                 break;
         }
 
@@ -51,11 +77,23 @@ public class SystemResultMessage {
         String successMessage = "";
 
         switch (successCode) {
-            case "updateUser" :
+            case "updateUserInfo" :
                 successMessage = "회원 정보 수정을 성공하였습니다.";
                 break;
-            case "deleteUser" :
+            case "deleteUserInfo" :
                 successMessage = "회원 정보 삭제를 성공하였습니다.";
+                break;
+            case "updateSellerInfo" :
+                successMessage = "판매자 정보 수정을 성공하였습니다.";
+                break;
+            case "deleteSellerInfo" :
+                successMessage = "판매자 정보 삭제를 성공하였습니다.";
+                break;
+            case "updateSellerAuth" :
+                successMessage = "판매자 권한 부여에 성공하였습니다.";
+                break;
+            case "deleteDeleteInfo" :
+                successMessage = "상품 정보 삭제를 성공하였습니다.";
                 break;
         }
 
@@ -69,6 +107,22 @@ public class SystemResultMessage {
     public void printCompanyList(List<CompanyDTO> companyList) {
         for (CompanyDTO company : companyList) {
             System.out.println(company);
+        }
+    }
+
+    /***
+     * ProductDTO 리스트를 받아와서 출력하는 함수
+     * @param productList 상품 목록
+     */
+    public void printProductList(List<ProductDTO> productList) {
+        for (ProductDTO product : productList) {
+            System.out.println(product);
+        }
+    }
+
+    public void printOrderList(List<OrderDTO> orderList) {
+        for (OrderDTO order : orderList) {
+            System.out.println(order);
         }
     }
 }

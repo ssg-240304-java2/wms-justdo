@@ -1,5 +1,8 @@
 package com.justdo.fruitfruit.controller;
 
+import com.justdo.fruitfruit.model.dto.CompanyDTO;
+import com.justdo.fruitfruit.model.dto.OrderDTO;
+import com.justdo.fruitfruit.model.dto.ProductDTO;
 import com.justdo.fruitfruit.model.dto.UserDTO;
 import com.justdo.fruitfruit.model.service.SystemService;
 import com.justdo.fruitfruit.view.SystemResultMessage;
@@ -13,7 +16,7 @@ public class SystemController {
 
     private SystemResultMessage resultMessage = new SystemResultMessage();
 
-    /* 회원 관리 메뉴 */
+    /* 회원 관리 메뉴 기능 */
 
     /***
      * 회원 관리에서 모든 회원의 정보를 조회하는 함수
@@ -24,7 +27,7 @@ public class SystemController {
         if (userList != null) {
             resultMessage.printUserList(userList);
         } else {
-            resultMessage.printErrorMessage("selectUserList");
+            resultMessage.printErrorMessage("getUserList");
         }
     }
 
@@ -33,8 +36,6 @@ public class SystemController {
      * @param userInfo 선택한 회원의 변경할 정보
      */
     public void updateUserInfo(Map<String, String> userInfo) {
-        System.out.println("dd");
-
         UserDTO user = new UserDTO();
 
         int userSeq = Integer.parseInt(userInfo.get("userSeq"));
@@ -49,14 +50,12 @@ public class SystemController {
         user.setAddress(address);
         user.setAuth(auth);
 
-        System.out.println("sdfdfff");
-
         int result = systemService.updateUserInfo(user);
 
         if (result > 0) {
-            resultMessage.printSuccessMessage("updateUser");
+            resultMessage.printSuccessMessage("updateUserInfo");
         } else {
-            resultMessage.printErrorMessage("updateUser");
+            resultMessage.printErrorMessage("updateUserInfo");
         }
     }
 
@@ -68,9 +67,173 @@ public class SystemController {
         int result = systemService.deleteUserInfo(userSeq);
 
         if (result > 0) {
-            resultMessage.printSuccessMessage("deleteUser");
+            resultMessage.printSuccessMessage("deleteUserInfo");
         } else {
-            resultMessage.printErrorMessage("deleteUser");
+            resultMessage.printErrorMessage("deleteUserInfo");
+        }
+    }
+
+    /* 판매자 관리 메뉴 기능 */
+
+    /***
+     * 판매자 관리 메뉴에서 판매자 목록 조회
+     */
+    public void getSellerList() {
+        List<CompanyDTO> sellerList = systemService.getSellerList();
+
+        if (sellerList != null) {
+            resultMessage.printCompanyList(sellerList);
+        } else {
+            resultMessage.printErrorMessage("getCompanyList");
+        }
+    }
+
+    /***
+     * 판매자 관리 메뉴에서 판매자 정보 수정
+     * @param sellerInfo 판매자 정보
+     */
+    public void updateSellerInfo(Map<String, String> sellerInfo) {
+        CompanyDTO company = new CompanyDTO();
+
+        int userSeq = Integer.parseInt(sellerInfo.get("userSeq"));
+        String companyName = sellerInfo.get("companyName");
+        String companyPhone = sellerInfo.get("companyPhone");
+        String companyAddress = sellerInfo.get("companyAddress");
+        String companyNum = sellerInfo.get("companyNum");
+
+        company.setUserSeq(userSeq);
+        company.setCompanyName(companyName);
+        company.setCompanyPhone(companyPhone);
+        company.setCompanyAddress(companyAddress);
+        company.setCompanyNum(companyNum);
+
+        int result = systemService.updateSellerInfo(company);
+
+        if (result > 0) {
+            resultMessage.printSuccessMessage("updateSellerInfo");
+        } else {
+            resultMessage.printErrorMessage("updateSellerInfo");
+        }
+    }
+
+    /***
+     * 판매자 관리 메뉴에서 판매자 정보 삭제
+     * @param sellerSeq
+     */
+    public void deleteSellerInfo(String sellerSeq) {
+        int result = systemService.deleteSellerInfo(sellerSeq);
+
+        if (result > 0) {
+            resultMessage.printSuccessMessage("deleteSellerInfo");
+        } else {
+            resultMessage.printErrorMessage("deleteSellerInfo");
+        }
+    }
+
+    /***
+     * 판매자 관리 메뉴에서 판매자 권한 변경 요청자 목록 조회
+     */
+    public void getSellerRequestList() {
+        List<CompanyDTO> sellerRequestList = systemService.getSellerRequestList();
+
+        if (sellerRequestList != null) {
+            resultMessage.printCompanyList(sellerRequestList);
+        } else {
+            resultMessage.printErrorMessage("getSellerRequestList");
+        }
+    }
+
+    /***
+     * 판매자 관리 메뉴에서 판매자 권한 업데이트를 승인
+     * @param userAuthInfo 판매자 정보와 업데이트할 권한 정보
+     */
+    public void updateSellerAuth(Map<String, String> userAuthInfo) {
+        UserDTO authInfo = new UserDTO();
+
+        int userSeq = Integer.parseInt(userAuthInfo.get("userSeq"));
+        int auth = Integer.parseInt(userAuthInfo.get("auth"));
+
+        authInfo.setUserSeq(userSeq);
+        authInfo.setAuth(auth);
+
+        int result = systemService.updateSellerAuth(authInfo);
+
+        if (result > 0) {
+            resultMessage.printSuccessMessage("updateSellerAuth");
+        } else {
+            resultMessage.printErrorMessage("updateSellerAuth");
+        }
+    }
+
+    /* 상품 관리 메뉴 */
+
+    /***
+     * 상품 관리 메뉴에서 모든 상품을 조회
+     */
+    public void getProductAllList() {
+        List<ProductDTO> productList = systemService.getProductAllList();
+
+        if (productList != null) {
+            resultMessage.printProductList(productList);
+        } else {
+            resultMessage.printErrorMessage("getProductALLList");
+        }
+    }
+
+    /***
+     * 상품 관리 메뉴에서 판매중인 상품 조회
+     */
+    public void getProductSaleList() {
+        List<ProductDTO> productList = systemService.getProductSaleList();
+
+        if (productList != null) {
+            resultMessage.printProductList(productList);
+        } else {
+            resultMessage.printErrorMessage("getProductALLList");
+        }
+    }
+
+    /***
+     * 상품 관리 메뉴에서 상품 삭제
+     * @param productSeq 삭제할 상품 번호
+     */
+    public void deleteProductInfo(String productSeq) {
+        int result = systemService.deleteProductInfo(productSeq);
+
+        if (result > 0) {
+            resultMessage.printSuccessMessage("deleteDeleteInfo");
+        } else {
+            resultMessage.printErrorMessage("deleteDeleteInfo");
+        }
+    }
+
+    /* 주문 관리 메뉴 */
+
+    /***
+     * 주문 관리 메뉴에서 결제 완료된 주문 전체 조회
+     */
+    public void getOrderAllList() {
+        List<OrderDTO> orderList = systemService.getOrderAllList();
+
+        if (orderList != null) {
+            resultMessage.printOrderList(orderList);
+        } else {
+            resultMessage.printErrorMessage("getOrderALLList");
+        }
+    }
+
+    /* 배송 관리 메뉴 */
+
+    /***
+     * 배송 관리 메뉴에서 배송중인 주문 조회
+     */
+    public void getOrderOnShipping() {
+        List<OrderDTO> orderOnShippingList = systemService.getOrderOnShipping();
+
+        if (orderOnShippingList != null) {
+            resultMessage.printOrderList(orderOnShippingList);
+        } else {
+            resultMessage.printErrorMessage("getOrderOnShipping");
         }
     }
 }

@@ -12,8 +12,6 @@
         FROM
             user
         WHERE
-            auth = 3
-              AND
             delete_yn = 'N'
         ORDER BY
             user_seq;
@@ -46,5 +44,140 @@
         WHERE
             user_seq = #{ userSeq }
     </update>
+
+    <!-- 판매자 관리 메뉴 -->
+
+    <select id="getSellerList" resultType="companyDTO">
+        SELECT
+            *
+        FROM
+            company AS C
+            JOIN user AS U
+                USING(user_seq)
+        WHERE
+            U.auth = 4
+          AND
+            U.delete_yn = 'N'
+        ORDER BY
+            U.user_seq
+    </select>
+
+    <update id="updateSellerInfo">
+        UPDATE
+            company
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="companyName != null and companyName != ''">
+                company_name = #{ companyName },
+            </if>
+            <if test="companyAddress != null and companyAddress != ''">
+                company_address = #{ companyAddress },
+            </if>
+            <if test="companyPhone != null and companyPhone != ''">
+                company_phone = #{ companyPhone },
+            </if>
+            <if test="companyNum != null and companyNum != ''">
+                company_num = #{ companyNum }
+            </if>
+        </trim>
+        WHERE
+            user_seq = (
+                        SELECT
+                            user_seq
+                        FROM
+                            user
+                        WHERE
+                            user_seq = #{ userSeq }
+                        )
+    </update>
+
+    <update id="deleteSellerInfo">
+        UPDATE user
+            SET auth = 3
+        WHERE
+            user_seq = #{ userSeq };
+
+        DELETE FROM
+            company
+
+        WHERE
+            user_seq = #{ userSeq };
+    </update>
+
+    <select id="getSellerRequestList" resultType="companyDTO">
+        SELECT
+            *
+        FROM
+            company AS C
+                LEFT JOIN user AS U
+                    USING(user_seq)
+        WHERE
+            U.auth = 3
+              AND
+            U.delete_yn = 'N'
+        ORDER BY
+            U.user_seq
+    </select>
+
+    <update id="updateSellerAuth">
+        UPDATE
+            user
+        SET
+            auth = '4'
+        WHERE
+            user_seq = #{ userSeq }
+    </update>
+
+    <!-- 상품 관리 메뉴 -->
+
+    <select id="getProductAllList" resultType="ProductDTO">
+        SELECT
+            *
+        FROM
+            product
+        ORDER BY
+            product_seq
+    </select>
+
+    <select id="getProductSaleList" resultType="ProductDTO">
+        SELECT
+            *
+        FROM
+            product
+        WHERE
+            product_status IN (2, 3, 4)
+        ORDER BY
+            product_seq
+    </select>
+
+    <delete id="deleteProductInfo">
+        DELETE FROM
+            product
+        WHERE
+            product_seq = #{ product_seq }
+    </delete>
+
+    <!-- 주문 관리 메뉴 -->
+
+    <select id="getOrderAllList" resultType="OrderDTO">
+        SELECT
+            *
+        FROM
+            orders
+        ORDER BY
+            order_seq
+    </select>
+
+    <!-- 배송 관리 메뉴 -->
+
+    <select id="getOrderOnShipping" resultType="OrderDTO">
+        SELECT
+            *
+        FROM
+            orders
+        WHERE
+            status = '4'
+        ORDER BY
+            order_seq
+    </select>
 
 </mapper>
