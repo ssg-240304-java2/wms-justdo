@@ -19,7 +19,7 @@
         FROM notification A
         WHERE A.user_sequence = (SELECT user_sequence FROM user WHERE id = #{ id } AND is_read = 'N'
     </select>
-    
+
     <select id="modifyNotification" parameterType="String" resultMap="com.justdo.fruitfruit.model.dto.NotificationDTO">
         UPDATE notification SET is_read = 'Y' WHERE user_sequence = (SELECT user_sequence FROM user WHERE id = #{ id } AND is_read = 'N'
     </select>

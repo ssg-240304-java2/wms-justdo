@@ -56,10 +56,13 @@ public class InputReader {
 
     public int inputIntValue() {
         int intVal = 0;
+
         while (true) {
             try {
+
                 String menuStr = reader.readLine();
                 intVal = Integer.parseInt(menuStr);
+
                 if (intVal > 0) {
                     break;
                 } else {
