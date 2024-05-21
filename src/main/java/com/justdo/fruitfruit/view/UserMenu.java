@@ -257,7 +257,7 @@ public class UserMenu {
      * @return boolean 결과값 모두 일치하면 true 반환
      * */
     public boolean isValidPassword(String password) {
-        String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{7,}$";
+        String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=])(?=\\S+$).{7,}$";
         return password.matches(regex);
     }
 
