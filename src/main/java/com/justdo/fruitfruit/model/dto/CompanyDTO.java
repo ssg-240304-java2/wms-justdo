@@ -8,7 +8,6 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 public class CompanyDTO {
     private int companySeq;
     private int userSeq;
@@ -17,4 +16,15 @@ public class CompanyDTO {
     private String companyNum;
     private String companyAddress;
     private Timestamp registerDate;
+
+    @Override
+    public String toString() {
+        return "[회사 번호] " + companySeq + " "+
+                "[회원 번호] " + userSeq + " "+
+                "[회사 이름] " + companyName + " " +
+                "[회사 전화번호] " + companyPhone + " "+
+                "[사업자 번호] " + companyNum + " "+
+                "[회사 주소] " + companyAddress + " " +
+                "[회사 정보 등록일] " + registerDate;
+    }
 }

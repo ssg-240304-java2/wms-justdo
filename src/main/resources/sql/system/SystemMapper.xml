@@ -100,7 +100,7 @@
         update company
         set delete_yn=1
         WHERE
-            user_seq = #{ userSeq };
+            user_seq = #{ userSeq } and delete_yn=0;
     </update>
 
     <select id="getSellerRequestList" resultType="companyDTO">
