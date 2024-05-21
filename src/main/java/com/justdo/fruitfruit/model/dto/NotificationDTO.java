@@ -1,5 +1,6 @@
 package com.justdo.fruitfruit.model.dto;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import lombok.*;
 
@@ -11,12 +12,12 @@ import lombok.*;
 
 public class NotificationDTO {
 
-    private int notificationSeq;
-    private int userSeq;
+    private Integer notificationSeq;
+    private Integer userSeq;
     private String notificationType;
     private String notificationContent;
-    private boolean isRead;
-    private Date registerDate;
+    private Integer isRead;
+    private Timestamp registerDate;
     private String id;
 
 }
