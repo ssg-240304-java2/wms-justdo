@@ -18,6 +18,7 @@
         ON P.category_seq = C.category_seq
         LEFT JOIN grade G
         ON P.grade_seq = G.grade_seq
+        WHERE P.product_status = 2;
     </select>
 
     <select id="selectAllProductByCategory" resultType="productDTO">
@@ -36,6 +37,7 @@
         ON P.grade_seq = G.grade_seq
         WHERE
             P.category_seq = #{categorySeq}
+            AND P.product_status = 2;
     </select>
 
     <select id="selectAllCategory" resultType="categoryDTO">
