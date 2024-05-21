@@ -16,4 +16,5 @@ public class RequestReleaseDTO {
     private String categoryName;
     private int quantity;
     private int productStatus;
+    private int orderSeq;
 }

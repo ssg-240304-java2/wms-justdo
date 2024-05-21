@@ -39,6 +39,9 @@ public class ProductResultMessage {
             case "delete":
                 failureMessage = "상품 삭제를 실패하였습니다.";
                 break;
+            case "viewNone":
+                failureMessage = "조회할 상품정보가 없습니다.";
+                break;
         }
         System.out.println(failureMessage);
     }

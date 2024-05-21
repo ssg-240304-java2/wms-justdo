@@ -129,7 +129,7 @@ public class ProductController {
         if (productList != null && !productList.isEmpty()) {
             resultMessage.printAllProduct(productList);
         } else {
-            resultMessage.productFailureMessage("viewAll");
+            resultMessage.productFailureMessage("viewNone");
         }
     }
 
@@ -141,8 +141,8 @@ public class ProductController {
 
         List<ProductDTO> productList = productService.selectAllProductByConsumer();
 
-        if (productList == null && productList.isEmpty()) {
-            userResultMessage.printAllProductResult("printError");
+        if (productList == null || productList.isEmpty()) {
+            userResultMessage.printAllProductResult("printNone");
         } else {
             userResultMessage.printAllProductResult("printSuccess");
             userResultMessage.printAllProductByUser(productList);
@@ -156,8 +156,8 @@ public class ProductController {
     public void selectAllProductByCategory(int categoryNum) {
         List<ProductDTO> productList = productService.selectAllProductByCategory(categoryNum);
 
-        if (productList == null && productList.isEmpty()) {
-            userResultMessage.printAllByCategoryResult("printError");
+        if (productList == null || productList.isEmpty()) {
+            userResultMessage.printAllByCategoryResult("printNone");
         } else {
             userResultMessage.printAllByCategoryResult("printSuccess");
             userResultMessage.printAllProductByUser(productList);

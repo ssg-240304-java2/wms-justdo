@@ -58,6 +58,7 @@
             U.auth = 4
           AND
             U.delete_yn = 'N'
+        AND C.delete_yn = 0
         ORDER BY
             U.user_seq
     </select>
@@ -96,9 +97,8 @@
         WHERE
             user_seq = #{ userSeq };
 
-        DELETE FROM
-            company
-
+        update company
+        set delete_yn=1
         WHERE
             user_seq = #{ userSeq };
     </update>
@@ -114,6 +114,7 @@
             U.auth = 3
               AND
             U.delete_yn = 'N'
+        AND C.delete_yn = 0
         ORDER BY
             U.user_seq
     </select>
@@ -149,12 +150,13 @@
             product_seq
     </select>
 
-    <delete id="deleteProductInfo">
-        DELETE FROM
-            product
+    <update id="deleteProductInfo">
+        update product
+        set
+        delete_yn = true
         WHERE
             product_seq = #{ product_seq }
-    </delete>
+    </update>
 
     <!-- 주문 관리 메뉴 -->
 
@@ -195,6 +197,7 @@
             O.status = '4'
         AND
             EXTRACT(MONTH FROM O.register_date) = #{ month }
+        AND C.delete_yn = 0
         GROUP BY
             C.company_seq, C.company_name
         ORDER BY
@@ -214,6 +217,7 @@
             O.status = '4'
               AND
             EXTRACT(YEAR FROM O.register_date) = #{ year }
+        AND C.delete_yn = 0
         GROUP BY
             C.company_seq, C.company_name
         ORDER BY

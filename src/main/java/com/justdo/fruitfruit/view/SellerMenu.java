@@ -209,7 +209,7 @@ public class SellerMenu {
                     청 구 영 수 증
                     =====================
                     """);
-            sellerService.selectAllBillingAmount(this.id);
+            sellerService.selectAllBillingAmount(userDTO.getId());
             return;
         }
     /***
@@ -221,8 +221,8 @@ public class SellerMenu {
                 알 림 목 록
                 =====================
                 """);
-        sellerService.selectAllNotification(this.id);
-        sellerService.updateNotification(this.id);
+        sellerService.selectAllNotification(userDTO.getId());
+        sellerService.updateNotification(userDTO.getId());
         return;
     }
 }

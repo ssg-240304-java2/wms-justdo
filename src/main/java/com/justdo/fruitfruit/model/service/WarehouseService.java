@@ -144,7 +144,8 @@ public class WarehouseService {
         int result = warehouseMapper.updateProductAmount(productDTOS);
         int insertResult = warehouseMapper.insertReleaseProductDate(productDTOS);
         int updateSectorResult = warehouseMapper.updateMinusSectorData(productDTOS);
-        if(result > 0 && insertResult>0 && updateSectorResult>0){
+        int updateOrdersResult = warehouseMapper.updateOrderStatus(productDTOS);
+        if(result > 0 && insertResult>0 && updateSectorResult>0 && updateOrdersResult>0){
             sqlSession.commit();;
         }else {
             sqlSession.rollback();
