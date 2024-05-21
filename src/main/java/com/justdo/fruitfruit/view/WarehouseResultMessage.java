@@ -13,17 +13,11 @@ public class WarehouseResultMessage {
     public void errorMessage(String errorCode) {
         String errorMsg = "";
         switch (errorCode) {
-            case "addRequestStock":
-                errorMsg="입고처리할 상품정보가 없습니다.";
-                break;
             case "addRequestStock2":
                 errorMsg = "입고처리에 실패하였습니다";
                 break;
             case "addNotificationInfo":
                 errorMsg = "알림 등록에 실패하였습니다.";
-                break;
-            case "addRequestRelease":
-                errorMsg="출고처리할 상품정보가 없습니다.";
                 break;
             case "addRequestRelease2":
                 errorMsg = "출고처리에 실패하였습니다";

@@ -27,7 +27,7 @@ public class WarehouseController {
      * */
     public void addRequestStockList(List<ProductDTO> productDTOS) {
         if(productDTOS == null || productDTOS.isEmpty()){
-            resultMessage.errorMessage("addRequestStock");
+            return;
         }
 
         boolean result = wareHouseService.addRequestStockList(productDTOS);
@@ -92,7 +92,7 @@ public class WarehouseController {
 
     public void addRequestReleaseList(List<RequestReleaseDTO> productDTOS) {
         if(productDTOS == null || productDTOS.isEmpty()){
-            resultMessage.errorMessage("addRequestRelease");
+            return;
         }
 
         boolean result = wareHouseService.addRequestReleaseList(productDTOS);

@@ -67,6 +67,9 @@ public class UserResultMessage {
             case "printError" :
                 status = "전체조회에 실패하였습니다.";
                 break;
+            case "printNone" :
+                status = "조회할 상품목록이 없습니다.";
+                break;
         }
         System.out.println(status);
     }
@@ -80,6 +83,9 @@ public class UserResultMessage {
                 break;
             case "printError" :
                 status = "카테고리별 물품 실패하였습니다.";
+                break;
+            case "printNone" :
+                status = "조회할 상품목록이 없습니다.";
                 break;
         }
         System.out.println(status);

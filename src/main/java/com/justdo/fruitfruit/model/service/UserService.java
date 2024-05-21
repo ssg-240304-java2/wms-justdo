@@ -249,7 +249,7 @@ public class UserService {
                 }
             }
         }else{
-            System.out.println("결재할 상품이 없습니다.");
+            System.out.println("결제할 상품이 없습니다.");
         }
 
 

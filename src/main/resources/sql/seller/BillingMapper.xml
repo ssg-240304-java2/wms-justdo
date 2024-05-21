@@ -7,7 +7,7 @@
         <result property="userSeq" column="user_seq"/>
         <result property="companySeq" column="company_seq"/>
         <result property="totalPrice" column="total_price"/>
-        <result property="sta" column="status"/>
+        <result property="status" column="status"/>
         <result property="registerDate" column="register_date"/>
         <result property="updateDate" column="update_date"/>
     </resultMap>

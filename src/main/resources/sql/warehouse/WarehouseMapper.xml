@@ -24,6 +24,7 @@
             inner join category c on p.category_seq = c.category_seq
         WHERE
             p.product_status = #{status}
+            and p.delete_yn = 0
     </select>
 
     <select id="findByCategorySeq" parameterType="int" resultType="gradeDTO">
@@ -61,7 +62,7 @@
                 sector_seq = #{item.sectorSeq},
                 grade_seq = #{item.gradeSeq},
                 product_status = #{item.productStatus},
-                update_date = now(),
+                update_date = now(),1
                 expiration_date=date_add(now(),INTERVAL 14 DAY)
             WHERE
                 product_seq = #{item.productSeq}
@@ -116,6 +117,7 @@
             inner join user u on p.user_seq = u.user_seq
         WHERE
             p.product_status = #{productStatus}
+            AND p.delete_yn = 0
             <if test="userSeq != 0">
                 AND p.user_seq = #{userSeq}
             </if>
@@ -161,6 +163,7 @@
         inner join user u on p.user_seq = u.user_seq
         WHERE
             p.product_status = 2
+            AND p.delete_yn = 0
             <![CDATA[
                 AND (
                 p.product_amount <= 5
@@ -196,7 +199,7 @@
             LEFT JOIN sector s ON p.sector_seq = s.sector_seq
             LEFT JOIN category c ON p.category_seq = c.category_seq
         where
-            1=1
+            p.delete_yn = 0
             <if test="status != 0">
                 AND pl.status = #{status}
             </if>
@@ -211,14 +214,15 @@
             p.sector_seq,
             p.product_name,
             cate.category_name,
-            c.quantity
+            c.quantity,
+            o.order_seq
         FROM
         cart c
         INNER JOIN orders o on c.order_seq = o.order_seq
         INNER JOIN product p ON c.product_seq = p.product_seq
         INNER JOIN category cate ON cate.category_seq = p.category_seq
         WHERE
-        p.status = #{status}
+        o.status = #{status}
         and c.delete_yn = 1
     </select>
 
@@ -228,7 +232,7 @@
             product
             SET
             product_amount = product_amount - #{item.quantity},
-            product_status = #{item.productStatus}
+            update_date = now()
             WHERE
             product_seq = #{item.productSeq}
         </foreach>
@@ -256,6 +260,17 @@
             volume = volume + #{item.quantity}
             WHERE
             sector_seq = #{item.sectorSeq}
+        </foreach>
+    </update>
+
+    <update id="updateOrderStatus" parameterType="requestReleaseDTO">
+        <foreach collection="list" item="item" separator=";">
+            update orders
+            set
+            status = #{item.productStatus},
+            update_date = now()
+            where
+            order_seq = #{item.orderSeq}
         </foreach>
     </update>
 </mapper>

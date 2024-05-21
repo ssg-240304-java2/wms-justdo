@@ -41,6 +41,7 @@
         FROM product p
         JOIN category c ON p.category_seq = c.category_seq
         WHERE p.user_seq = #{ userSeq }
+        AND p.delete_yn = 0
         ORDER BY p.register_date
     </select>
 

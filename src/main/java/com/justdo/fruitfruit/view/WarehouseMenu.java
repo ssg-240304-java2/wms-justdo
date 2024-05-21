@@ -30,7 +30,7 @@ public class WarehouseMenu {
                     1. 입고요청
                     2. 출고요청
                     3. 창고 재고 확인
-                    4. 재고 이동
+                    4. 재고 이동 이력 조회
                     9. 이전으로
                     ==========================""");
             int menu = inputReader.selectMenuNum();
@@ -60,7 +60,7 @@ public class WarehouseMenu {
         do {
             System.out.println("""
                     ==========================
-                    재 고 이 동
+                    재 고 이 동 이 력 조 회
                     ==========================
                     1. 전체 조회
                     2. 입고 조회

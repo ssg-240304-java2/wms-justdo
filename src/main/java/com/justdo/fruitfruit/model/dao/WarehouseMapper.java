@@ -36,4 +36,6 @@ public interface WarehouseMapper {
     int insertReleaseProductDate(List<RequestReleaseDTO> productDTOS);
 
     int updateMinusSectorData(List<RequestReleaseDTO> productDTOS);
+
+    int updateOrderStatus(List<RequestReleaseDTO> productDTOS);
 }

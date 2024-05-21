@@ -14,13 +14,13 @@
         <result property="id" column="id"/>
     </resultMap>
 
-    <select id="selectAllNotification" parameterType="String" resultType="com.justdo.fruitfruit.model.dto.NotificationDTO">
+    <select id="selectAllNotification" parameterType="hashmap" resultType="com.justdo.fruitfruit.model.dto.NotificationDTO">
         SELECT A.notification_type, A.notification_content
         FROM notification A
-        WHERE A.user_seq = (SELECT user_seq FROM user WHERE id = #{ userid } AND is_read = 1)
+        WHERE A.user_seq = (SELECT user_seq FROM user WHERE id = #{ userid } AND is_read = 0)
     </select>
     
-    <select id="modifyNotification" parameterType="String" resultType="com.justdo.fruitfruit.model.dto.NotificationDTO">
-        UPDATE notification SET is_read = 0 WHERE user_seq = (SELECT user_seq FROM user WHERE id = #{ userid } AND is_read = 1)
-    </select>
+    <update id="modifyNotification" parameterType="hashmap" >
+        UPDATE notification SET is_read = 1 WHERE user_seq = (SELECT user_seq FROM user WHERE id = #{ userid } AND is_read = 0)
+    </update>
 </mapper>
