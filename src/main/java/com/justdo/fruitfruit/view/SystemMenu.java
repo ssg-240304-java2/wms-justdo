@@ -3,6 +3,7 @@ package com.justdo.fruitfruit.view;
 import com.justdo.fruitfruit.controller.InputReader;
 import com.justdo.fruitfruit.controller.InputReaderFactory;
 import com.justdo.fruitfruit.controller.SystemController;
+import com.justdo.fruitfruit.model.service.SystemService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,6 +11,8 @@ import java.util.Map;
 public class SystemMenu {
     private InputReader inputReader = InputReaderFactory.getInputReader();
     private SystemController systemController = new SystemController();
+
+    private SystemService systemService = new SystemService();
 
     /***
      * 시스템 관리자 전용 메뉴 뷰
@@ -25,6 +28,7 @@ public class SystemMenu {
                     3. 상품 관리
                     4. 주문 관리
                     5. 배송 관리
+                    6. 매출 관리
                     9. 로그아웃
                     ==========================""");
 
@@ -42,11 +46,51 @@ public class SystemMenu {
                 case 4:
                     orderManageSubMenu();
                     break;
+                case 6:
+                    salesManageSubMenu();
+                    break;
                 case 5:
                     deliveryManageSubMenu();
                     break;
                 case 9:
                     System.out.println("로그아웃 하고, 메인 메뉴로 이동합니다.");
+                    return;
+                default:
+                    System.out.println("메뉴를 확인하고 다시 입력해주세요.");
+            }
+        } while (true);
+    }
+
+    /***
+     * 매출 관리 서브 메뉴 뷰
+     */
+    private void salesManageSubMenu() {
+        do {
+            System.out.println("""
+                ==========================
+                매출 관리 메뉴
+                ==========================
+                1. 판매자별 월별 매출 조회
+                2. 연도별 누적 매출 조회
+                9. 이전으로
+                ==========================""");
+
+            int menu = inputReader.selectMenuNum();
+            switch (menu){
+                case 1:
+                    System.out.print("조회할 월을 입력해주세요. 5월 -> '5' 입력 : ");
+                    String month = inputReader.inputString();
+
+                    systemService.getSalesMonthBySeller(month);
+                    break;
+                case 2:
+                    System.out.print("조회할 년도를 입력해주세요. 2024년 -> '2024' 입력 : ");
+                    String year = inputReader.inputString();
+
+                    systemService.getSalesYearBySeller(year);
+                    break;
+                case 9:
+                    System.out.println("이전화면으로 이동합니다.");
                     return;
                 default:
                     System.out.println("메뉴를 확인하고 다시 입력해주세요.");
