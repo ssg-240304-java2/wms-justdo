@@ -26,15 +26,15 @@
     </select>
 
     <delete id="deleteAllCart" parameterType="int">
-        delete from cart where user_seq = #{ id }
+        delete from cart where user_seq = #{ id } and delete_yn = 0
     </delete>
 
     <update id="modifyQuantity" parameterType="int">
-        update cart set quantity = #{ quantity } where user_seq = #{ userSeq } and product_seq = #{ productNum }
+        update cart set quantity = #{ quantity } where user_seq = #{ userSeq } and product_seq = #{ productNum } and delete_yn = 0
     </update>
 
     <delete id="deleteQuantity" parameterType="int">
-        delete from cart where user_seq = #{ userSeq } and product_seq = #{ productNum }
+        delete from cart where user_seq = #{ userSeq } and product_seq = #{ productNum } and delete_yn = 0
     </delete>
 
     <update id="modifyYN" parameterType="int">
