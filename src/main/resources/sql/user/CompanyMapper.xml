@@ -13,10 +13,10 @@
     <select id="checkUserSeqExists" resultType="int" parameterType="int">
         SELECT COUNT(*)
         FROM company
-        WHERE user_seq = #{userSeq}
+        WHERE user_seq = #{userSeq} and delete_yn = 0
     </select>
 
     <select id="searchCom" parameterType="int" resultType="_int">
-                select A.company_seq from company A where A.user_seq = (select B.user_seq from product B where B.product_seq = #{ choice })
+                select A.company_seq from company A where A.user_seq = (select B.user_seq from product B where B.product_seq = #{ choice }) and A.delete_yn = 0
     </select>
 </mapper>
