@@ -236,7 +236,7 @@ public class UserMenu {
 
             isValidPassword = isValidPassword(password);
             if (!isValidPassword) {
-                System.out.println("비밀번호는 최소 8자리 / 1개 이상의 숫자, 영문 대소문자, 특수 기호를 포함해야 합니다.");
+                System.out.println("비밀번호는 최소 8자리 / 1개 이상의 숫자, 영문 대소문자 / 2개 이상의 특수 기호를 포함해야 합니다.");
                 System.out.println("다시 입력해주세요.\n");
             }
         } while (!isValidPassword);
