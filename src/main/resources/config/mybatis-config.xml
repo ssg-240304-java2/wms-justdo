@@ -35,6 +35,8 @@
         <mapper resource="sql/user/CartMapper.xml"/>
         <mapper resource="sql/user/OrderMapper.xml"/>
         <mapper resource="sql/seller/BillingMapper.xml"/>
+        <mapper resource="sql/seller/NotificationMapper.xml"/>
+
 
     </mappers>
 </configuration>

@@ -50,15 +50,17 @@ public class SellerService {
         Map<String, String> criteria = new HashMap<>();
         criteria.put("userid", id);
 
-        int result = notificationMapper.modifyNotification(criteria);
-        if (result > 0) {
+
+        try{
+            int result = notificationMapper.modifyNotification(criteria);
             System.out.println("알림을 확인 했습니다."); // 확인용 마지막 제출땐 삭제
             sqlSession.commit();
-        }else{
+        }catch (Exception e){
             System.out.println("알림 확인 실패");
             sqlSession.rollback();
+        }finally {
+            sqlSession.close();
         }
-        sqlSession.close();
     }
 
     /***

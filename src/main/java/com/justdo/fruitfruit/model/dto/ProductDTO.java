@@ -65,4 +65,5 @@ public class ProductDTO {
                 ", 무게 = " + productWeight +
                 ']';
     }
+
 }
