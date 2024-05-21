@@ -154,12 +154,12 @@ public class WarehouseMenu {
 
     private List<NotificationDTO> addNotificationProduct() {
         List<NotificationDTO> notificationList = new ArrayList<>();
-        while (true){
+        //while (true){
             // 알림발송이 필요한 상품목록 표시
             List<ProductDTO> notificationProductList =  warehouseController.getNotificationProductList();
 
             // 알림을 발송할 상품 선택
-            System.out.print("목록에서 입고할 상품번호를 입력해주세요. : ");
+            System.out.print("목록에서 알림을 발송할 상품번호를 입력해주세요. : ");
             int productNum = inputReader.inputIntValue()-1;
             ProductDTO productDTO = notificationProductList.get(productNum);
 
@@ -174,12 +174,12 @@ public class WarehouseMenu {
             // notificationList에 등록
             notificationList.add(notificationDTO);
 
-            System.out.println("알림을 보낼 상품을 추가하시겠습니까?(Y/N) : ");
-            String answer = inputReader.inputString().toUpperCase();
-            if("N".equals(answer)){
-                break;
-            }
-        }
+//            System.out.println("알림을 보낼 상품을 추가하시겠습니까?(Y/N) : ");
+//            String answer = inputReader.inputString().toUpperCase();
+//            if("N".equals(answer)){
+//                break;
+//            }
+//        }
         return notificationList;
     }
 
@@ -232,7 +232,7 @@ public class WarehouseMenu {
     private List<ProductDTO> addInputRequestInfo() {
 
         List<ProductDTO> inputStockInfoList = new ArrayList<>();
-        do {
+        //do {
 
             // 입고요청 목록 표시
             List<ProductDTO> requestStockList = warehouseController.getRequestStockList();
@@ -269,12 +269,12 @@ public class WarehouseMenu {
             inputStockInfoList.add(productDTO);
 
             //계속 등록할건가?
-            System.out.print("입고할 상품을 추가하시겠습니까? (Y/N)");
-            String answer = inputReader.inputString().toUpperCase();
-            if("N".equals(answer)){
-                break;
-            }
-        }while (true);
+//            System.out.print("입고할 상품을 추가하시겠습니까? (Y/N)");
+//            String answer = inputReader.inputString().toUpperCase();
+//            if("N".equals(answer)){
+//                break;
+//            }
+//        }while (true);
 
         return inputStockInfoList;
     }
@@ -282,7 +282,7 @@ public class WarehouseMenu {
     private List<RequestReleaseDTO> addInputRequestReleaseInfo() {
 
         List<RequestReleaseDTO> inputReleaseInfoList = new ArrayList<>();
-        do {
+//        do {
 
             // 출고요청 목록 표시
             List<RequestReleaseDTO> requestReleaseList = warehouseController.getRequestReleaseList();;
@@ -299,13 +299,13 @@ public class WarehouseMenu {
             // 리스트 추가
             inputReleaseInfoList.add(productDTO);
 
-            //계속 등록할건가?
-            System.out.print("출고할 상품을 추가하시겠습니까? (Y/N)");
-            String answer = inputReader.inputString().toUpperCase();
-            if("N".equals(answer)){
-                break;
-            }
-        }while (true);
+//            //계속 등록할건가?
+//            System.out.print("출고할 상품을 추가하시겠습니까? (Y/N)");
+//            String answer = inputReader.inputString().toUpperCase();
+//            if("N".equals(answer)){
+//                break;
+//            }
+//        }while (true);
 
         return inputReleaseInfoList;
     }

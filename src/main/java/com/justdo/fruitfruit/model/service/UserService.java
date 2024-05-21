@@ -267,6 +267,7 @@ public class UserService {
         int result = cartMapper.modifyYN(params);
 
         if(result > 0) {
+            System.out.println("결제가 완료되었습니다.");
             sqlSession.commit();
         }else{
             sqlSession.rollback();
