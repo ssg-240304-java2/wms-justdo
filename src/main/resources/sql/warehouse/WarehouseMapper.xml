@@ -218,7 +218,8 @@
         INNER JOIN product p ON c.product_seq = p.product_seq
         INNER JOIN category cate ON cate.category_seq = p.category_seq
         WHERE
-        o.status = #{status}
+        p.status = #{status}
+        and c.delete_yn = 1
     </select>
 
     <update id="updateProductAmount">

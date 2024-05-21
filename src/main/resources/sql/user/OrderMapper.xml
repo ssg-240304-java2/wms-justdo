@@ -5,7 +5,7 @@
 <mapper namespace="com.justdo.fruitfruit.model.dao.OrderMapper">
     <insert id="insertOrder" useGeneratedKeys="true" keyProperty="orderSeq">
         insert into orders (user_seq, company_seq, total_price, status)
-        values ( #{ userSeq }, #{ companySeq }, #{ totalPrice } , 1)
+        values ( #{ userSeq }, #{ companySeq }, #{ totalPrice } , 3)
     </insert>
     <select id="allOrder" parameterType="hashmap" resultType="orderDTO">
         select *
