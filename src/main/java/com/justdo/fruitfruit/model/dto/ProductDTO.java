@@ -54,7 +54,7 @@ public class ProductDTO {
                 ", 카테고리 번호 = " + categorySeq +
                 ", 카테고리 = '" + categoryName + '\'' +
                 ", 저장 섹터 = " + sectorSeq +
-                ", 등급 = " + gradeSeq +
+                ", 등급 = " + gradeName +
                 ", 유저번호 = " + userSeq +
                 ", 상품 이름 = '" + productName + '\'' +
                 ", 가격 = " + productPrice +

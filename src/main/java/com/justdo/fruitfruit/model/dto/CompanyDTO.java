@@ -19,8 +19,8 @@ public class CompanyDTO {
 
     @Override
     public String toString() {
-        return "[회사 번호] " + companySeq + " "+
-                "[회원 번호] " + userSeq + " "+
+        return "[회사 번호] " + companySeq + " | "+
+                "[회원 번호] " + userSeq + " | "+
                 "[회사 이름] " + companyName + " " +
                 "[회사 전화번호] " + companyPhone + " "+
                 "[사업자 번호] " + companyNum + " "+
