@@ -62,7 +62,7 @@
                 sector_seq = #{item.sectorSeq},
                 grade_seq = #{item.gradeSeq},
                 product_status = #{item.productStatus},
-                update_date = now(),1
+                update_date = now(),
                 expiration_date=date_add(now(),INTERVAL 14 DAY)
             WHERE
                 product_seq = #{item.productSeq}

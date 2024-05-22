@@ -146,7 +146,7 @@ public class UserService {
         sqlSession.close();
     }
 
-    public void viewCart(String id) {
+    public int viewCart(String id) {
         SqlSession sqlSession = getSqlSession();
         CartMapper cartMapper = sqlSession.getMapper(CartMapper.class);
         UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
@@ -154,6 +154,7 @@ public class UserService {
         int userSeq = userMapper.searchUser(id);
         List<CartDTO> cartList = new ArrayList<>();
         cartList = cartMapper.viewCart(userSeq);
+        int carlisa = cartList.size();
         if(cartList != null && cartList.size() > 0) {
             for (CartDTO cartDTO : cartList) {
                 String productName = productMapper.productName(cartDTO.getProductSeq());
@@ -163,6 +164,7 @@ public class UserService {
             System.out.println("장바구니가 비어있습니다.");
         }
         sqlSession.close();
+        return carlisa;
     }
 
     public void deleteAllCart(String id) {

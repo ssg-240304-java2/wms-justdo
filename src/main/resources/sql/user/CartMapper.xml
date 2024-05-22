@@ -38,7 +38,7 @@
     </delete>
 
     <update id="modifyYN" parameterType="int">
-        update cart set delete_yn = 1 where user_seq = #{ userSeq }
+        update cart set delete_yn = 1 where user_seq = #{ userSeq } and delete_yn = 0
 <!--        <selectKey resultType="int" order="BEFORE" keyProperty="orderSeq">-->
 <!--            select last_insert_id()-->
 <!--        </selectKey>-->
