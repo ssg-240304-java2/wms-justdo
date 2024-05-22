@@ -132,22 +132,58 @@
 
     <select id="getProductAllList" resultType="ProductDTO">
         SELECT
-            *
+            P.product_seq,
+            P.category_seq,
+            C.category_name,
+            P.sector_seq,
+            G.grade_name,
+            P.user_seq,
+            P.product_name,
+            P.product_price,
+            P.product_status,
+            P.register_date,
+            P.update_date,
+            P.product_amount,
+            P.product_weight
         FROM
-            product
+            product P
+                LEFT JOIN category C
+                    ON P.category_seq = C.category_seq
+                LEFT JOIN grade G
+                    ON P.grade_seq = G.grade_seq
+        WHERE
+            P.delete_yn = false
         ORDER BY
-            product_seq
+            P.product_seq
     </select>
 
     <select id="getProductSaleList" resultType="ProductDTO">
         SELECT
-            *
+            P.product_seq,
+            P.category_seq,
+            C.category_name,
+            P.sector_seq,
+            G.grade_name,
+            P.user_seq,
+            P.product_name,
+            P.product_price,
+            P.product_status,
+            P.register_date,
+            P.update_date,
+            P.product_amount,
+            P.product_weight
         FROM
-            product
+            product P
+                LEFT JOIN category C
+                    ON P.category_seq = C.category_seq
+                LEFT JOIN grade G
+                    ON P.grade_seq = G.grade_seq
         WHERE
-            product_status IN (2, 3, 4)
+            P.delete_yn = false
+              AND
+            P.product_status IN ('2', '3', '4')
         ORDER BY
-            product_seq
+            P.product_seq
     </select>
 
     <update id="deleteProductInfo">

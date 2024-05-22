@@ -1,5 +1,6 @@
 package com.justdo.fruitfruit.model.dto;
 
+import com.justdo.fruitfruit.common.constant.Auth;
 import lombok.*;
 
 @NoArgsConstructor
@@ -24,29 +25,31 @@ public class UserDTO {
         this.auth = auth;
     }
 
-    @Override
-        public String toString() {
-            String authName;
-            if (auth == 1) {
-                authName = "시스템관리자";
-            } else if (auth == 2) {
-                authName = "창고관리자";
-            } else if (auth == 3) {
-                authName = "구매자";
-            } else if (auth ==4) {
-                authName = "판매자";
-            } else {
-                authName = "unKnown";
-            }
-
-            return
-                    "[회원번호] " + userSeq + " | " +
-                    "[아이디] " + id + " " +
-                    "[비밀번호] " + password + " " +
-                    "[이름] " + name + " " +
-                    "[주소] " + address + " " +
-                    "[전화번호] " + phoneNumber + " " +
-                    "[권한] " + authName
-                    ;
+    public String getUserAuthDescription() {
+        switch (auth) {
+            case 1:
+                return Auth.SYSADMIN.getAuth();
+            case 2:
+                return Auth.WAREHOUSEADMIN.getAuth();
+            case 3:
+                return Auth.CONSUMER.getAuth();
+            case 4:
+                return Auth.SELLER.getAuth();
+            default:
+                return "알 수 없음";
         }
+    }
+
+    @Override
+    public String toString() {
+        return
+                "[회원번호] " + userSeq + " | " +
+                        "[아이디] " + id + " " +
+                        "[비밀번호] " + password + " " +
+                        "[이름] " + name + " " +
+                        "[주소] " + address + " " +
+                        "[전화번호] " + phoneNumber + " " +
+                        "[권한] " + getUserAuthDescription()
+                ;
+    }
 }

@@ -29,7 +29,7 @@
         p.category_seq,
         c.category_name,
         p.sector_seq,
-        p.grade_seq,
+        g.grade_name,
         p.user_seq,
         p.product_name,
         p.product_price,
@@ -39,7 +39,8 @@
         p.product_amount,
         p.product_weight
         FROM product p
-        JOIN category c ON p.category_seq = c.category_seq
+        LEFT JOIN category c ON p.category_seq = c.category_seq
+        LEFT JOIN grade g ON p.grade_seq = g.grade_seq
         WHERE p.user_seq = #{ userSeq }
         AND p.delete_yn = 0
         ORDER BY p.register_date
@@ -55,10 +56,13 @@
         AND user_seq = #{ userSeq }
     </update>
 
-    <delete id="deleteProduct" parameterType="int">
-        DELETE
-        FROM product
-        WHERE product_seq = #{ productSeq }
-    </delete>
+    <update id="deleteProduct" parameterType="int">
+        UPDATE
+            product
+        SET
+            delete_yn = true
+        WHERE
+            product_seq = #{ productSeq }
+    </update>
 
 </mapper>
