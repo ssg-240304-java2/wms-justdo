@@ -41,8 +41,10 @@ public class UserMenu {
                 case 1:
                     searchProductMenu(); // 물품 조회
                     break;
-                case 2: userService.viewCart(id);
-                        paymentMenu();
+                case 2:
+                        if(userService.viewCart(id)>0) {
+                            paymentMenu();
+                        }
                     break;
                 case 3:
                     userService.viewOrder(id);
